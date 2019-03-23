@@ -14,3 +14,8 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('assemble', function () {
+    return view('assemble');
+});
+
