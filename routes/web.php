@@ -19,3 +19,16 @@ Route::get('assemble', function () {
     return view('assemble');
 });
 
+Route::get('predict', function () {
+    return view('predict');
+});
+
+Route::get('annotation', function () {
+    return view('annotation');
+});
+
+Route::get('compare', function () {
+    return view('compare');
+});
+
+

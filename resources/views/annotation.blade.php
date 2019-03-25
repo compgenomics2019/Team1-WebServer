@@ -65,32 +65,12 @@
     </head>
     <body>
         <div class="flex-center position-ref full-height">
-            {{--@if (Route::has('login'))--}}
-                {{--<div class="top-right links">--}}
-                    {{--@auth--}}
-                        {{--<a href="{{ url('/home') }}">Home</a>--}}
-                    {{--@else--}}
-                        {{--<a href="{{ route('login') }}">Login</a>--}}
-
-                        {{--@if (Route::has('register'))--}}
-                            {{--<a href="{{ route('register') }}">Register</a>--}}
-                        {{--@endif--}}
-                    {{--@endauth--}}
-                {{--</div>--}}
-            {{--@endif--}}
-
             <div class="content">
                 <div class="title m-b-md">
-                    Team1WebServer
+                   Annotation
                 </div>
 
-                <div class="links">
-                    <a href={{url('assemble')}}>Assemble</a>
-                    <a href={{url('predict')}}>Predict</a>
-                    <a href={{url('annotation')}}>Annotation</a>
-                    <a href={{url('compare')}}>Compare</a>
 
-                </div>
             </div>
         </div>
     </body>
