@@ -165,8 +165,8 @@
         <ul class="navbar-nav">
 
             <li class="nav-item">
-                <a class="nav-link" href="" id="navbarDropdown" role="button" aria-haspopup="true"
-                   aria-expanded="false"  href={{url('upload')}}>
+                <a class="nav-link" id="navbarDropdown" role="button" aria-haspopup="true"
+                   aria-expanded="false" href={{url('upload')}}>
                     Upload Files
                 </a>
             </li>
