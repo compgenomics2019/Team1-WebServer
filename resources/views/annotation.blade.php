@@ -67,11 +67,21 @@
         <div class="flex-center position-ref full-height">
             <div class="content">
                 <div class="title m-b-md">
-                   Annotation
+                    Annotation
+                    input: gff3 file
+                    output: gff3 file
                 </div>
-
 
             </div>
         </div>
+        {{--<div class="container">--}}
+            {{--<div class="panel-heading">上传文件</div>--}}
+            {{--<form class="form-horizontal" method="POST" action="" enctype="multipart/form-data">--}}
+                {{--{{ csrf_field() }}--}}
+                {{--<label for="file">选择文件</label>--}}
+                {{--<input id="file" type="file" class="form-control" name="source" required>--}}
+                {{--<button type="submit" class="btn btn-primary">确定</button>--}}
+            {{--</form>--}}
+        {{--</div>--}}
     </body>
 </html>

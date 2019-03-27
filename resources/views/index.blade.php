@@ -89,7 +89,7 @@
                     <a href={{url('predict')}}>Predict</a>
                     <a href={{url('annotation')}}>Annotation</a>
                     <a href={{url('compare')}}>Compare</a>
-
+                    <a href={{url('upload')}}>Upload</a>
                 </div>
             </div>
         </div>

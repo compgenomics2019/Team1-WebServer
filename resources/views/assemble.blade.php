@@ -68,6 +68,8 @@
             <div class="content">
                 <div class="title m-b-md">
                     Assemble
+                    input: fastq file SRA session
+                    output: fasta file
                 </div>
 
 

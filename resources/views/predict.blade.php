@@ -69,6 +69,9 @@
             <div class="content">
                 <div class="title m-b-md">
                     Predict
+                    from assembled genome to genes
+                    input: fasta from local storage or from user upload
+                    output: gff3
                 </div>
 
 

@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
 });
 
 Route::get('assemble', function () {
@@ -31,4 +31,8 @@ Route::get('compare', function () {
     return view('compare');
 });
 
+Route::get('upload', function () {
+    return view('upload');
+});
 
+Route::post('upload/file_upload', 'Home\FileController@upload');
