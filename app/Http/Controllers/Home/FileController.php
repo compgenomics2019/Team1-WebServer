@@ -13,15 +13,15 @@ use App\Http\Controllers\Controller;
 
 class FileController extends Controller
 {
-    public function index()
-    {
-        return view("index");
-    }
+//    public function index()
+//    {
+//        return view("index");
+//    }
 
     public function upload(Request $request)
     {
         $path = $request->file("testupload")->store("meinv");
 //        return $path;
-        return view("index");
+        return view("assemble");
     }
 }
