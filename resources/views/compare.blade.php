@@ -32,9 +32,6 @@
             {{--<br>--}}
             <form>
                 Specify input file:<br>
-                <input type="radio" name="infile" value="sra" checked>SRA
-                <input type="text" name="sra session">
-                {{--<br>--}}
                 <input type="radio" name="infile" value="file">File
                 <label style="font-style: italic">Foo.fastq</label>
                 <button type="button">
