@@ -21,6 +21,8 @@ class FileController extends Controller
     public function upload(Request $request)
     {
         $path = $request->file("testupload")->store("meinv");
+
+
 //        return $path;
         return view("assemble");
     }

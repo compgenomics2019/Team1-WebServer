@@ -23,6 +23,7 @@
     </div>
 </nav>
 @endsection
+
 @section("main_container")
 <div class="container-fluid">
     <div class="banner" style="width:100%; display:block;border: black medium solid;border-radius: 10px;">

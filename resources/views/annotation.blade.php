@@ -26,34 +26,42 @@
 @endsection
 @section("main_container")
     <div class="container">
-        <text>Input</text>
-        <div class="container">
-            <p>Input files and parameters is defined here</p>
-            {{--<br>--}}
-            <form>
-                Specify input file:<br>
-                <input type="radio" name="infile" value="file">File
-                <label style="font-style: italic">Foo.fastq</label>
-                <button type="button">
-                    Browse file
-                </button>
-                <br>
-                Select tool to use:
-                <select>
-                    <option value ="SPAdes">Foo</option>
-                    <option value ="SKESA">Bar</option>
-                </select>
-                <br>
-                {{--<input type="checkbox">Trim--}}
-                {{--<br>--}}
-                Leave your email:
-                <input type="text" name="sra session">
-                <br>
-                <button type="submit"
-                        formaction="http://www.google.com"
-                        formmethod="post">Start Assemble</button>
-            </form>
-        </div>
+        <form class="needs-validation" novalidate>
+            <div class="form-row">
+                <div class="col-md-6 mb-3">
+                    <label for="validationTooltip02">Browse File</label>
+                    <input style="margin-top:5px" type="file" class="form-control-file" id="exampleFormControlFile1">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-6 mb-3">
+                    <label for="inputState">Tools</label>
+                    <div style="margin-top:5px">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                            <label class="form-check-label" for="inlineCheckbox1">EggNOG</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+                            <label class="form-check-label" for="inlineCheckbox2">TMHMM</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-6 mb-3">
+                    <label for="validationTooltip01">Email</label>
+                    <input type="text" class="form-control" id="validationTooltip01" placeholder="First name" value="Mark" required>
+
+                    <label for="validationTooltip01">Output file name</label>
+                    <input type="text" class="form-control" id="validationTooltip01" placeholder="First name" value="Mark" required>
+                    <div class="valid-tooltip">
+                        Looks good!
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-primary" type="submit">Start</button>
+        </form>
     </div>
 @endsection
 @section("main_container2")

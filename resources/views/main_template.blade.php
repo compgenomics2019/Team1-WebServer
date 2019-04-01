@@ -10,9 +10,12 @@
     <link rel="stylesheet" href="css/Home.css">
 </head>
 <body>
+
 @section("navbar")
     this is navbar
 @show
+
+<br>
 
 @section("main_container")
     this is main1
@@ -22,8 +25,10 @@
 @section("main_container2")
     this is main2
 @show
+
 @section("footer")
     this is footer
 @show
+
 </body>
 </html>
