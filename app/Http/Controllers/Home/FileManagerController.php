@@ -25,15 +25,7 @@ class FileManagerController extends Controller
         $file->storePubliclyAs($category[0], $newFileName, ['disk' => 'uploads']);
 
 //        return $path;
-//        return view("assemble");
         return redirect("FileManager");
-    }
-
-    public function download(Request $request)
-    {
-        $category = $request->input('fileCategory');
-        $fileName = $request->input('fileName');
-        return Storage::download($category."/".$fileName);
     }
 
     public function assemble_file_list()
@@ -55,5 +47,21 @@ class FileManagerController extends Controller
     {
         $comparative_files = Storage::allFiles("comparative");
         return view("compare")->with("files", $comparative_files);
+    }
+
+    public function downloadOrDelete(Request $request)
+    {
+        $category = $request->input('fileCategory');
+        $fileName = $request->input('fileName');
+        switch ($request->btn)
+        {
+            case "download":
+                return Storage::download($category."/".$fileName);
+                break;
+
+            case "delete":
+                Storage::delete($category."/".$fileName);
+                return redirect("FileManager");
+        }
     }
 }

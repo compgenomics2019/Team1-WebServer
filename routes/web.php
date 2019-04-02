@@ -29,7 +29,7 @@ Route::get('upload', function () {
 
 Route::post('file/file_upload', 'Home\FileManagerController@upload');
 
-Route::post('file/file_download', 'Home\FileManagerController@download');
+Route::post('file/downloadOrDelete', 'Home\FileManagerController@downloadOrDelete');
 
 Route::get('FileManager', 'Home\FileManagerController@index');
 

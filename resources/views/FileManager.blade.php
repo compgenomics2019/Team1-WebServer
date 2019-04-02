@@ -72,7 +72,7 @@
         </form>
     </div>
     <div class="container">
-        <form class="form-horizontal" method="POST" action="file/file_download" enctype="multipart/form-data">
+        <form class="form-horizontal" method="POST" action="file/downloadOrDelete" enctype="multipart/form-data">
             {{ csrf_field() }}
             <div class="form-row">
                 <div class="col-md-3 mb-3">
@@ -84,8 +84,12 @@
                     <input type="text" class="form-control" id="newFileName" name="fileCategory" required>
                 </div>
                 <div class="col-md-2 mb-3">
-                    <label>Click to download file</label>
-                    <button type="submit" class="btn btn-primary">Download</button>
+                    <label>Download file</label>
+                    <button type="submit" class="btn btn-primary" name="btn" value="download">Download</button>
+                </div>
+                <div class="col-md-1 mb-3">
+                    <label>Delete file</label>
+                    <button type="submit" class="btn btn-primary" name="btn" value="delete">Delete</button>
                 </div>
             </div>
         </form>
