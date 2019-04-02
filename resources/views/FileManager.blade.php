@@ -44,7 +44,7 @@
 
 @section("main_container2")
     <div class="container">
-        <form class="form-horizontal" method="POST" action="upload/file_upload" enctype="multipart/form-data">
+        <form class="form-horizontal" method="POST" action="file/file_upload" enctype="multipart/form-data">
             {{ csrf_field() }}
             <div class="form-row">
                 <div class="col-md-3 mb-3">
@@ -72,16 +72,16 @@
         </form>
     </div>
     <div class="container">
-        <form class="form-horizontal" method="POST" action="upload/file_upload" enctype="multipart/form-data">
+        <form class="form-horizontal" method="POST" action="file/file_download" enctype="multipart/form-data">
             {{ csrf_field() }}
             <div class="form-row">
                 <div class="col-md-3 mb-3">
                     <label for="file">Type in file name</label>
-                    <input type="text" class="form-control" id="newFileName" name="newFileName" required>
+                    <input type="text" class="form-control" id="newFileName" name="fileName" required>
                 </div>
                 <div class="col-md-2 mb-3">
                     <label for="validationTooltip05">Category</label>
-                    <input type="text" class="form-control" id="newFileName" name="newFileName" required>
+                    <input type="text" class="form-control" id="newFileName" name="fileCategory" required>
                 </div>
                 <div class="col-md-2 mb-3">
                     <label>Click to download file</label>

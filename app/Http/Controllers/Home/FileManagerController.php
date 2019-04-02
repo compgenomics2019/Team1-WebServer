@@ -29,4 +29,11 @@ class FileManagerController extends Controller
         return redirect("FileManager");
     }
 
+    public function download(Request $request)
+    {
+        $category = $request->input('fileCategory');
+        $fileName = $request->input('fileName');
+        return Storage::download($category."/".$fileName);
+    }
+
 }
