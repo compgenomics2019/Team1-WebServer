@@ -1,89 +1,106 @@
-<!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends("main_template")
 
-    <title>Laravel</title>
+@section('title', 'WebServer')
 
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+@section("navbar")
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <!--<img class="img" style="width:2%; display: block; height:2%" src="img/Icon.png">-->
+        <a class="navbar-brand" href=""> Team1 Webserver - Genome assembly</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" id="navbarDropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false" href={{url('/')}}>
+                        Back to Home
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+@endsection
 
-    <style>
-        html, body {
-            background-color: #fff;
-            color: #636b6f;
-            font-family: 'Nunito', sans-serif;
-            font-weight: 200;
-            height: 100vh;
-            margin: 0;
-        }
-
-        .full-height {
-            height: 100vh;
-        }
-
-        .flex-center {
-            align-items: center;
-            display: flex;
-            justify-content: center;
-        }
-
-        .position-ref {
-            position: relative;
-        }
-
-        .top-right {
-            position: absolute;
-            right: 10px;
-            top: 18px;
-        }
-
-        .content {
-            text-align: center;
-        }
-
-        .title {
-            font-size: 84px;
-        }
-
-        .links > a {
-            color: #636b6f;
-            padding: 0 25px;
-            font-size: 13px;
-            font-weight: 600;
-            letter-spacing: .1rem;
-            text-decoration: none;
-            text-transform: uppercase;
-        }
-
-        .m-b-md {
-            margin-bottom: 30px;
-        }
-    </style>
-</head>
-<body>
-<div class="content">
-    <div class="title m-b-md">
-        File Manager
+@section("main_container")
+    <div class="container">
+        <div>
+            @foreach ($assemble_files as $f)
+                <li>{!! $f !!}</li>
+            @endforeach
+            @foreach ($prediction_files as $f)
+                <li>{!! $f !!}</li>
+            @endforeach
+            @foreach ($annotation_files as $f)
+                <li>{!! $f !!}</li>
+            @endforeach
+            @foreach ($comparative_files as $f)
+                <li>{!! $f !!}</li>
+            @endforeach
+        </div>
     </div>
-</div>
+@endsection
 
-<div class="container">
-    <div>
-        {{$param}}
-        {{--@foreach ($f as $param) {--}}
-        {{--<p>{{ $f }}</p>--}}
-        {{--}--}}
-        {{--@endforeach--}}
+@section("main_container2")
+    <div class="container">
+        <form class="form-horizontal" method="POST" action="upload/file_upload" enctype="multipart/form-data">
+            {{ csrf_field() }}
+            <div class="form-row">
+                <div class="col-md-3 mb-3">
+                    <label for="file">Choose file</label>
+                    <input id="file" type="file" class="form-control" name="filename" required>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label for="validationTooltip05">Category</label>
+                    <select id="fileCategory" name="fileCategory[]" class="form-control">
+                        <option value="assemble" selected>Assemble</option>
+                        <option value="prediction">Prediction</option>
+                        <option value="annotation">Annotation</option>
+                        <option value="comparative">Comparative</option>
+                    </select>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label>New file name</label>
+                    <input type="text" class="form-control" id="newFileName" name="newFileName" placeholder="target.test" required>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label>Click to upload file</label>
+                    <button type="submit" class="btn btn-primary">Upload</button>
+                </div>
+            </div>
+        </form>
     </div>
-    <div class="panel-heading">Upload file here</div>
-    <form class="form-horizontal" method="POST" action="upload/file_upload" enctype="multipart/form-data">
-        {{ csrf_field() }}
-        <label for="file">Choose file</label>
-        <input id="file" type="file" class="form-control" name="file" required>
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-</div>
-</body>
-</html>
+    <div class="container">
+        <form class="form-horizontal" method="POST" action="upload/file_upload" enctype="multipart/form-data">
+            {{ csrf_field() }}
+            <div class="form-row">
+                <div class="col-md-3 mb-3">
+                    <label for="file">Type in file name</label>
+                    <input type="text" class="form-control" id="newFileName" name="newFileName" required>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label for="validationTooltip05">Category</label>
+                    <input type="text" class="form-control" id="newFileName" name="newFileName" required>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label>Click to download file</label>
+                    <button type="submit" class="btn btn-primary">Download</button>
+                </div>
+            </div>
+        </form>
+    </div>
+@endsection
+
+@section("footer")
+    <div class="container-fluid" style="background-color: black; position: fixed; left: 0; bottom: 0;">
+        <footer style="text-align: center;">
+            <br>
+            <p style="color: white;"> &copy 2019 Team 1 Predictive Webserver Group</p>
+            <br>
+        </footer>
+    </div>
+@endsection
+
+
+

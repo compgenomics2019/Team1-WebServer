@@ -78,9 +78,9 @@
         <label for="validationTooltip05">Category</label>
         <select id="fileCategory" name="fileCategory[]" class="form-control">
             <option value="assemble" selected>Assemble</option>
-            <option>Prediction</option>
-            <option>Annotation</option>
-            <option>Comparative</option>
+            <option value="prediction">Prediction</option>
+            <option value="annotation">Annotation</option>
+            <option value="comparative">Comparative</option>
         </select>
 
         <label>New file name</label>
