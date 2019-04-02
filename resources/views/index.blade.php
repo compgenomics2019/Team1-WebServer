@@ -13,12 +13,6 @@
     </button>
     <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
         <ul class="navbar-nav">
-            {{--<li class="nav-item">--}}
-                {{--<a class="nav-link" id="navbarDropdown" role="button" aria-haspopup="true"--}}
-                   {{--aria-expanded="false" href={{url('upload')}}>--}}
-                    {{--Upload--}}
-                {{--</a>--}}
-            {{--</li>--}}
             <li class="nav-item">
                 <a class="nav-link" id="navbarDropdown" role="button" aria-haspopup="true"
                    aria-expanded="false" href={{url('FileManager')}}>

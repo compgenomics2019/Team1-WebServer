@@ -35,8 +35,13 @@
 
                 </div>
                 <div class="col-md-3 mb-3">
-                    <label for="validationTooltip02">Browse File</label>
-                    <input style="margin-top:5px" type="file" class="form-control-file" id="exampleFormControlFile1">  {{--todo: brwose file--}}
+                    <label for="validationTooltip02">Choose File</label>
+                    <select id="inputState" class="form-control">
+                        @foreach ($files as $f)
+                            <option>{{ $f }}</option>
+                        @endforeach
+                    </select>
+
                 </div>
                 <div class="col-md-3 mb-3">
                     <label>Output file name</label>

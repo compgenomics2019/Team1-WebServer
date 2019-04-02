@@ -15,21 +15,13 @@ Route::get('/', function () {
     return view('index');
 });
 
-Route::get('assemble', function () {
-    return view('assemble');
-});
+Route::get('assemble', 'Home\FileManagerController@assemble_file_list');
 
-Route::get('predict', function () {
-    return view('predict');
-});
+Route::get('predict', 'Home\FileManagerController@prediction_file_list');
 
-Route::get('annotation', function () {
-    return view('annotation');
-});
+Route::get('annotation', 'Home\FileManagerController@annotation_file_list');
 
-Route::get('compare', function () {
-    return view('compare');
-});
+Route::get('compare', 'Home\FileManagerController@comparative_file_list');
 
 Route::get('upload', function () {
     return view('upload');
