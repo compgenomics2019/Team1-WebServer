@@ -28,9 +28,13 @@
     <div class="container">
         <form class="needs-validation" novalidate>
             <div class="form-row">
-                <div class="col-md-6 mb-3">
+                <div class="col-md-3 mb-3">
                     <label for="validationTooltip02">Browse File</label>
                     <input style="margin-top:5px" type="file" class="form-control-file" id="exampleFormControlFile1">
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="validationTooltip01">Output file name</label>
+                    <input type="text" class="form-control" id="validationTooltip01" placeholder="output.gff" required>
                 </div>
             </div>
             <div class="form-row">
@@ -57,14 +61,25 @@
                 </div>
             </div>
             <div class="form-row">
-                <div class="col-md-6 mb-3">
+                <div class="col-md-2 mb-3">
                     <label for="validationTooltip01">Email</label>
-                    <input type="text" class="form-control" id="validationTooltip01" placeholder="First name" value="Mark" required>
-
-                    <label for="validationTooltip01">Output file name</label>
-                    <input type="text" class="form-control" id="validationTooltip01" placeholder="First name" value="Mark" required>
-                    <div class="valid-tooltip">
-                        Looks good!
+                    <input type="text" class="form-control" id="validationTooltip01" placeholder="example@gatech.edu" required>
+                </div>
+                <div class="col-md-8 mb-3">
+                    <label>After prediction</label>
+                    <div style="margin-top:5px">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                            <label class="form-check-label" for="inlineCheckbox1">Delete input</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
+                            <label class="form-check-label" for="inlineCheckbox3">Continue annotation</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option4">
+                            <label class="form-check-label" for="inlineCheckbox3">Continue comparative</label>
+                        </div>
                     </div>
                 </div>
             </div>

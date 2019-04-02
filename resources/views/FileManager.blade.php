@@ -65,27 +65,23 @@
 <body>
 <div class="content">
     <div class="title m-b-md">
-        Upload
+        File Manager
     </div>
 </div>
+
 <div class="container">
+    <div>
+        {{$param}}
+        {{--@foreach ($f as $param) {--}}
+        {{--<p>{{ $f }}</p>--}}
+        {{--}--}}
+        {{--@endforeach--}}
+    </div>
     <div class="panel-heading">Upload file here</div>
     <form class="form-horizontal" method="POST" action="upload/file_upload" enctype="multipart/form-data">
         {{ csrf_field() }}
         <label for="file">Choose file</label>
-        <input id="file" type="file" class="form-control" name="filename" required>
-
-        <label for="validationTooltip05">Category</label>
-        <select id="fileCategory" name="fileCategory[]" class="form-control">
-            <option value="assemble" selected>Assemble</option>
-            <option>Prediction</option>
-            <option>Annotation</option>
-            <option>Comparative</option>
-        </select>
-
-        <label>New file name</label>
-        <input type="text" class="form-control" id="newFileName" name="newFileName" placeholder="target.test" required>
-
+        <input id="file" type="file" class="form-control" name="file" required>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>

@@ -29,21 +29,34 @@
     <div class="container">
         <form class="needs-validation" novalidate>
             <div class="form-row">
-                <div class="col-md-6 mb-3">
+                <div class="col-md-3 mb-3">
                     <label for="validationTooltip01">SRA Run Accession #</label>
-                    <input type="text" class="form-control" id="validationTooltip01" placeholder="First name" value="SRR#######" required>
-                    <div class="valid-tooltip">
-                        Looks good!
-                    </div>
+                    <input type="text" class="form-control" id="validationTooltip01" placeholder="SRR" required>
+
                 </div>
-                <div class="col-md-6 mb-3">
+                <div class="col-md-3 mb-3">
                     <label for="validationTooltip02">Browse File</label>
-                    <input style="margin-top:5px" type="file" class="form-control-file" id="exampleFormControlFile1">
+                    <input style="margin-top:5px" type="file" class="form-control-file" id="exampleFormControlFile1">  {{--todo: brwose file--}}
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label>Output file name</label>
+                    <input type="text" class="form-control" id="validationTooltip04" placeholder="output.fasta" required>
                 </div>
             </div>
             <div class="form-row">
+                <div class="col-md-2 mb-3">
+                    <label for="validationTooltip05">Trim</label>
+                    <select id="inputState" class="form-control">
+                        <option selected>Yes</option>
+                        <option>No</option>
+                    </select>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label for="kmer_size">kmer size</label>
+                    <input type="text" class="form-control" id="kmer_size" placeholder="give a kmer size">
+                </div>
                 <div class="col-md-6 mb-3">
-                    <label for="inputState">Tools</label>
+                    <label>Tools</label>
                     <div style="margin-top:5px">
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
@@ -63,29 +76,34 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 mb-3">
-                    <label for="validationTooltip05">Trim</label>
-                    <select id="inputState" class="form-control">
-                        <option selected>Yes</option>
-                        <option>No</option>
-                    </select>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label for="validationTooltip05">kmer size</label>
-                    <input type="text" class="form-control" id="validationTooltip01" placeholder="First name" value="Mark" required>
-                </div>
             </div>
             <div class="form-row">
-                <div class="col-md-6 mb-3">
-                    <label for="validationTooltip01">Email</label>
-                    <input type="text" class="form-control" id="validationTooltip01" placeholder="First name" value="Mark" required>
-
-                    <label for="validationTooltip01">Output file name</label>
-                    <input type="text" class="form-control" id="validationTooltip01" placeholder="First name" value="Mark" required>
-                    <div class="valid-tooltip">
-                        Looks good!
+                <div class="col-md-2 mb-3">
+                <label>Email</label>
+                    <input type="text" class="form-control" id="validationTooltip05" placeholder="example@gatech.edu" required>
+                </div>
+                <div class="col-md-8 mb-3">
+                    <label>After assemble</label>
+                    <div style="margin-top:5px">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                            <label class="form-check-label" for="inlineCheckbox1">Delete input</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+                            <label class="form-check-label" for="inlineCheckbox2">Continue prediction</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
+                            <label class="form-check-label" for="inlineCheckbox3">Continue annotation</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option4">
+                            <label class="form-check-label" for="inlineCheckbox3">Continue comparative</label>
+                        </div>
                     </div>
                 </div>
+
             </div>
             <button class="btn btn-primary" type="submit">Assemble</button>
         </form>

@@ -16,7 +16,13 @@
             <li class="nav-item">
                 <a class="nav-link" id="navbarDropdown" role="button" aria-haspopup="true"
                    aria-expanded="false" href={{url('upload')}}>
-                    Upload Files
+                    Upload
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="navbarDropdown" role="button" aria-haspopup="true"
+                   aria-expanded="false" href={{url('FileManager')}}>
+                    File Manager
                 </a>
             </li>
         </ul>

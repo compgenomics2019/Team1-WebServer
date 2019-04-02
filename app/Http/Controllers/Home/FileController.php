@@ -13,17 +13,18 @@ use App\Http\Controllers\Controller;
 
 class FileController extends Controller
 {
-//    public function index()
-//    {
-//        return view("index");
-//    }
+
 
     public function upload(Request $request)
     {
-        $path = $request->file("testupload")->store("meinv");
-
+        $category = $request->input('fileCategory');
+        $newFileName = $request->input('newFileName');
+        $file = $request->file("filename");
+//        $path = $file->store("assemble", 'newfile');
+        $file->storePubliclyAs($category[0], $newFileName, ['disk' => 'uploads']);
 
 //        return $path;
-        return view("assemble");
+//        return view("assemble");
+        return redirect("/");
     }
 }

@@ -36,3 +36,6 @@ Route::get('upload', function () {
 });
 
 Route::post('upload/file_upload', 'Home\FileController@upload');
+
+Route::get('FileManager', 'Home\FileManagerController@index');
+
