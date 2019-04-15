@@ -75,7 +75,8 @@ class FileManagerController extends Controller
         echo("<script>console.log('".$output."');</script>");
         echo("<br>".$return);
         echo("<br>please check your email for further info. redirecting to home page now...<br>");
-        sleep(2);
-        return view('index');
+//        sleep(2);
+//        return view('index');
+        return redirect("/");
     }
 }
