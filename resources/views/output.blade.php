@@ -33,9 +33,12 @@
     </nav>
 @endsection
 @section("main_container")
-     <div class="container" id="chart">
-        <text>Output</text>
+     <div class="container">
+        <h4>Output</h4>
+		<div id="chart"></div>
     </div>
+@endsection
+@section("main_container2")
 @endsection
 @section("footer")
     <div class="container-fluid" style="background-color: black; position: fixed; left: 0; bottom: 0;">
