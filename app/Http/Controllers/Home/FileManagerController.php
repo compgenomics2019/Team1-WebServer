@@ -36,6 +36,8 @@ class FileManagerController extends Controller
         $newFileName = $request->input('newFileName');
         $file->storePubliclyAs($category, $newFileName, ['disk' => 'uploads']); // todo: save large files
         $output = exec('python3 ../scripts/filecheck.py ../storage/app/uploads/'.$category."/".$newFileName);
+	echo($output);
+	sleep(2);
         if ($output == "fail"){
             Storage::delete($category."/".$newFileName);
         }
@@ -70,7 +72,7 @@ class FileManagerController extends Controller
         $output = exec('python3 ../scripts/main.py');
         echo($output);
         echo("<br>please check your email for further info. redirecting to home page now...");
-        sleep(2);
+        sleep(5);
         return redirect("/");
     }
 }
