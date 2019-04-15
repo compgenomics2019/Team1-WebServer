@@ -1,0 +1,73 @@
+{
+    "name": "Life",
+    "children": [
+        {"name":"archea",
+         "children": [{
+    "name": "archea",
+    "children": []
+                     }]
+        },
+        {"name":"eukaryote",
+        "children":[
+        {"name":"protista",
+         "children": []
+        },
+        {"name":"anamalia",
+        "children":[]
+        },
+        {"name":"plantae",
+        "children":[
+
+			        {"name":"Anthocerotophyta",
+			         "children": []
+			        },
+			        {"name":"Bryophyta",
+			        "children":[]
+			        },
+			        {"name":"Marchantiophyta",
+			        "children":[]
+			        },
+			        {"name":"Lycopodiophyta",
+			        "children":[]
+			        },
+			        {"name":"Pteridophyta",
+			         "children": []
+			        },
+			        {"name":"Pteridospermatophyta",
+			        "children":[]
+			        },
+			        {"name":"Coniferophyta",
+			        "children":[]
+			        },
+			        {"name":"Cycadophyta",
+			        "children":[]
+			        },
+			        {"name":"Ginkgophyta",
+			        "children":[]
+			        },
+			        {"name":"Gnetophyta",
+			        "children":[]
+			        },
+			        {"name":"Anthophyta",
+			        "children":[]
+			        }
+			    ]
+
+
+
+
+        },
+        {"name":"fungi",
+        "children":[]
+        }
+    ]
+
+        },
+        {"name":"bacteria",
+        "children":[{
+    "name": "bacteria",
+    "children": []
+                     }]
+        }
+    ]
+}

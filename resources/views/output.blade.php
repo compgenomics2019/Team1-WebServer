@@ -1,8 +1,9 @@
 <!doctype html>
 <html lang="en">
 <head>
-	<script type="text/javascript" src="{{ URL::asset('http://d3js.org/d3.v4.js') }}"></script>
+	<script type="text/javascript" src="{{ URL::asset('http://d3js.org/d3.v3.js') }}"></script>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <link href="{{ asset('css/tree.css') }}" rel="stylesheet" type="text/css" >
 	<script type="text/javascript" src="{{ URL::asset('js/test.js') }}"></script>
 </head>
 <body>
@@ -32,7 +33,7 @@
     </nav>
 @endsection
 @section("main_container")
-     <div class="container" id="my_dataviz">
+     <div class="container" id="chart">
         <text>Output</text>
     </div>
 @endsection
