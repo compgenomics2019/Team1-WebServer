@@ -5,7 +5,7 @@
 @section("navbar")
     <nav class="navbar navbar-expand-lg navbar-custom">
         <!--<img class="img" style="width:2%; display: block; height:2%" src="img/Icon.png">-->
-        <a class="navbar-brand" href=""> Team1 Webserver - File Manager</a>
+        <p class="navbar-brand"> Team1 Webserver - File Manager</p>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -26,16 +26,7 @@
 @section("main_container")
     <div class="container">
         <div>
-            @foreach ($assemble_files as $f)
-                <li>{!! $f !!}</li>
-            @endforeach
-            @foreach ($prediction_files as $f)
-                <li>{!! $f !!}</li>
-            @endforeach
-            @foreach ($annotation_files as $f)
-                <li>{!! $f !!}</li>
-            @endforeach
-            @foreach ($comparative_files as $f)
+            @foreach ($files as $f)
                 <li>{!! $f !!}</li>
             @endforeach
         </div>
@@ -44,7 +35,10 @@
 
 @section("main_container2")
     <div class="container">
-        <form class="form-horizontal" method="POST" action="file/file_upload" enctype="multipart/form-data">
+        <div class="mb-2">
+            <p>{!! $prompt !!}</p>
+        </div>
+        <form class="form-horizontal" method="post" action="file_upload" enctype="multipart/form-data">
             {{ csrf_field() }}
             <div class="form-row">
                 <div class="col-md-3 mb-3">
@@ -72,16 +66,21 @@
         </form>
     </div>
     <div class="container">
-        <form class="form-horizontal" method="POST" action="file/downloadOrDelete" enctype="multipart/form-data">
+        <form class="form-horizontal" method="POST" action="file_downloadOrDelete" enctype="multipart/form-data">
             {{ csrf_field() }}
             <div class="form-row">
                 <div class="col-md-3 mb-3">
                     <label for="file">Type in file name</label>
-                    <input type="text" class="form-control" id="newFileName" name="fileName" required>
+                    <input type="text" class="form-control" id="fileName" name="fileName" required>
                 </div>
                 <div class="col-md-2 mb-3">
                     <label for="validationTooltip05">Category</label>
-                    <input type="text" class="form-control" id="newFileName" name="fileCategory" required>
+                    <select id="fileCategory" name="fileCategory[]" class="form-control">
+                        <option value="assemble" selected>assemble</option>
+                        <option value="prediction">prediction</option>
+                        <option value="annotation">annotation</option>
+                        <option value="comparative">comparative</option>
+                    </select>
                 </div>
                 <div class="col-md-2 mb-3">
                     <label>Download file</label>

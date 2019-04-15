@@ -7,7 +7,7 @@
 @section("navbar")
     <nav class="navbar navbar-expand-lg navbar-custom">
         <!--<img class="img" style="width:2%; display: block; height:2%" src="img/Icon.png">-->
-        <a class="navbar-brand" href=""> Team1 Webserver - Gene prediction</a>
+        <a class="navbar-brand" href=""> Team1 Webserver - Functional Annotation</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -29,14 +29,6 @@
         <form class="needs-validation" novalidate>
             <div class="form-row">
                 <div class="col-md-3 mb-3">
-                    <label for="validationTooltip02">Choose File</label>
-                    <select id="inputState" class="form-control">
-                        @foreach ($files as $f)
-                            <option>{{ $f }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col-md-3 mb-3">
                     <label for="validationTooltip01">Output file name</label>
                     <input type="text" class="form-control" id="validationTooltip01" placeholder="output.gff" required>
                 </div>
@@ -47,23 +39,11 @@
                     <div style="margin-top:5px">
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                            <label class="form-check-label" for="inlineCheckbox1">Prodigal</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                            <label class="form-check-label" for="inlineCheckbox1">Blast</label>
+                            <label class="form-check-label" for="inlineCheckbox1">EggNOG</label>
                         </div>
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-                            <label class="form-check-label" for="inlineCheckbox2">GeneMark</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
-                            <label class="form-check-label" for="inlineCheckbox3">Aragon</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option4">
-                            <label class="form-check-label" for="inlineCheckbox3">Barrnap</label>
+                            <label class="form-check-label" for="inlineCheckbox2">TMHMM</label>
                         </div>
                     </div>
                 </div>
@@ -71,18 +51,14 @@
             <div class="form-row">
                 <div class="col-md-2 mb-3">
                     <label for="validationTooltip01">Email</label>
-                    <input type="text" class="form-control" id="validationTooltip01" placeholder="example@gatech.edu" required>
+                    <input type="text" class="form-control" id="validationTooltip01" placeholder="example@gatech.edu">
                 </div>
-                <div class="col-md-8 mb-3">
-                    <label>After prediction</label>
+                <div class="col-md-6 mb-3">
+                    <label>After Annotation</label>
                     <div style="margin-top:5px">
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
                             <label class="form-check-label" for="inlineCheckbox1">Delete input</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
-                            <label class="form-check-label" for="inlineCheckbox3">Continue annotation</label>
                         </div>
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option4">

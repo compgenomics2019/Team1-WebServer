@@ -15,21 +15,17 @@ Route::get('/', function () {
     return view('index');
 });
 
-Route::get('assemble', 'Home\FileManagerController@assemble_file_list');
-
-Route::get('predict', 'Home\FileManagerController@prediction_file_list');
-
-Route::get('annotation', 'Home\FileManagerController@annotation_file_list');
-
-Route::get('compare', 'Home\FileManagerController@comparative_file_list');
-
-Route::get('upload', function () {
-    return view('upload');
+Route::get('about', function () {
+    return view('about');
 });
 
-Route::post('file/file_upload', 'Home\FileManagerController@upload');
+Route::get('analysis', 'Home\FileManagerController@get_file_list');
 
-Route::post('file/downloadOrDelete', 'Home\FileManagerController@downloadOrDelete');
+Route::get('start', 'Home\FileManagerController@start_analysis');
 
-Route::get('FileManager', 'Home\FileManagerController@index');
+Route::post('FileManager/file_upload', 'Home\FileManagerController@upload');
 
+Route::post('FileManager/file_downloadOrDelete', 'Home\FileManagerController@downloadOrDelete');
+
+Route::get('FileManager/{status}', 'Home\FileManagerController@index');
+Route::get('FileManager_badfile', 'Home\FileManagerController@badfile');

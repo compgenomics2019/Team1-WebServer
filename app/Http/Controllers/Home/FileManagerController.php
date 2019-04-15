@@ -8,60 +8,69 @@ use Illuminate\Support\Facades\Storage;
 
 class FileManagerController extends Controller
 {
-    public function index()
+    public function index($status)
     {
-        $assemble_files = Storage::allFiles("assemble");
-        $prediction_files = Storage::allFiles("prediction");
-        $annotation_files = Storage::allFiles("annotation");
-        $comparative_files = Storage::allFiles("comparative");
-        return view("FileManager", compact("assemble_files", "prediction_files", "annotation_files", "comparative_files"));
+        $files = Storage::allFiles("/");
+        switch ($status)
+        {
+            case "ready":
+                $prompt = "please choose an action";
+                break;
+
+            case "fail":
+                $prompt = "bad file! please check your input";
+                break;
+
+            case "pass":
+                $prompt = "upload successful! please choose another action";
+                break;
+        }
+        return view("FileManager", compact("files","prompt"));
     }
 
+    // todo: robust
     public function upload(Request $request)
     {
-        $category = $request->input('fileCategory');
-        $newFileName = $request->input('newFileName');
         $file = $request->file("filename");
-        $file->storePubliclyAs($category[0], $newFileName, ['disk' => 'uploads']);
-
-//        return $path;
-        return redirect("FileManager");
+        $category = $request->input('fileCategory')[0];
+        $newFileName = $request->input('newFileName');
+        $file->storePubliclyAs($category, $newFileName, ['disk' => 'uploads']); // todo: save large files
+        $output = exec('python3 ../scripts/filecheck.py ../storage/app/uploads/'.$category."/".$newFileName);
+        if ($output == "fail"){
+            Storage::delete($category."/".$newFileName);
+        }
+        return redirect("FileManager/$output");
     }
 
-    public function assemble_file_list()
+    public function get_file_list()
     {
-        $assemble_files = Storage::allFiles("assemble");
-        return view("assemble")->with("files", $assemble_files);
-    }
-    public function prediction_file_list()
-    {
-        $prediction_files = Storage::allFiles("prediction");
-        return view("predict")->with("files", $prediction_files);
-    }
-    public function annotation_file_list()
-    {
-        $annotation_files = Storage::allFiles("annotation");
-        return view("annotation")->with("files", $annotation_files);
-    }
-    public function comparative_file_list()
-    {
-        $comparative_files = Storage::allFiles("comparative");
-        return view("compare")->with("files", $comparative_files);
+        $files = Storage::allFiles("/");
+        return view("analysis", compact("files"));
     }
 
+    // todo: robust
     public function downloadOrDelete(Request $request)
     {
-        $category = $request->input('fileCategory');
+        $category = $request->input('fileCategory')[0];
         $fileName = $request->input('fileName');
         switch ($request->btn)
         {
             case "download":
-                return Storage::download($category."/".$fileName);
+                return Storage::download($category."/".$fileName);  // todo: test download
                 break;
 
             case "delete":
                 Storage::delete($category."/".$fileName);
-                return redirect("FileManager");
+                return redirect("FileManager/ready");
         }
+    }
+
+    public function start_analysis(Request $request){
+        echo("your script is running<br>");
+        $output = exec('python3 ../scripts/main.py');
+        echo($output);
+        echo("<br>please check your email for further info. redirecting to home page now...");
+        sleep(2);
+        return redirect("/");
     }
 }

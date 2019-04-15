@@ -5,11 +5,13 @@ Main entry for all genome analysis functions.
 
 import argparse
 import sys
+import time
 import os
 
 def main(args):
+    time.sleep(2)
+    print("this is output for main.py")
     # parse arguments and call proper functions
-    pass
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

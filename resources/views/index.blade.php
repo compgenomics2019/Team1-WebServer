@@ -15,7 +15,7 @@
         <ul class="navbar-nav">
             <li class="nav-item">
                 <a class="nav-link" id="navbarDropdown" role="button" aria-haspopup="true"
-                   aria-expanded="false" href={{url('FileManager')}}>
+                   aria-expanded="false" href={{url('FileManager/ready')}}>
                     File Manager
                 </a>
             </li>
@@ -40,33 +40,28 @@
         <li class="steps">Gene Annotation</li>
         <li class="steps">Comparative Genomics</li>
     </ul>
-    <h1></h1>
+    <br>
+    <br>
+    <br>
     <div class="container" style="text-align: justify;">
-        </br></br>
         <div class="row">
             <div class="col">
                 <div class="overlay" style="background-color: #edebeb">
-                    <img class="img" style="width:100%; display: block; height:100%" src="img/assembly.png">
+                    <img class="img" style="width:100%; display: block; height:100%" src="img/compare.png">
                 </div>
-                <h5 style="font-family:verdana;text-align: center;"><a href={{url('assemble')}}>Gene Assembly</a></h5>
-            </div>
-            <div class="col">
-                <div class="overlay" style="background-color: #edebeb">
-                    <img class="img" style="width:100%; display: block; height:100%" src="img/prediction.png">
-                </div>
-                <h5 style="font-family:verdana;text-align: center;"><a href={{url('predict')}}>Gene Prediction</a></h5>
-            </div>
-            <div class="col">
-                <div class="overlay" style="background-color: #edebeb">
-                    <img class="img" style="width:100%; display: block; height:100%" src="img/annotation.png">
-                </div>
-                <h5 style="font-family:verdana;text-align: center;"><a href={{url('annotation')}}>Gene Annotation</a></h5>
+                <h5 style="font-family:verdana;text-align: center;"><a href={{url('analysis')}}>Start Analysis</a></h5>
             </div>
             <div class="col">
                 <div class="overlay" style="background-color: #edebeb">
                     <img class="img" style="width:100%; display: block; height:100%" src="img/compare.png">
                 </div>
-                <h5 style="font-family:verdana;text-align: center;"><a href={{url('compare')}}>Comparative Genomics</a></h5>
+                <h5 style="font-family:verdana;text-align: center;"><a href="https://compgenomics2019.biosci.gatech.edu/Team_I_Webserver_Group">Tutorial</a></h5>
+            </div>
+            <div class="col">
+                <div class="overlay" style="background-color: #edebeb">
+                    <img class="img" style="width:100%; display: block; height:100%" src="img/compare.png">
+                </div>
+                <h5 style="font-family:verdana;text-align: center;"><a href={{url('about')}}>About Us</a></h5>
             </div>
         </div>
     </div>

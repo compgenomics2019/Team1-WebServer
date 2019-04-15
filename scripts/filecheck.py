@@ -11,8 +11,7 @@ GCTACT (Sequence)
 Any character (! ' * () + % 5 C )
 '''
 
-def main():
-
+def file_check():
     filename = sys.argv[1]
     #inFile = open(filename, 'r')
     #def fastq(filename):
@@ -34,4 +33,6 @@ def main():
                 return False
         else:
             return False
-main()
+
+if __name__ == "__main__":
+    print("pass" if file_check() else "fail")

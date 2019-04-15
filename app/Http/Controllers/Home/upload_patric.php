@@ -19,7 +19,7 @@ if (isset($_POST['uploadBtn']) && $_POST['uploadBtn'] == 'Upload')
         $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
         
         // Run check file Python script to read file and confirm fastq format
-        $output = passthru('python fileCheck.py $fileTmpPath/$newFileName');
+        $output = passthru('python filecheck.py $fileTmpPath/$newFileName');
         if ($output == 'False')
         {
             exit('Error: Upload failed! Incorrect file type/format.');
