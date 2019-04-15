@@ -34,7 +34,7 @@ class FileManagerController extends Controller
         $category = $request->input('fileCategory')[0];
         $newFileName = $request->input('newFileName');
         $file->storePubliclyAs($category, $newFileName, ['disk' => 'uploads']); // todo: save large files
-        $output = exec('python3 ../scripts/filecheck.py ../storage/app/uploads/' . $category . "/" . $newFileName);
+        $output = exec('python3 ../web_src/scripts/filecheck.py ../web_src/storage/app/uploads/' . $category . "/" . $newFileName); // relative path different on server
         if ($output == "fail") {
             Storage::delete($category . "/" . $newFileName);
             return redirect("FileManager/fail");
