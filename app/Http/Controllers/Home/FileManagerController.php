@@ -71,7 +71,7 @@ class FileManagerController extends Controller
     public function start_analysis(Request $request)
     {
         echo("your script is running<br>");
-        $output = exec('../wrapper.sh', $array, $return);
+        $output = exec('../scripts/wrapper.sh', $array, $return);
         echo("<script>console.log('".$output."');</script>");
         echo("<br>".$return);
         echo("<br>please check your email for further info. redirecting to home page now...<br>");
