@@ -19,6 +19,10 @@ Route::get('about', function () {
     return view('about');
 });
 
+Route::get('output', function () {
+    return view('output');
+});
+
 Route::get('analysis', 'Home\FileManagerController@get_file_list');
 
 Route::get('start', 'Home\FileManagerController@start_analysis');
