@@ -70,8 +70,9 @@ class FileManagerController extends Controller
 
     public function start_analysis(Request $request)
     {
+        echo("<script>console.log('adsfa');</script>");
         echo("your script is running<br>");
-        $output = exec('python3 ../web_src/scripts/test.py');
+        $output = shell_exec('python3 ../scripts/test.py');
         echo($output);
         echo("<br>please check your email for further info. redirecting to home page now...");
         sleep(2);
