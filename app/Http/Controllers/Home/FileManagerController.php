@@ -11,8 +11,7 @@ class FileManagerController extends Controller
     public function index($status)
     {
         $files = Storage::allFiles("/");
-        switch ($status)
-        {
+        switch ($status) {
             case "ready":
                 $prompt = "please choose an action";
                 break;
@@ -25,7 +24,7 @@ class FileManagerController extends Controller
                 $prompt = "upload successful! please choose another action";
                 break;
         }
-        return view("FileManager", compact("files","prompt"));
+        return view("FileManager", compact("files", "prompt"));
     }
 
     // todo: robust
@@ -38,10 +37,14 @@ class FileManagerController extends Controller
         $output = exec('python3 ../scripts/filecheck.py ../storage/app/uploads/'.$category."/".$newFileName);
 	echo($output);
 	sleep(2);
-        if ($output == "fail"){
-            Storage::delete($category."/".$newFileName);
+        if ($output == "fail") {
+            Storage::delete($category . "/" . $newFileName);
+            return redirect("FileManager/fail");
+        } elseif ($output == "pass") {
+            return redirect("FileManager/pass");
+        } else {
+            return redirect("FileManager/ready");
         }
-        return redirect("FileManager/$output");
     }
 
     public function get_file_list()
@@ -55,19 +58,19 @@ class FileManagerController extends Controller
     {
         $category = $request->input('fileCategory')[0];
         $fileName = $request->input('fileName');
-        switch ($request->btn)
-        {
+        switch ($request->btn) {
             case "download":
-                return Storage::download($category."/".$fileName);  // todo: test download
+                return Storage::download($category . "/" . $fileName);  // todo: test download
                 break;
 
             case "delete":
-                Storage::delete($category."/".$fileName);
+                Storage::delete($category . "/" . $fileName);
                 return redirect("FileManager/ready");
         }
     }
 
-    public function start_analysis(Request $request){
+    public function start_analysis(Request $request)
+    {
         echo("your script is running<br>");
         $output = exec('python3 ../scripts/main.py');
         echo($output);
