@@ -73,8 +73,10 @@ class FileManagerController extends Controller
         echo("your script is running");
         $pwd = exec("pwd");
         echo("<script>console.log(".$pwd.");</script>");
-        exec('source ../t1g5/bin/activate');
-        $output = exec('../t1g5/bin/python3 ../web_src/scripts/test.py', $array, $return);
+        exec('source ../../t1g5/bin/activate');
+        $py = exec('which python3');
+        echo("<script>console.log(".$py.");</script>");
+        $output = exec('python3 ../scripts/test.py', $array, $return);
         echo("<br>".$return);
         echo("<br>please check your email for further info. redirecting to home page now...");
         sleep(2);
