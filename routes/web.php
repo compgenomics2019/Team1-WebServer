@@ -28,4 +28,3 @@ Route::post('FileManager/file_upload', 'Home\FileManagerController@upload');
 Route::post('FileManager/file_downloadOrDelete', 'Home\FileManagerController@downloadOrDelete');
 
 Route::get('FileManager/{status}', 'Home\FileManagerController@index');
-Route::get('FileManager_badfile', 'Home\FileManagerController@badfile');
