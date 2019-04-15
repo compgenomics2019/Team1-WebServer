@@ -72,7 +72,8 @@ class FileManagerController extends Controller
     {
         echo("<script>console.log('adsfa');</script>");
         echo("your script is running");
-        $output = exec('python3 ../scripts/test.py', $array, $return);
+
+        $output = exec('../t1g5/bin/python3 ../web_src/scripts/test.py', $array, $return);
         echo($return);
         echo("<br>please check your email for further info. redirecting to home page now...");
         sleep(2);
