@@ -26,54 +26,12 @@
 @endsection
 @section("main_container")
     <div class="container">
-        <form class="needs-validation" novalidate>
-            <div class="form-row">
-                <div class="col-md-3 mb-3">
-                    <label for="validationTooltip01">Output file name</label>
-                    <input type="text" class="form-control" id="validationTooltip01" placeholder="output.gff" required>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="col-md-6 mb-3">
-                    <label for="inputState">Tools</label>
-                    <div style="margin-top:5px">
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                            <label class="form-check-label" for="inlineCheckbox1">EggNOG</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-                            <label class="form-check-label" for="inlineCheckbox2">TMHMM</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="col-md-2 mb-3">
-                    <label for="validationTooltip01">Email</label>
-                    <input type="text" class="form-control" id="validationTooltip01" placeholder="example@gatech.edu">
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label>After Annotation</label>
-                    <div style="margin-top:5px">
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                            <label class="form-check-label" for="inlineCheckbox1">Delete input</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option4">
-                            <label class="form-check-label" for="inlineCheckbox3">Continue comparative</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <button class="btn btn-primary" type="submit">Start</button>
-        </form>
+        <p>About us</p>
     </div>
 @endsection
 @section("main_container2")
     <div class="container">
-        <text>Output</text>
+        <text>Some description</text>
     </div>
 @endsection
 @section("footer")
