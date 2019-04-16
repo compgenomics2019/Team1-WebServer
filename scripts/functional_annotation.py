@@ -15,3 +15,6 @@ def vfdbBlast(inputFile, outputFile):
                 	"-best_hit_overhang", "0.1",
                 	"-max_target_seqs", "1", 
                 	"-out", outputFile])
+   
+#def rgi(inputFile, outputFile):
+#   pass
