@@ -31,8 +31,7 @@ def file_check():
                     return False
             else:
                 return False
-        else:
-            return False
+    return False
 
 if __name__ == "__main__":
-    print("pass" if file_check() else "fail")
+    print(("pass" if file_check() else "fail"), end="\n")

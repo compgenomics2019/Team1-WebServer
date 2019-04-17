@@ -36,6 +36,7 @@ class FileManagerController extends Controller
         $file->storePubliclyAs($category, $newFileName, ['disk' => 'uploads']); // todo: save large files
         $output = exec('../../t1g5/bin/python3 ../scripts/filecheck.py ../storage/app/uploads/'.$category.'/'.$newFileName);
         echo("<script>console.log('".'../../t1g5/bin/python3 ../scripts/filecheck.py ../storage/app/uploads/'.$category.'/'.$newFileName."');</script>");
+        echo("<script>console.log('".$output."');</script>");
         if ($output == "fail") {
             Storage::delete($category . "/" . $newFileName);
             return redirect("FileManager/fail");
@@ -70,11 +71,9 @@ class FileManagerController extends Controller
 
     public function start_analysis(Request $request)
     {
-        echo("your script is running<br>");
+        echo("<script>console.log('your script is running');</script>");
         $output = exec('../../t1g5/bin/python3 ../scripts/main.py', $array, $return);
-        echo("<script>console.log('".$output."');</script>");
-        echo("<br>".$return);
-//        echo("<br>please check your email for further info. redirecting to home page now...<br>");
+        echo("<script>console.log('".$array."');</script>");
         return view('index');
     }
 }
