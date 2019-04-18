@@ -41,7 +41,8 @@ class FileManagerController extends Controller
             return redirect("FileManager/badname");
         }
         $disk = Storage::disk('uploads');
-        $disk -> putFileAs($category, fopen($file, 'r+'), $newFileName);
+        $disk -> putFileAs($category, $file, $newFileName);
+        //$disk -> putFileAs($category, fopen($file, 'r+'), $newFileName);
 //        $file->storePubliclyAs($category, $newFileName, ['disk' => 'uploads']); // todo: save large files
         $output = exec('../../t1g5/bin/python3 ../scripts/filecheck.py ../storage/app/uploads/'.$category.'/'.$newFileName);
         if ($output == "fail") {
