@@ -54,128 +54,41 @@
                     <input type="text" class="form-control" id="validationTooltip01" placeholder="example@gatech.edu" required>
                 </div>
             </div>
-            {{--assembly options--}}
             <div class="form-row">
-                <div class="col-md-1 mb-3">
+                {{--assembly options--}}
+                <div class="col-md-6 mb-3">
                     <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="run_genome_assembly" checked="checked">
                     <label class="form-check-label" for="inlineCheckbox1">Assemble</label>
                 </div>
-
-                <div class="col-md-2 mb-3">
-                    <label for="validationTooltip05">Trim</label>
-                    <select id="inputState" class="form-control">
-                        <option selected>Yes</option>
-                        <option>No</option>
-                    </select>
-                </div>
-                <div class="col-md-2 mb-3">
-                    <label for="kmer_size">kmer size</label>
-                    <input type="text" class="form-control" id="kmer_size" placeholder="give a kmer size">
-                </div>
+                {{--gene prediction options--}}
                 <div class="col-md-6 mb-3">
-                    <label>Choose a Tool</label>
-                    <div style="margin-top:5px">
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                            <label class="form-check-label" for="inlineCheckbox1">Spades</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-                            <label class="form-check-label" for="inlineCheckbox2">MaSuRCa</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
-                            <label class="form-check-label" for="inlineCheckbox3">Skesa</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option4">
-                            <label class="form-check-label" for="inlineCheckbox3">Abyss</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {{--gene prediction options--}}
-            <div class="form-row">
-                <div class="col-md-1 mb-3">
                     <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="run_gene_prediction">
                     <label class="form-check-label" for="inlineCheckbox1">Gene Prediction</label>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label>Choose a Tool</label>
-                    <div style="margin-top:5px">
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                            <label class="form-check-label" for="inlineCheckbox1">Spades</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-                            <label class="form-check-label" for="inlineCheckbox2">MaSuRCa</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
-                            <label class="form-check-label" for="inlineCheckbox3">Skesa</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option4">
-                            <label class="form-check-label" for="inlineCheckbox3">Abyss</label>
-                        </div>
-                    </div>
                 </div>
             </div>
             {{--functional annotation options--}}
             <div class="form-row">
-                <div class="col-md-1 mb-3">
+                <div class="col-md-2 mb-3">
                     <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="run_genome_assembly">
                     <label class="form-check-label" for="inlineCheckbox1">Functional Annotation</label>
                 </div>
-                <div class="col-md-6 mb-3">
+                <div class="col-md-4 mb-3">
                     <label>Choose a Tool</label>
                     <div style="margin-top:5px">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                            <label class="form-check-label" for="inlineCheckbox1">Spades</label>
+                            <input class="form-check-input" type="radio" id="inlineCheckbox1" value="option1">
+                            <label class="form-check-label" for="inlineCheckbox1">vfDB</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-                            <label class="form-check-label" for="inlineCheckbox2">MaSuRCa</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
-                            <label class="form-check-label" for="inlineCheckbox3">Skesa</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option4">
-                            <label class="form-check-label" for="inlineCheckbox3">Abyss</label>
+                            <input class="form-check-input" type="radio" id="inlineCheckbox2" value="option2">
+                            <label class="form-check-label" for="inlineCheckbox2">CARD</label>
                         </div>
                     </div>
                 </div>
-            </div>
-            {{--comparative genomics options--}}
-            <div class="form-row">
-                <div class="col-md-1 mb-3">
+                {{--comparative genomics options--}}
+                <div class="col-md-6 mb-3">
                     <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="run_genome_assembly">
                     <label class="form-check-label" for="inlineCheckbox1">Comparative Analysis</label>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label>Choose a Tool</label>
-                    <div style="margin-top:5px">
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                            <label class="form-check-label" for="inlineCheckbox1">Spades</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-                            <label class="form-check-label" for="inlineCheckbox2">MaSuRCa</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
-                            <label class="form-check-label" for="inlineCheckbox3">Skesa</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option4">
-                            <label class="form-check-label" for="inlineCheckbox3">Abyss</label>
-                        </div>
-                    </div>
                 </div>
             </div>
 

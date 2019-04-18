@@ -7,7 +7,6 @@ import argparse
 import sys
 import time
 import os
-from functional_annotation import vfdbBlast
 import sys
 import shutil
 import argparse
@@ -75,7 +74,7 @@ def run_fastqc(_input_file, _tmp_dir):
     :param _tmp_dir: tmp directory
     :return: None
     """
-    subprocess.call(["FastQC/fastqc", "--extract", "-t", "15", "-o", _tmp_dir, _input_file], stderr=subprocess.DEVNULL)
+    subprocess.call(["FastQC/fastqc", "--extract", "-o", _tmp_dir, _input_file], stderr=subprocess.DEVNULL)
 
 
 def check_crop(_tmp_dir, _fastqc_dirs):
@@ -220,29 +219,6 @@ def trim_files(input_files, tmp_dir, trimmomatic_jar, threads, skip_trim, skip_c
 
 
 def assemble():
-    supported_assemblers = ["spades", "skesa", "abyss", "masurca"]
-    description = """
-    This is the genome assembly pipeline of team1 group1.
-    For detail please see github(https://github.gatech.edu/compgenomics2019/Team1-GenomeAssembly)
-    """
-
-    usage = """
-    assemble_pipeline_g1.py -t /path/to/tmp -i /path/to/file1 /path/to/file2 -o /path/to/out/file -a spades -a skesa -a abyss
-    """
-
-    parser = argparse.ArgumentParser(description=description, usage=usage)
-    parser.add_argument('--trimmomatic', default="Trimmomatic-0.36/trimmomatic-0.36.jar", metavar="trimmomatic_jar_file", help='provide trimmomatic file if you want to use your own')
-    parser.add_argument('-a', required=True, choices=supported_assemblers, action="append", help='assemblers to use')
-    parser.add_argument('-i', required=True, metavar=("file1", "file2"), nargs=2, help='pair end input files. MUST be gzipped fastq file')
-    parser.add_argument('-t', default="tmp", metavar="tmp folder", help='tmp folder, if exist, will be cleared')
-    parser.add_argument('-o', required=True, metavar="out_file", help='output file name')
-    parser.add_argument('-n', type=int, default=1, metavar="num_threads", help='number of threads to use in trimming. default: 1')
-    parser.add_argument('-k', action="store_true", help='set this flag to keep tmp. default:False')
-    parser.add_argument('--skip-crop', action="store_true", help='set to true to skip crop step')
-    parser.add_argument('--trim-only', action="store_true", help='set to true to skip assembly')
-    parser.add_argument('--assemble-only', action="store_true", help='set to true to skip trim')
-    args = parser.parse_args()
-
     if os.path.exists(args.t):
         shutil.rmtree(args.t)
     os.mkdir(args.t)
@@ -261,186 +237,191 @@ def assemble():
 ## gene prediction
 def genemark(i):
 
-	if os.path.exists("./gms2results") != True:
-		subprocess.call(["mkdir", "gms2results"])
-	if os.path.exists("./gms2results/gfffiles") != True:
-		subprocess.call(["mkdir","gms2results/gfffiles"])
-	if os.path.exists("./gms2results/nucleotidefasta") != True:
-		subprocess.call(["mkdir","gms2results/nucleotidefasta"])
-	if os.path.exists("./gms2results/proteinfasta") != True:
-		subprocess.call(["mkdir","gms2results/proteinfasta"])
+    if os.path.exists("./gms2results") != True:
+        subprocess.call(["mkdir", "gms2results"])
+    if os.path.exists("./gms2results/gfffiles") != True:
+        subprocess.call(["mkdir","gms2results/gfffiles"])
+    if os.path.exists("./gms2results/nucleotidefasta") != True:
+        subprocess.call(["mkdir","gms2results/nucleotidefasta"])
+    if os.path.exists("./gms2results/proteinfasta") != True:
+        subprocess.call(["mkdir","gms2results/proteinfasta"])
 
-	gff = os.path.join("gms2results/gfffiles","{}.gff".format(i.split(".")[0]))
-	nucleotides = os.path.join("gms2results/nucleotidefasta","{}.fna".format(i.split(".")[0]))
-	proteins = os.path.join("gms2results/proteinfasta","{}.faa".format(i.split(".")[0]))
-	dir = i
-	subprocess.call(["./gms2_linux_64/gms2.pl", "--seq", dir, "--genome-type", "bacteria", "--output",gff,"--format","gff","--fnn",nucleotides,"--faa",proteins])
+    gff = os.path.join("gms2results/gfffiles","{}.gff".format(i.split(".")[0]))
+    nucleotides = os.path.join("gms2results/nucleotidefasta","{}.fna".format(i.split(".")[0]))
+    proteins = os.path.join("gms2results/proteinfasta","{}.faa".format(i.split(".")[0]))
+    dir = i
+    subprocess.call(["./gms2_linux_64/gms2.pl", "--seq", dir, "--genome-type", "bacteria", "--output",gff,"--format","gff","--fnn",nucleotides,"--faa",proteins])
 
 def prodigal(i):
-	if os.path.exists("./prodigalresults") != True:
-		subprocess.call(["mkdir","prodigalresults"])
-	if os.path.exists("./prodigalresults/nucleotide") != True:
-		subprocess.call(["mkdir","prodigalresults/nucleotide"])
-	if os.path.exists("./prodigalresults/protein") != True:
-		subprocess.call(["mkdir","prodigalresults/protein"])
-	if os.path.exists("./prodigalresults/gff") != True:
-		subprocess.call(["mkdir","prodigalresults/gff"])
+    if os.path.exists("./prodigalresults") != True:
+        subprocess.call(["mkdir","prodigalresults"])
+    if os.path.exists("./prodigalresults/nucleotide") != True:
+        subprocess.call(["mkdir","prodigalresults/nucleotide"])
+    if os.path.exists("./prodigalresults/protein") != True:
+        subprocess.call(["mkdir","prodigalresults/protein"])
+    if os.path.exists("./prodigalresults/gff") != True:
+        subprocess.call(["mkdir","prodigalresults/gff"])
 
-	protein = os.path.join("prodigalresults/protein","{}.faa".format(i.split(".")[0]))
-	nucleotide = os.path.join("prodigalresults/nucleotide","{}.fna".format(i.split(".")[0]))
-	gff = os.path.join("prodigalresults/gff","{}.gff".format(i.split(".")[0]))
-	dir = i
-	subprocess.call(["./Prodigal/prodigal","-i",dir,"-a",protein,"-d",nucleotide,"-o",gff,"-f","gff"])
+    protein = os.path.join("prodigalresults/protein","{}.faa".format(i.split(".")[0]))
+    nucleotide = os.path.join("prodigalresults/nucleotide","{}.fna".format(i.split(".")[0]))
+    gff = os.path.join("prodigalresults/gff","{}.gff".format(i.split(".")[0]))
+    dir = i
+    subprocess.call(["./Prodigal/prodigal","-i",dir,"-a",protein,"-d",nucleotide,"-o",gff,"-f","gff"])
 
 def bedtools_func(i, home):
-	if os.path.exists("./prodigal-genemark") != True:
-		subprocess.call(['mkdir','prodigal-genemark'])
-	if os.path.exists("./prodigal-genemark/gfffiles") != True:
-		subprocess.call(['mkdir','prodigal-genemark/gfffiles'])
-	if os.path.exists("./prodigal-genemark/gfffilesunion") != True:
-		subprocess.call(['mkdir','prodigal-genemark/gfffilesunion'])
-	if os.path.exists("./prodigal-genemark/nucleotides") != True:
-		subprocess.call(['mkdir','prodigal-genemark/nucleotides'])
-	if os.path.exists("./prodigal-genemark/aminoacids") != True:
-		subprocess.call(['mkdir','prodigal-genemark/aminoacids'])
+    if os.path.exists("./prodigal-genemark") != True:
+        subprocess.call(['mkdir','prodigal-genemark'])
+    if os.path.exists("./prodigal-genemark/gfffiles") != True:
+        subprocess.call(['mkdir','prodigal-genemark/gfffiles'])
+    if os.path.exists("./prodigal-genemark/gfffilesunion") != True:
+        subprocess.call(['mkdir','prodigal-genemark/gfffilesunion'])
+    if os.path.exists("./prodigal-genemark/nucleotides") != True:
+        subprocess.call(['mkdir','prodigal-genemark/nucleotides'])
+    if os.path.exists("./prodigal-genemark/aminoacids") != True:
+        subprocess.call(['mkdir','prodigal-genemark/aminoacids'])
 
-	prodigal_gff = os.path.join('prodigalresults','gff','{}.gff'.format(i.split(".")[0]))
-	#gets gff files from prodigal
-	genemark_gff = os.path.join('gms2results','gfffiles','{}.gff'.format(i.split(".")[0]))
-	#gets gff files from genemark
-	intersect1 = os.path.join('prodigal-genemark/gfffiles','{}intersect1.gff'.format(i.split(".")[0]))
+    prodigal_gff = os.path.join('prodigalresults','gff','{}.gff'.format(i.split(".")[0]))
+    #gets gff files from prodigal
+    genemark_gff = os.path.join('gms2results','gfffiles','{}.gff'.format(i.split(".")[0]))
+    #gets gff files from genemark
+    intersect1 = os.path.join('prodigal-genemark/gfffiles','{}intersect1.gff'.format(i.split(".")[0]))
 
-	intersect2 = os.path.join('prodigal-genemark/gfffiles','{}intersect2.gff'.format(i.split(".")[0]))
-	#gets intersect from genemark and prodigal
-	common = os.path.join('prodigal-genemark/gfffiles','{}common.gff'.format(i.split(".")[0]))
+    intersect2 = os.path.join('prodigal-genemark/gfffiles','{}intersect2.gff'.format(i.split(".")[0]))
+    #gets intersect from genemark and prodigal
+    common = os.path.join('prodigal-genemark/gfffiles','{}common.gff'.format(i.split(".")[0]))
 
-	#gets common from genemark and prodigal
-	union = os.path.join('prodigal-genemark/gfffilesunion','{}union.gff'.format(i.split(".")[0]))
-	#gets union
-	bedtools_intersect1 = ['bedtools2/bin/bedtools intersect -f 1.0 -r -wa -v -a {} -b {} > {}'.format(prodigal_gff,genemark_gff,intersect1)]
+    #gets common from genemark and prodigal
+    union = os.path.join('prodigal-genemark/gfffilesunion','{}union.gff'.format(i.split(".")[0]))
+    #gets union
+    bedtools_intersect1 = ['bedtools2/bin/bedtools intersect -f 1.0 -r -wa -v -a {} -b {} > {}'.format(prodigal_gff,genemark_gff,intersect1)]
 
-	bedtools_intersect2 = ['bedtools2/bin/bedtools intersect -f 1.0 -r -wa -v -b {} -a {} > {}'.format(prodigal_gff,genemark_gff,intersect2)]
-	#command for intersect
-	bedtools_common = ['bedtools2/bin/bedtools intersect -f 1.0  -r -a {} -b {} > {}'.format(prodigal_gff,genemark_gff,common)]
-	#command for common
+    bedtools_intersect2 = ['bedtools2/bin/bedtools intersect -f 1.0 -r -wa -v -b {} -a {} > {}'.format(prodigal_gff,genemark_gff,intersect2)]
+    #command for intersect
+    bedtools_common = ['bedtools2/bin/bedtools intersect -f 1.0  -r -a {} -b {} > {}'.format(prodigal_gff,genemark_gff,common)]
+    #command for common
 
-	subprocess.call(bedtools_intersect1,shell=True)
-	subprocess.call(bedtools_intersect2,shell=True)
-	subprocess.call(bedtools_common,shell=True)
+    subprocess.call(bedtools_intersect1,shell=True)
+    subprocess.call(bedtools_intersect2,shell=True)
+    subprocess.call(bedtools_common,shell=True)
 
-	cat = ['cat {} {} {}> {}'.format(intersect1,intersect2,common,union)]
-	#concatenates to get union
-	subprocess.call(cat,shell=True)
-	dir = i
-	createfastaindex = ['samtools-1.9/bin/samtools','faidx',dir]
-	#creates fasta index
-	dnatoaapy = os.path.join(home,"nucltoprotein.py")
-	subprocess.call(createfastaindex)
-	nucleotides = os.path.join(home,"prodigal-genemark/nucleotides","{}.fna".format(i.split(".")[0]))
-	fastasequences = ['bedtools2/bin/bedtools','getfasta','-fo',nucleotides,'-fi',dir,'-bed',union]
-	amino = os.path.join(home,"prodigal-genemark/aminoacids","{}.faa".format(i.split(".")[0]))
-	subprocess.call(fastasequences)
+    cat = ['cat {} {} {}> {}'.format(intersect1,intersect2,common,union)]
+    #concatenates to get union
+    subprocess.call(cat,shell=True)
+    dir = i
+    createfastaindex = ['samtools-1.9/bin/samtools','faidx',dir]
+    #creates fasta index
+    dnatoaapy = os.path.join(home,"nucltoprotein.py")
+    subprocess.call(createfastaindex)
+    nucleotides = os.path.join(home,"prodigal-genemark/nucleotides","{}.fna".format(i.split(".")[0]))
+    fastasequences = ['bedtools2/bin/bedtools','getfasta','-fo',nucleotides,'-fi',dir,'-bed',union]
+    amino = os.path.join(home,"prodigal-genemark/aminoacids","{}.faa".format(i.split(".")[0]))
+    subprocess.call(fastasequences)
 
-	#subprocess.call(['python3',dnatoaapy,nucleotides,amino])
-	subprocess.call(['rm','-f','{}.fai'.format(dir)])
+    #subprocess.call(['python3',dnatoaapy,nucleotides,amino])
+    subprocess.call(['rm','-f','{}.fai'.format(dir)])
 
 def barrnap(i):
-	if os.path.exists("./barrnap_results") != True:
-		subprocess.call(['mkdir','barrnap_results'])
-	if os.path.exists("./barrnap_results/gfffiles") != True:
-		subprocess.call(['mkdir','barrnap_results/gfffiles'])
-	if os.path.exists("./barrnap_results/nucleotides") != True:
-		subprocess.call(['mkdir','barrnap_results/nucleotides'])
+    if os.path.exists("./barrnap_results") != True:
+        subprocess.call(['mkdir','barrnap_results'])
+    if os.path.exists("./barrnap_results/gfffiles") != True:
+        subprocess.call(['mkdir','barrnap_results/gfffiles'])
+    if os.path.exists("./barrnap_results/nucleotides") != True:
+        subprocess.call(['mkdir','barrnap_results/nucleotides'])
 
 
-	gff = os.path.join("barrnap_results/gfffiles","barnap_{}.gff".format(i.split(".")[0]))
-	nucleotides = os.path.join("barrnap_results/nucleotides","barrnap_{}.fna".format(i.split(".")[0]))
-	dir = i
-	subprocess.call(['barrnap/bin/barrnap --outseq {} < {} > {}'.format(nucleotides,dir,gff)],shell=True)
+    gff = os.path.join("barrnap_results/gfffiles","barnap_{}.gff".format(i.split(".")[0]))
+    nucleotides = os.path.join("barrnap_results/nucleotides","barrnap_{}.fna".format(i.split(".")[0]))
+    dir = i
+    subprocess.call(['barrnap/bin/barrnap --outseq {} < {} > {}'.format(nucleotides,dir,gff)],shell=True)
 
 def aragorn(i):
-	if os.path.exists("./aragorn_results") != True:
-		subprocess.call(['mkdir','aragorn_results'])
-	if os.path.exists("./aragorn_results/gfffiles") != True:
-		subprocess.call(['mkdir','aragorn_results/gfffiles'])
-	if os.path.exists("./aragorn_results/nucleotides") != True:
-		subprocess.call(['mkdir','aragorn_results/nucleotides'])
+    if os.path.exists("./aragorn_results") != True:
+        subprocess.call(['mkdir','aragorn_results'])
+    if os.path.exists("./aragorn_results/gfffiles") != True:
+        subprocess.call(['mkdir','aragorn_results/gfffiles'])
+    if os.path.exists("./aragorn_results/nucleotides") != True:
+        subprocess.call(['mkdir','aragorn_results/nucleotides'])
 
-	gff = os.path.join("aragorn_results/gfffiles","aragorn_{}.gff".format(i.split(".")[0]))
-	nucleotides = os.path.join("aragorn_results/nucleotides","aragorn_{}.fna".format(i.split(".")[0]))
-	tRNAtxt = os.path.join("aragorn_results","{}.txt".format(i.split(".")[0]))
-	dir = i
+    gff = os.path.join("aragorn_results/gfffiles","aragorn_{}.gff".format(i.split(".")[0]))
+    nucleotides = os.path.join("aragorn_results/nucleotides","aragorn_{}.fna".format(i.split(".")[0]))
+    tRNAtxt = os.path.join("aragorn_results","{}.txt".format(i.split(".")[0]))
+    dir = i
 
-	subprocess.call(["aragorn1.2.38/aragorn","-t","-m","-gc1","-w",dir,"-fo","-o",nucleotides])
-	subprocess.call(["aragorn1.2.38/aragorn","-t","-m","-gc1","-w",dir,"-o",tRNAtxt])
-	subprocess.call(["/usr/bin/perl","cnv_aragorn2gff.pl","-i",dir,"-o",tRNAgff, "-gff-ver=2"])
+    subprocess.call(["aragorn1.2.38/aragorn","-t","-m","-gc1","-w",dir,"-fo","-o",nucleotides])
+    subprocess.call(["aragorn1.2.38/aragorn","-t","-m","-gc1","-w",dir,"-o",tRNAtxt])
+    subprocess.call(["/usr/bin/perl","cnv_aragorn2gff.pl","-i",dir,"-o",tRNAgff, "-gff-ver=2"])
 
 def join(a,b):
-	subprocess.call(['mkdir','arabarr'])
+    subprocess.call(['mkdir','arabarr'])
 
-	for i,j in zip(sorted(os.listdir(a)),sorted(os.listdir(b))):
-		subprocess.call('cat aragorn_results/nucleotides/{} barrnap_results/nucleotides/{} > arabarr/arabarr_{}.fna'.format(i,j,i.split("_")[1]),shell=True)
+    for i,j in zip(sorted(os.listdir(a)),sorted(os.listdir(b))):
+        subprocess.call('cat aragorn_results/nucleotides/{} barrnap_results/nucleotides/{} > arabarr/arabarr_{}.fna'.format(i,j,i.split("_")[1]),shell=True)
 
 def predict():
-	# Initialize argument parser for script flags
-	parser = argparse.ArgumentParser(description='Predict genes from assembled prokaryotic genomes.')
-	# Sets arguments, requirements to run script, and type of argument input
-	# help='sets description to be used by default ./script.py -h'
-	parser.add_argument('-f', help='File for assembled genome input.', required=True, type=str)
-	parser.add_argument('-p', help='Run Prodigal for ab-initio protein coding gene predictor.', required=False, action='store_true')
-	parser.add_argument('-g', help='Run GeneMarkS-2 for ab-initio protein coding gene predictor.', required=False, action='store_true')
-	parser.add_argument('-nc', help='Runs Aragorn and Barrnap for non-coding RNA prediction.', required=False, action='store_true')
-	parser.add_argument('-ncs', help='Runs Aragorn and Barrnap independently.', required=False, action='store_true')
+    # Initialize argument parser for script flags
+    parser = argparse.ArgumentParser(description='Predict genes from assembled prokaryotic genomes.')
+    # Sets arguments, requirements to run script, and type of argument input
+    # help='sets description to be used by default ./script.py -h'
+    parser.add_argument('-f', help='File for assembled genome input.', required=True, type=str)
+    parser.add_argument('-p', help='Run Prodigal for ab-initio protein coding gene predictor.', required=False, action='store_true')
+    parser.add_argument('-g', help='Run GeneMarkS-2 for ab-initio protein coding gene predictor.', required=False, action='store_true')
+    parser.add_argument('-nc', help='Runs Aragorn and Barrnap for non-coding RNA prediction.', required=False, action='store_true')
+    parser.add_argument('-ncs', help='Runs Aragorn and Barrnap independently.', required=False, action='store_true')
 
-	args = parser.parse_args()
-	# Error handling for file input path
+    args = parser.parse_args()
+    # Error handling for file input path
 
-	# Variable for current working directory
-	home = os.getcwd()
-	# Options to run either prodigal or genemark
-	if args.p:
-		prodigal(args.f)
-	if args.g:
-		genemark(args.f)
-	# Runs bedtools if both genemark and prodigal are selected
-	if (args.p and args.g):
-		bedtools_func(args.f, home)
-	# Default mode to run both prodigal and genemark with bedtools_func
-	if not args.p:
-		if not args.g:
-			prodigal(args.f)
-			genemark(args.f)
-			bedtools_func(args.f, home)
+    # Variable for current working directory
+    home = os.getcwd()
+    # Options to run either prodigal or genemark
+    if args.p:
+        prodigal(args.f)
+    if args.g:
+        genemark(args.f)
+    # Runs bedtools if both genemark and prodigal are selected
+    if (args.p and args.g):
+        bedtools_func(args.f, home)
+    # Default mode to run both prodigal and genemark with bedtools_func
+    if not args.p:
+        if not args.g:
+            prodigal(args.f)
+            genemark(args.f)
+            bedtools_func(args.f, home)
 
-	# Runs aragorn and barrnap if selected
-	if args.nc:
-		aragorn(args.f)
-		barrnap(args.f)
-		join('aragorn_results/nucleotides','barrnap_results/nucleotides')
-	if args.ncs:
-		aragorn(args.f)
-		barrnap(args.f)
+    # Runs aragorn and barrnap if selected
+    if args.nc:
+        aragorn(args.f)
+        barrnap(args.f)
+        join('aragorn_results/nucleotides','barrnap_results/nucleotides')
+    if args.ncs:
+        aragorn(args.f)
+        barrnap(args.f)
 
 
 ## functional_annotation
 def vfdbBlast(inputFile, outputFile):
-	#BLAST input query against VFDB
-	#Filepaths assume script being run from predicta directory
-	subprocess.call(["team1tools/FunctionalAnnotation/ncbi-blast-2.9.0+/bin/blastn",
-					"-db", "team1tools/FunctionalAnnotation/vfDB",
-					"-query", inputFile,
-					"-num_threads", "4",
-					"-evalue" ,"0.1",
-					"-outfmt", "'6 stitle qseqid pident qcovs qstart qend qseq evalue bitscore'",
-                	"-best_hit_score_edge", "0.1",
-                	"-best_hit_overhang", "0.1",
-                	"-max_target_seqs", "1",
-                	"-out", outputFile])
+    #BLAST input query against VFDB
+    #Filepaths assume script being run from predicta directory
+    subprocess.call(["team1tools/FunctionalAnnotation/ncbi-blast-2.9.0+/bin/blastn",
+                    "-db", "team1tools/FunctionalAnnotation/vfDB",
+                    "-query", inputFile,
+                    "-num_threads", "4",
+                    "-evalue" ,"0.1",
+                    "-outfmt", "'6 stitle qseqid pident qcovs qstart qend qseq evalue bitscore'",
+                    "-best_hit_score_edge", "0.1",
+                    "-best_hit_overhang", "0.1",
+                    "-max_target_seqs", "1",
+                    "-out", outputFile])
 
 
 ## main
 def main(args):
-    time.sleep(2)
+    if args.a:
+        a_tmp = "../storage/app/public/assemble"
+        if not os.path.exists(a_tmp):
+            os.mkdir(a_tmp)
+
+
     print("this is output for main.py")
     # parse arguments and call proper functions
 
@@ -448,19 +429,15 @@ def main(args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     # I/O parameters
-    parser.add_argument('--infile', help='input file name')
+    parser.add_argument('--infile', required=True, metavar=("file1", "file2"), nargs=2, help='input file name')
     parser.add_argument('--outfile', help='output file name')
+    parser.add_argument('-a', action="store_true", help='do step 1')
+    parser.add_argument('-b', action="store_true", help='do step 2')
+    parser.add_argument('-c', action="store_true", help='do step 3')
+    parser.add_argument('-d', action="store_true", help='do step 4')
+
     # parameters for genome assembly
-    parser.add_argument('--trimmomatic', default="Trimmomatic-0.36/trimmomatic-0.36.jar", metavar="trimmomatic_jar_file", help='provide trimmomatic file if you want to use your own')
-    parser.add_argument('-a', required=True, choices=supported_assemblers, action="append", help='assemblers to use')
-    parser.add_argument('-i', required=True, metavar=("file1", "file2"), nargs=2, help='pair end input files. MUST be gzipped fastq file')
-    parser.add_argument('-t', default="tmp", metavar="tmp folder", help='tmp folder, if exist, will be cleared')
-    parser.add_argument('-o', required=True, metavar="out_file", help='output file name')
-    parser.add_argument('-n', type=int, default=1, metavar="num_threads", help='number of threads to use in trimming. default: 1')
-    parser.add_argument('-k', action="store_true", help='set this flag to keep tmp. default:False')
-    parser.add_argument('--skip-crop', action="store_true", help='set to true to skip crop step')
-    parser.add_argument('--trim-only', action="store_true", help='set to true to skip assembly')
-    parser.add_argument('--assemble-only', action="store_true", help='set to true to skip trim')
+    # todo: hard code trimmomatic, tmp folder
     # parameters for gene prediction
     parser.add_argument('-p', help='Run Prodigal for ab-initio protein coding gene predictor.', required=False, action='store_true')
     parser.add_argument('-g', help='Run GeneMarkS-2 for ab-initio protein coding gene predictor.', required=False, action='store_true')
