@@ -15,7 +15,7 @@
 @section("navbar")
     <nav class="navbar navbar-expand-lg navbar-custom">
         <!--<img class="img" style="width:2%; display: block; height:2%" src="img/Icon.png">-->
-        <a class="navbar-brand" href=""> Team1 Webserver - Functional Annotation</a>
+        <a class="navbar-brand" href=""> Team1 Webserver - Results</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -39,13 +39,17 @@
     </div>
 @endsection
 @section("main_container2")
+	<div class="container">
+        <div id="drop"></div>
+		<div class="row">
+            <div class="col" id="histogram_outbreak">
+			<h4>Outbreak</h4>
+			</div>
+			<div class="col" id="histogram_sporadic">
+			<h4>Sporadic</h4>
+			</div>
+		</div>
+    </div>
 @endsection
 @section("footer")
-    <div class="container-fluid" style="background-color: black; position: fixed; left: 0; bottom: 0;">
-        <footer style="text-align: center;">
-            <br>
-            <p style="color: white;"> &copy 2019 Team 1 Predictive Webserver Group</p>
-            <br>
-        </footer>
-    </div>
 @endsection
