@@ -204,10 +204,10 @@ def assemble_genomes(_tmp_dir,  _out_name):
     :return: None
     """
     # spades
-    run_spades(_tmp_dir, _seq_len)
+    run_spades(_tmp_dir)
 
     # quast
-    subprocess.call(["quast-5.0.2/quast.py",  _tmp_dir + "/spades/scaffolds.fasta", "-o", _tmp_dir + "/quast"])
+    subprocess.call(["../../team1tools/GenomeAssembly/quast-5.0.2/quast.py",  _tmp_dir + "/spades/scaffolds.fasta", "-o", _tmp_dir + "/quast"])
     quast_result = "%s/quast/report.tsv" % _tmp_dir
 
     try:
@@ -222,13 +222,13 @@ def assemble_genomes(_tmp_dir,  _out_name):
     subprocess.call(["mv", _tmp_dir + "/spades/scaffolds.fasta", _out_name])
 
 
-def run_spades(_tmp_dir, _fastqc_dir):
+def run_spades(_tmp_dir):
     """
     run spades on trimmed file
     :param _tmp_dir: tmp directory
     :return: output contigs file name
     """
-    spades_cmd = ["SPAdes-3.11.1-Linux/bin/spades.py", "--phred-offset", "33", "-1", "{0}/trimmed_1P.fastq".format(_tmp_dir), "-2", "{0}/trimmed_2P.fastq".format(_tmp_dir), "-o", "{0}/spades".format(_tmp_dir)]
+    spades_cmd =["../../team1tools/GenomeAssembly/SPAdes-3.11.1-Linux/bin/spades.py", "--phred-offset", "33", "-1", "{0}/trimmed_1P.fastq".format(_tmp_dir), "-2", "{0}/trimmed_2P.fastq".format(_tmp_dir), "-o", "{0}/spades".format(_tmp_dir)]
     if "trimmed_U.fastq" in os.listdir(_tmp_dir):
         spades_cmd.extend(["-s", "{0}/trimmed_U.fastq".format(_tmp_dir)])
     subprocess.call(spades_cmd)
@@ -242,6 +242,7 @@ def run_fake_trim(trimmomatic_jar, _input_files, _tmp_dir):
     :param _tmp_dir: tmp directory
     :return: None
     """
+    print("running fake trim")
     command = ["java", "-jar", trimmomatic_jar, "PE", _input_files[0], _input_files[1], "-baseout", _tmp_dir + "/trimmed.fastq", "MINLEN:100"]
     subprocess.call(command)
     subprocess.call(["rm", "-rf", "{0}/trimmed_*U.fastq".format(_tmp_dir)])
@@ -254,7 +255,7 @@ def run_fastqc(_input_file, _tmp_dir):
     :param _tmp_dir: tmp directory
     :return: None
     """
-    subprocess.call(["FastQC/fastqc", "--extract", "-o", _tmp_dir, _input_file], stderr=subprocess.DEVNULL)
+    subprocess.call(["../../team1tools/GenomeAssembly/FastQC/fastqc", "--extract", "-o", _tmp_dir, _input_file], stderr=subprocess.DEVNULL)
 
 
 def check_crop(_tmp_dir, _fastqc_dirs):
@@ -264,6 +265,7 @@ def check_crop(_tmp_dir, _fastqc_dirs):
     :param _fastqc_dirs: location of fastqc report
     :return: [head_crop, crop]
     """
+    print("checking crop")
     crops = [0, 0]
     for i, dir in enumerate(_fastqc_dirs):
         qualities = []
@@ -291,6 +293,7 @@ def check_crop(_tmp_dir, _fastqc_dirs):
         while qualities[i] < 20:
             i -= 1
         crops[1] = min(int(positions[i].split("-")[0]), crops[1])
+        print(crops)
     return crops
 
 
@@ -310,6 +313,7 @@ def run_trim(trimmomatic_jar, _input_files, _tmp_dir, window, threshold, headcro
     command.append("HEADCROP:%d" % headcrop)
     command.append("CROP:%d" % crop)
     command.extend(["SLIDINGWINDOW:%d:%d" % (window, threshold), "MINLEN:100"])
+    #print("trim cmd", command)
     proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     proc.wait()
     out, trim_summary = proc.communicate()
@@ -333,7 +337,7 @@ def trim_files(input_files, tmp_dir, trimmomatic_jar):
     :return: None
     """
 
-    window_steps = [4, 8, 12, 20, 35, 50, 70, 100]
+    window_steps = [4, 8, 12, 20, 35, 50, 70, 100, 150, 200]
     fastqc_dirs = ["", ""]
 
     # get fastqc for raw input
@@ -366,7 +370,7 @@ def trim_files(input_files, tmp_dir, trimmomatic_jar):
         subprocess.call(["rm", "-rf", "{0}/trimmed_*.fastq".format(tmp_dir)])
         drop_rate = run_trim(trimmomatic_jar, input_files, tmp_dir, *trim_condition)
         print("-" * 10, drop_rate)
-        if drop_rate > 33 and trim_condition != window_steps[-1]:
+        if drop_rate > 33 and trim_condition[0] != window_steps[-1]:
             trim_condition[0] = window_steps[window_steps.index(trim_condition[0]) + 1]
         else:
             trim_condition = False
@@ -376,7 +380,7 @@ def trim_files(input_files, tmp_dir, trimmomatic_jar):
     with open("%s/%s/fastqc_data.txt" % (tmp_dir, fastqc_dirs[0]), "r") as f:
         for line in f:
             if line.startswith("Sequence length"):
-                print(line)
+                #print(line)
                 length = line.strip().split()[-1]
                 break
     return length
