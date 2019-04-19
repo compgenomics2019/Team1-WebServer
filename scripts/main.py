@@ -397,7 +397,6 @@ def main(args):
     else:
         assemble_result = args.infasta
     if args.b:
-        home = os.getcwd()
         if args.p:
             prodigal(assemble_result, b_tmp)
         if args.g:
@@ -432,7 +431,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     # I/O parameters
     parser.add_argument('--infastq', metavar=("file1", "file2"), nargs=2, help='input fastq')
-    parser.add_argument('--infasta', nargs=1, help='input fasta')
+    parser.add_argument('--infasta', help='input fasta')
     parser.add_argument('--outfile', required=True, help='output file name')
     parser.add_argument('-a', action="store_true", help='do step 1')
     parser.add_argument('-b', action="store_true", help='do step 2')
