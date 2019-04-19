@@ -332,11 +332,11 @@ def trim_files(input_files, tmp_dir, trimmomatic_jar):
         print("-" * 10, drop_rate)
         if drop_rate > 33 and trim_condition[0] != window_steps[-1]:
             trim_condition[0] = window_steps[window_steps.index(trim_condition[0]) + 1]
-        elif trim_condition[0] == window_steps[-1]:
-            run_fake_trim(trimmomatic_jar, input_files, tmp_dir)
         else:
             trim_condition = False
         print("-" * 20 + "trim finished" + "-" * 20)
+    if drop_rate > 33:
+        run_fake_trim(trimmomatic_jar, input_files, tmp_dir)
     length = "250"
     print("%s/%s/fastqc_data.txt" % (tmp_dir, fastqc_dirs[0]))
     with open("%s/%s/fastqc_data.txt" % (tmp_dir, fastqc_dirs[0]), "r") as f:
