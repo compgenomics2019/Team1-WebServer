@@ -38,56 +38,55 @@
                 </div>
                 <div class="col-md-3 mb-3">
                     <label for="validationTooltip02">Input File</label>
-                    <select id="inputState" class="form-control">
+                    <select id="inputFile" name="inputFile" class="form-control">
                         @foreach ($files as $f)
                         <option>{{ $f }}</option>
                         @endforeach
-                            {{--<option>asfasf</option>--}}
                     </select>
                 </div>
                 <div class="col-md-3 mb-3">
                     <label for="validationTooltip01">Output file name</label>
-                    <input type="text" class="form-control" id="validationTooltip01" placeholder="output.gff" required>
+                    <input type="text" class="form-control" name="outputFile" id="outputFile" placeholder="output.gff" required>
                 </div>
                 <div class="col-md-3 mb-3">
                     <label for="validationTooltip01">Email notification</label>
-                    <input type="text" class="form-control" id="validationTooltip01" placeholder="example@gatech.edu" required>
+                    <input type="text" class="form-control" name="email" id="email" placeholder="example@gatech.edu" required>
                 </div>
             </div>
             <div class="form-row">
                 {{--assembly options--}}
                 <div class="col-md-6 mb-3">
-                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="run_genome_assembly" checked="checked">
+                    <input class="form-check-input" type="checkbox" name="doAssemble" id="inlineCheckbox1" value="1" checked="checked">
                     <label class="form-check-label" for="inlineCheckbox1">Assemble</label>
                 </div>
                 {{--gene prediction options--}}
                 <div class="col-md-6 mb-3">
-                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="run_gene_prediction">
+                    <input class="form-check-input" type="checkbox" name="doPrediction" id="inlineCheckbox1" value="1" checked="checked">
                     <label class="form-check-label" for="inlineCheckbox1">Gene Prediction</label>
                 </div>
             </div>
             {{--functional annotation options--}}
             <div class="form-row">
                 <div class="col-md-2 mb-3">
-                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="run_genome_assembly">
+                    <input class="form-check-input" type="checkbox" name="doAnnotation" id="inlineCheckbox1" value="1" checked="checked">
                     <label class="form-check-label" for="inlineCheckbox1">Functional Annotation</label>
                 </div>
                 <div class="col-md-4 mb-3">
                     <label>Choose a Tool</label>
                     <div style="margin-top:5px">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" id="inlineCheckbox1" value="option1">
+                            <input class="form-check-input" type="radio" name="annotationRadio" id="inlineCheckbox" value="vfdb" checked="checked">
                             <label class="form-check-label" for="inlineCheckbox1">vfDB</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" id="inlineCheckbox2" value="option2">
+                            <input class="form-check-input" type="radio" name="annotationRadio" id="inlineCheckbox" value="card">
                             <label class="form-check-label" for="inlineCheckbox2">CARD</label>
                         </div>
                     </div>
                 </div>
                 {{--comparative genomics options--}}
                 <div class="col-md-6 mb-3">
-                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="run_genome_assembly">
+                    <input class="form-check-input" type="checkbox" name="doComparative" id="inlineCheckbox1" value="1" checked="checked">
                     <label class="form-check-label" for="inlineCheckbox1">Comparative Analysis</label>
                 </div>
             </div>
