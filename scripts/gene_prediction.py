@@ -136,7 +136,7 @@ def main():
 	parser.add_argument('-f', help='File for assembled genome input.', required=True, type=str)
 	parser.add_argument('-p', help='Run Prodigal for ab-initio protein coding gene predictor.', required=False, action='store_true')
 	parser.add_argument('-g', help='Run GeneMarkS-2 for ab-initio protein coding gene predictor.', required=False, action='store_true')
-	parser.add_argument('-nc', help='Runs Aragorn and Barrnap for non-coding RNA prediction.', required=False, action='store_true')
+	parser.add_argument('-nc', help='Runs Bar Aragorn andrnap for non-coding RNA prediction.', required=False, action='store_true')
 	parser.add_argument('-ncs', help='Runs Aragorn and Barrnap independently.', required=False, action='store_true')
 	
 	args = parser.parse_args()
