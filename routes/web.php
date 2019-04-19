@@ -23,6 +23,10 @@ Route::get('output', function () {
     return view('output');
 });
 
+Route::get('output2', function () {
+    return view('output2');
+});
+
 Route::get('analysis', 'Home\FileManagerController@get_file_list');
 
 Route::get('start', 'Home\FileManagerController@start_analysis');
