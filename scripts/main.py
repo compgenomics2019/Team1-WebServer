@@ -397,19 +397,9 @@ def main(args):
     else:
         assemble_result = args.infasta
     if args.b:
-        if args.p:
-            prodigal(assemble_result, b_tmp)
-        if args.g:
-            genemark(assemble_result, b_tmp)
-        # Runs bedtools if both genemark and prodigal are selected
-        if (args.p and args.g):
-            bedtools_func(assemble_result, b_tmp)
-        # Default mode to run both prodigal and genemark with bedtools_func
-        if not args.p:
-            if not args.g:
-                prodigal(assemble_result, b_tmp)
-                genemark(assemble_result, b_tmp)
-                bedtools_func(assemble_result, b_tmp)
+        prodigal(assemble_result, b_tmp)
+        genemark(assemble_result, b_tmp)
+        bedtools_func(assemble_result, b_tmp)
         predict_result = ""
         # shutil.rmtree(b_tmp)
     else:
@@ -438,13 +428,8 @@ if __name__ == "__main__":
     parser.add_argument('-c', action="store_true", help='do step 3')
     parser.add_argument('-d', action="store_true", help='do step 4')
 
-    # parameters for genome assembly
-    # todo: hard code trimmomatic, tmp folder
-    # parameters for gene prediction
-    parser.add_argument('-p', help='Run Prodigal for ab-initio protein coding gene predictor.', required=False, action='store_true')
-    parser.add_argument('-g', help='Run GeneMarkS-2 for ab-initio protein coding gene predictor.', required=False, action='store_true')
-    parser.add_argument('-nc', help='Runs Aragorn and Barrnap for non-coding RNA prediction.', required=False, action='store_true')
-    parser.add_argument('-ncs', help='Runs Aragorn and Barrnap independently.', required=False, action='store_true')
+    # parameters for genome assembly: None
+    # parameters for gene prediction: None
     # parameters for functional annotation
 
     # parameters for comparative analysis
