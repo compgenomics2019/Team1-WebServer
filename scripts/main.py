@@ -140,23 +140,94 @@ def join(a,b, tmp):
 
 
 ## functional_annotation
-def vfdbBlast(inputFile, outputFile):
-    #BLAST input query against VFDB
-    #Filepaths assume script being run from predicta directory
-    subprocess.call(["team1tools/FunctionalAnnotation/ncbi-blast-2.9.0+/bin/blastn",
+def vfdbBlast(inputFile):
+
+    subprocess.call(["team1tools/FunctionalAnnotation/ncbi-blast-2.9.0+/bin/blastn", # todo: fix path
                     "-db", "team1tools/FunctionalAnnotation/vfDB",
                     "-query", inputFile,
                     "-num_threads", "4",
-                    "-evalue" ,"0.1",
+                    "-evalue" ,"1e-10",
                     "-outfmt", "'6 stitle qseqid pident qcovs qstart qend qseq evalue bitscore'",
                     "-best_hit_score_edge", "0.1",
                     "-best_hit_overhang", "0.1",
                     "-max_target_seqs", "1",
-                    "-out", outputFile])
+                    "-out", "vfdb_temp"])
 
+def vfdb_to_gff(inputFile, outputFile):
+
+    output_name = outputFile + ".gff"
+    output = open(output_name, "w+")
+
+    with open(inputFile,"r",encoding='latin-1') as fh:
+         for l in fh:
+             l=l.strip("\n").split("\t")
+             notes=l[0]
+             seqid=l[1]
+             start=l[5]
+             end=l[8]
+             output.write("{}\tVFDB-BLAST\tBacterial Virulent genes\t{}\t{}\t.\t.\t.\t{}\n".format(seqid,start,end,notes))
+    output.close()
+
+def vfdb(inputFile, outputFile):
+
+    vfdbBlast(inputFile)
+
+    vfdb_to_gff("vfdb_temp", outputFile)
+
+    subprocess.call(["rm", "vfdb_temp"])
+
+
+def CARD_rgi(inputFile):
+    card = "/team1tools/FunctionalAnnotation/rgi-4.2.2/card.json"
+    model = "/team1tools/FunctionalAnnotation/rgi-4.2.2/protein_fasta_protein_homolog_model.fasta"  # todo: fix path
+
+    subprocess.run(["rgi", "load",
+                    "-i", card,
+                    "--card_annotation", model,
+                    "--local"])
+
+    subprocess.run(["rgi", "main",
+                    "-i", inputFile,
+                    "-o", "card_temp",
+                    "--input_type", "protein",
+                    "--local"])
+
+
+def rgi_to_gff(inputFile, outputFile):
+    file = open(inputFile, 'r', encoding='latin-1')
+    next(file)
+
+    output_name = outputFile + ".gff"
+    output = open(output_name, "w")
+    output.write("##gff-version 3\n")
+
+    for line in file:
+        line = re.sub('\s+', '\t', line).strip().split("\t")
+        # print(line)
+        seqid = line[0]
+        start = line[2]
+        end = line[4]
+        notes = line[12:-5]
+        notes = ';'.join(notes)
+        output.write("{}\tRGI-CARD\tAntibiotic resistant genes\t{}\t{}\t.\t.\t.\t{}\n".format(seqid, start, end, notes))
+
+    file.close()
+    output.close()
+
+
+def CARD(inputFile, outputFile):
+    cardtemp = "card_temp.txt"
+    cardtemp2 = "card_temp.json"
+
+    CARD_rgi(inputFile)
+
+    rgi_to_gff(cardtemp, outputFile)
+
+    subprocess.call(["rm", cardtemp])
+    subprocess.call(["rm", cardtemp2])
 
 ## gene assembly
-def assemble_genomes(_tmp_dir,  _out_name):
+def assemble_genomes(_tmp_dir,  tmp_next, results):
     """
     run different assemblers and choose the best result
     :param _tmp_dir: tmp directory
@@ -165,11 +236,9 @@ def assemble_genomes(_tmp_dir,  _out_name):
     """
     # spades
     run_spades(_tmp_dir)
-
     # quast
     subprocess.call(["../../team1tools/GenomeAssembly/quast-5.0.2/quast.py",  _tmp_dir + "/spades/scaffolds.fasta", "-o", _tmp_dir + "/quast"])
     quast_result = "%s/quast/report.tsv" % _tmp_dir
-
     try:
        result = pd.read_table(quast_result, index_col=0)
     except FileNotFoundError:
@@ -177,9 +246,10 @@ def assemble_genomes(_tmp_dir,  _out_name):
        print("Abort")
        return
     result.loc["score"] = np.log(result.loc["Total length (>= 0 bp)"] * result.loc["N50"] / result.loc["# contigs"])
-    result.to_csv("final_quast.csv", header=True, index=True)
+    result.to_csv(results + "/quast.csv", header=True, index=True)
     print("-" * 20 + "quast finished" + "-" * 20)
-    subprocess.call(["mv", _tmp_dir + "/spades/scaffolds.fasta", _out_name])
+
+    subprocess.call(["mv", _tmp_dir + "/spades/scaffolds.fasta", tmp_next + "/input.fasta"])
 
 
 def run_spades(_tmp_dir):
@@ -188,7 +258,7 @@ def run_spades(_tmp_dir):
     :param _tmp_dir: tmp directory
     :return: output contigs file name
     """
-    spades_cmd =["../../team1tools/GenomeAssembly/SPAdes-3.11.1-Linux/bin/spades.py", "--phred-offset", "33", "-1", "{0}/trimmed_1P.fastq".format(_tmp_dir), "-2", "{0}/trimmed_2P.fastq".format(_tmp_dir), "-o", "{0}/spades".format(_tmp_dir)]
+    spades_cmd =["../../team1tools/GenomeAssembly/SPAdes-3.11.1-Linux/bin/spades.py", "--phred-offset", "33", "-k", "99", "-1", "{0}/trimmed_1P.fastq".format(_tmp_dir), "-2", "{0}/trimmed_2P.fastq".format(_tmp_dir), "-o", "{0}/spades".format(_tmp_dir)]
     if "trimmed_U.fastq" in os.listdir(_tmp_dir):
         spades_cmd.extend(["-s", "{0}/trimmed_U.fastq".format(_tmp_dir)])
     subprocess.call(spades_cmd)
@@ -329,7 +399,7 @@ def trim_files(input_files, tmp_dir, trimmomatic_jar):
     while trim_condition is not False:
         subprocess.call(["rm", "-rf", "{0}/trimmed_*.fastq".format(tmp_dir)])
         drop_rate = run_trim(trimmomatic_jar, input_files, tmp_dir, *trim_condition)
-        print("-" * 10, drop_rate)
+        # print("-" * 10, drop_rate)
         if drop_rate > 33 and trim_condition[0] != window_steps[-1]:
             trim_condition[0] = window_steps[window_steps.index(trim_condition[0]) + 1]
         else:
@@ -350,19 +420,24 @@ def trim_files(input_files, tmp_dir, trimmomatic_jar):
 
 ## main
 def main(args):
+    results = "../storage/app/public/results"
+    if not os.path.exists(results):
+        os.mkdir(results)
+    a_tmp = "../storage/app/public/assemble"
+    if not os.path.exists(a_tmp):
+        os.mkdir(a_tmp)
+    b_tmp = "../storage/app/public/prediction"
+    if not os.path.exists(b_tmp):
+        os.mkdir(b_tmp)
+
     if args.a:
-        a_tmp = "../storage/app/public/assemble"
-        if not os.path.exists(a_tmp):
-            os.mkdir(a_tmp)
         trim_files(args.infastq, a_tmp, "../../team1tools/GenomeAssembly/Trimmomatic-0.36/trimmomatic-0.36.jar")
-        assemble_result = assemble_genomes(a_tmp, args.outfile)  # todo: wait for larger file to test
+        assemble_genomes(a_tmp, b_tmp, results)  # todo: wait for larger file to test
+        assemble_result = b_tmp + "/input.fasta"
         shutil.rmtree(a_tmp)
     else:
         assemble_result = args.infasta
     if args.b:
-        b_tmp = "../storage/app/public/prediction"
-        if not os.path.exists(b_tmp):
-            os.mkdir(b_tmp)
         home = os.getcwd()
         if args.p:
             prodigal(assemble_result, b_tmp)
@@ -397,7 +472,7 @@ def main(args):
         annotation_result = args.infile
     if args.d:
         pass
-
+    shutil.rmtree(a_tmp)
 
     print("main.py finished!")
     # parse arguments and call proper functions

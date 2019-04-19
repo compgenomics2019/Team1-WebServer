@@ -79,6 +79,12 @@ class FileManagerController extends Controller
 
     public function start_analysis(Request $request)
     {
+        $input = $request->all();
+
+
+
+
+        dd($input);
         echo("<script>console.log('your script is running');</script>");
         $output = exec('../../t1g5/bin/python3 ../scripts/main.py', $array, $return);
         echo("<script>console.log('".$array."');</script>");
