@@ -33,6 +33,7 @@ def genemark(i, tmp):
     proteins = os.path.join(tmp + "/gms2results/proteinfasta","{}.faa".format(i.split(".")[0]))
     dir = i
     subprocess.call(["../../team1tools/GenePrediction/gms2_linux_64/gms2.pl", "--seq", dir, "--genome-type", "bacteria", "--output",gff,"--format","gff","--fnn",nucleotides,"--faa",proteins])
+    print("-" *20 + "genemark done")
 
 def prodigal(i, tmp):
     if os.path.exists(tmp + "/prodigalresults") != True:
@@ -49,6 +50,7 @@ def prodigal(i, tmp):
     gff = os.path.join(tmp + "/prodigalresults/gff","{}.gff".format(i.split(".")[0]))
     dir = i
     subprocess.call(["../../team1tools/GenePrediction/Prodigal/prodigal","-i",dir,"-a",protein,"-d",nucleotide,"-o",gff,"-f","gff"])
+    print("-" * 20 + "prodigal done")
 
 def bedtools_func(i, tmp):
     if os.path.exists(tmp + "/prodigal-genemark") != True:
@@ -86,6 +88,7 @@ def bedtools_func(i, tmp):
     #concatenates to get union
     cat = ['cat {0} {1} {2} > {3}'.format(intersect1,intersect2,common,union)]
     subprocess.call(cat,shell=True)
+    # dir = tmp + "/fai"
     dir = i
     #creates fasta index
     createfastaindex = ['../../team1tools/GenePrediction/samtools-1.9/bin/samtools','faidx',dir]
@@ -404,12 +407,11 @@ def main(args):
         predict_result = ""
         # shutil.rmtree(b_tmp)
     else:
-        predict_result = args.infile
-
+        predict_result = args.infasta
     if args.c:
         pass
     else:
-        annotation_result = args.infile
+        annotation_result = args.infasta
     if args.d:
         pass
     shutil.rmtree(a_tmp)

@@ -72,16 +72,13 @@
                     <label class="form-check-label" for="inlineCheckbox1">Functional Annotation</label>
                 </div>
                 <div class="col-md-4 mb-3">
-                    <label>Choose a Tool</label>
-                    <div style="margin-top:5px">
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="annotationRadio" id="inlineCheckbox" value="vfdb" checked="checked">
-                            <label class="form-check-label" for="inlineCheckbox1">vfDB</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="annotationRadio" id="inlineCheckbox" value="card">
-                            <label class="form-check-label" for="inlineCheckbox2">CARD</label>
-                        </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="annotationRadio" id="inlineCheckbox" value="vfdb" checked="checked">
+                        <label class="form-check-label" for="inlineCheckbox1">vfDB</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="annotationRadio" id="inlineCheckbox" value="card">
+                        <label class="form-check-label" for="inlineCheckbox2">CARD</label>
                     </div>
                 </div>
                 {{--comparative genomics options--}}
