@@ -341,10 +341,11 @@ def trim_files(input_files, tmp_dir, trimmomatic_jar):
     fastqc_dirs = ["", ""]
 
     # get fastqc for raw input
+    prefix = "../storage/app/uploads/"
     for i, file in enumerate(input_files):
         fastqc_dirs[i] = os.path.split(file)[-1].rstrip(".fastq") + "_fastqc"
         os.mkdir(tmp_dir + "/" + fastqc_dirs[i])
-        run_fastqc(file, tmp_dir + "/" + fastqc_dirs[i])
+        run_fastqc(prefix+file, tmp_dir + "/" + fastqc_dirs[i])
         os.remove("%s/%s.html" % (tmp_dir, fastqc_dirs[i]))
         os.remove("%s/%s.zip" % (tmp_dir, fastqc_dirs[i]))
     print("-" * 20 + "fastqc finished" + "-" * 20)
