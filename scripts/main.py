@@ -53,7 +53,7 @@ def prodigal(i, tmp):
     print("-" * 20 + "prodigal done")
 
 
-def bedtools_func(i, tmp):
+def bedtools_func(name, input, tmp):
     if os.path.exists(tmp + "/prodigal-genemark") != True:
         subprocess.call(['mkdir', tmp + '/prodigal-genemark'])
     if os.path.exists(tmp + "/prodigal-genemark/gfffiles") != True:
@@ -66,16 +66,16 @@ def bedtools_func(i, tmp):
         subprocess.call(['mkdir', tmp + '/prodigal-genemark/aminoacids'])
 
     # gets gff files from prodigal
-    prodigal_gff = os.path.join(tmp + '/prodigalresults', 'gff', '{}.gff'.format(i.split(".")[0]))
+    prodigal_gff = os.path.join(tmp + '/prodigalresults', 'gff', '{}.gff'.format(name))
     # gets gff files from genemark
-    genemark_gff = os.path.join(tmp + '/gms2results', 'gfffiles', '{}.gff'.format(i.split(".")[0]))
+    genemark_gff = os.path.join(tmp + '/gms2results', 'gfffiles', '{}.gff'.format(name))
     # gets intersect from genemark and prodigal
-    intersect1 = os.path.join(tmp + '/prodigal-genemark/gfffiles', '{}intersect1.gff'.format(i.split(".")[0]))
-    intersect2 = os.path.join(tmp + '/prodigal-genemark/gfffiles', '{}intersect2.gff'.format(i.split(".")[0]))
+    intersect1 = os.path.join(tmp + '/prodigal-genemark/gfffiles', '{}intersect1.gff'.format(name))
+    intersect2 = os.path.join(tmp + '/prodigal-genemark/gfffiles', '{}intersect2.gff'.format(name))
     # gets common from genemark and prodigal
-    common = os.path.join(tmp + '/prodigal-genemark/gfffiles', '{}common.gff'.format(i.split(".")[0]))
+    common = os.path.join(tmp + '/prodigal-genemark/gfffiles', '{}common.gff'.format(name))
     # gets union
-    union = os.path.join(tmp + '/prodigal-genemark/gfffilesunion', '{}union.gff'.format(i.split(".")[0]))
+    union = os.path.join(tmp + '/prodigal-genemark/gfffilesunion', '{}union.gff'.format(name))
     # command for intersect
     bedtools_intersect1 = ['../../team1tools/GenePrediction/bedtools2/bin/bedtools intersect -f 1.0 -r -wa -v -a {} -b {} > {}'.format(prodigal_gff, genemark_gff, intersect1)]
     bedtools_intersect2 = ['../../team1tools/GenePrediction/bedtools2/bin/bedtools intersect -f 1.0 -r -wa -v -b {} -a {} > {}'.format(prodigal_gff, genemark_gff, intersect2)]
@@ -90,18 +90,17 @@ def bedtools_func(i, tmp):
     cat = ['cat {0} {1} {2} > {3}'.format(intersect1, intersect2, common, union)]
     subprocess.call(cat, shell=True)
     # dir = tmp + "/fai"
-    dir = i
     # creates fasta index
-    createfastaindex = ['../../team1tools/GenePrediction/samtools-1.9/bin/samtools', 'faidx', dir]
+    createfastaindex = ['../../team1tools/GenePrediction/samtools-1.9/bin/samtools', 'faidx', input]
     subprocess.call(createfastaindex)
-    nucleotides = os.path.join(tmp, "prodigal-genemark/nucleotides", "{}.fna".format(i.split(".")[0]))
-    amino = os.path.join(tmp,"prodigal-genemark/aminoacids","{}.faa".format(i.split(".")[0]))
-    fastasequences = ['../../team1tools/GenePrediction/bedtools2/bin/bedtools', 'getfasta', '-fo', nucleotides, '-fi', dir, '-bed', union]
+    nucleotides = os.path.join(tmp, "prodigal-genemark/nucleotides", "{}.fna".format(name))
+    amino = os.path.join(tmp,"prodigal-genemark/aminoacids","{}.faa".format(name))
+    fastasequences = ['../../team1tools/GenePrediction/bedtools2/bin/bedtools', 'getfasta', '-fo', nucleotides, '-fi', input, '-bed', union]
     subprocess.call(fastasequences)
 
     dnatoaapy = os.path.join("../../team1tools/GenePrediction","nucl2prot.py")
     subprocess.call(['python3',dnatoaapy,nucleotides,amino])
-    subprocess.call(['rm', '-f', '{}.fai'.format(dir)])
+    subprocess.call(['rm', '-f', '{}.fai'.format(name)])
 
 
 ## functional_annotation
