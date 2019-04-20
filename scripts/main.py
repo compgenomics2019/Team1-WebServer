@@ -340,9 +340,9 @@ def trim_files(input_files, tmp_dir, trimmomatic_jar):
     # get fastqc for raw input
     for i, file in enumerate(input_files):
         fastqc_dirs[i] = os.path.split(file)[-1].rstrip(".fastq") + "_fastqc"
-        run_fastqc(file, tmp_dir)
-        # os.remove("%s/%s.html" % (tmp_dir, fastqc_dirs[i]))
-        # os.remove("%s/%s.zip" % (tmp_dir, fastqc_dirs[i]))
+        run_fastqc(file, tmp_dir + "/" + fastqc_dirs[i])
+        os.remove("%s/%s.html" % (tmp_dir, fastqc_dirs[i]))
+        os.remove("%s/%s.zip" % (tmp_dir, fastqc_dirs[i]))
     print("-" * 20 + "fastqc finished" + "-" * 20)
 
     with open("%s/%s/summary.txt" % (tmp_dir, fastqc_dirs[0]), "r") as f1, open("%s/%s/summary.txt" % (tmp_dir, fastqc_dirs[1]), "r") as f2:
