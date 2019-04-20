@@ -95,12 +95,12 @@ def bedtools_func(name, input, tmp):
     createfastaindex = ['../../team1tools/GenePrediction/samtools-1.9/bin/samtools', 'faidx', input]
     subprocess.call(createfastaindex)
     nucleotides = os.path.join(tmp, "prodigal-genemark/nucleotides", "{}.fna".format(name))
-    amino = os.path.join(tmp,"prodigal-genemark/aminoacids","{}.faa".format(name))
+    amino = os.path.join(tmp, "prodigal-genemark/aminoacids", "{}.faa".format(name))
     fastasequences = ['../../team1tools/GenePrediction/bedtools2/bin/bedtools', 'getfasta', '-fo', nucleotides, '-fi', input, '-bed', union]
     subprocess.call(fastasequences)
 
-    dnatoaapy = os.path.join("../../team1tools/GenePrediction","nucl2prot.py")
-    subprocess.call(['python3',dnatoaapy,nucleotides,amino])
+    dnatoaapy = os.path.join("../../team1tools/GenePrediction", "nucl2prot.py")
+    subprocess.call(['python3', dnatoaapy, nucleotides, amino])
     subprocess.call(['rm', '-f', '{}.fai'.format(name)])
     # todo: move result to uploads/predict
 
@@ -212,7 +212,7 @@ def assemble_genomes(_tmp_dir, jobname):
         print("Abort")
         return
     result.loc["score"] = np.log(result.loc["Total length (>= 0 bp)"] * result.loc["N50"] / result.loc["# contigs"])
-    result.to_csv("../storage/app/uploads/assemble/" +jobname + "_quast.csv", header=True, index=True)
+    result.to_csv("../storage/app/uploads/assemble/" + jobname + "_quast.csv", header=True, index=True)
     print("-" * 20 + "quast finished" + "-" * 20)
 
     subprocess.call(["mv", _tmp_dir + "/spades/scaffolds.fasta", "../storage/app/uploads/assemble/" + jobname + "_genome.fasta"])
@@ -239,8 +239,9 @@ def run_fake_trim(trimmomatic_jar, _input_files, _tmp_dir):
     :param _tmp_dir: tmp directory
     :return: None
     """
+    prefix = "../storage/app/uploads/"
     print("running fake trim")
-    command = ["java", "-jar", trimmomatic_jar, "PE", _input_files[0], _input_files[1], "-baseout", _tmp_dir + "/trimmed.fastq", "MINLEN:100"]
+    command = ["java", "-jar", trimmomatic_jar, "PE", prefix + _input_files[0], prefix + _input_files[1], "-baseout", _tmp_dir + "/trimmed.fastq", "MINLEN:100"]
     subprocess.call(command)
     subprocess.call(["rm", "-rf", "{0}/trimmed_*U.fastq".format(_tmp_dir)])
 
@@ -307,7 +308,7 @@ def run_trim(trimmomatic_jar, _input_files, _tmp_dir, window, threshold, headcro
     :return: drop rate of this trimming
     """
     prefix = "../storage/app/uploads/"
-    command = ["java", "-jar", trimmomatic_jar, "PE", prefix+_input_files[0],prefix+ _input_files[1], "-baseout", _tmp_dir + "/trimmed.fastq"]
+    command = ["java", "-jar", trimmomatic_jar, "PE", prefix + _input_files[0], prefix + _input_files[1], "-baseout", _tmp_dir + "/trimmed.fastq"]
     command.append("HEADCROP:%d" % headcrop)
     command.append("CROP:%d" % crop)
     command.extend(["SLIDINGWINDOW:%d:%d" % (window, threshold), "MINLEN:100"])
@@ -344,7 +345,7 @@ def trim_files(input_files, tmp_dir, trimmomatic_jar):
     for i, file in enumerate(input_files):
         fastqc_dirs[i] = os.path.split(file)[-1].rstrip(".fastq") + "_fastqc"
         os.mkdir(tmp_dir + "/" + fastqc_dirs[i])
-        run_fastqc(prefix+file, tmp_dir + "/" + fastqc_dirs[i])
+        run_fastqc(prefix + file, tmp_dir + "/" + fastqc_dirs[i])
         os.remove("{0}/{1}/{1}.html".format(tmp_dir, fastqc_dirs[i]))
         os.remove("{0}/{1}/{1}.zip".format(tmp_dir, fastqc_dirs[i]))
     print("-" * 20 + "fastqc finished" + "-" * 20)
@@ -378,7 +379,6 @@ def trim_files(input_files, tmp_dir, trimmomatic_jar):
         print("-" * 20 + "trim finished" + "-" * 20)
     if drop_rate > 33:
         run_fake_trim(trimmomatic_jar, input_files, tmp_dir)
-
 
 
 if __name__ == "__main__":
