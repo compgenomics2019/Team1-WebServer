@@ -228,7 +228,7 @@ def run_spades(_tmp_dir):
                   "{0}/trimmed_2P.fastq".format(_tmp_dir), "-o", "{0}/spades".format(_tmp_dir)]
     if "trimmed_U.fastq" in os.listdir(_tmp_dir):
         spades_cmd.extend(["-s", "{0}/trimmed_U.fastq".format(_tmp_dir)])
-    subprocess.call(spades_cmd)
+    subprocess.call(spades_cmd, stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
 
 
 def run_fake_trim(trimmomatic_jar, _input_files, _tmp_dir):
@@ -316,7 +316,7 @@ def run_trim(trimmomatic_jar, _input_files, _tmp_dir, window, threshold, headcro
     proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     proc.wait()
     out, trim_summary = proc.communicate()
-    print("----TRIM----", out, trim_summary)
+    # print("----TRIM----", out, trim_summary)
     if trim_summary:
         trim_summary = trim_summary.decode("utf-8")
         drop_rate = trim_summary.split("\n")[-3].split()[-1][1:-2]
@@ -420,12 +420,11 @@ if __name__ == "__main__":
         else:
             in_prediction = "../storage/app/uploads/assemble/" + args.j + "_genome.fasta"
         prodigal(args.j, in_prediction, tmp)
-        genemark(args.j, in_prediction, tmp)
-        bedtools_func(args.j, in_prediction, tmp)
-        predict_result = ""
-        # shutil.rmtree(b_tmp)
-    else:
-        predict_result = args.infasta
+        # genemark(args.j, in_prediction, tmp)
+        # bedtools_func(args.j, in_prediction, tmp)
+        subprocess.call(['mv', os.path.join(tmp + "/prodigalresults/protein", "{}.faa".format(args.j)), "../storage/app/uploads/prediction/"])
+        subprocess.call(['mv', os.path.join(tmp + "/prodigalresults/nucleotide", "{}.fna".format(args.j)), "../storage/app/uploads/prediction/"])
+        subprocess.call(['mv', os.path.join(tmp + "/prodigalresults/gff", "{}.gff".format(args.j)), "../storage/app/uploads/prediction/"])
     if args.c:
         annotation_result = "annotation"
         if args.f == "card":
@@ -438,4 +437,5 @@ if __name__ == "__main__":
         annotation_result = args.infasta
     if args.d:
         pass
+    subprocess.call(["rm", "-rf", "../storage/app/uploads/meinv"])
     print("main.py finished!")
