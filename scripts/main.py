@@ -405,7 +405,7 @@ def main(args):
     if args.b:
         prodigal(assemble_result, b_tmp)
         genemark(assemble_result, b_tmp)
-        bedtools_func(assemble_result, "input",  b_tmp)
+        bedtools_func("input", assemble_result, b_tmp)
         predict_result = ""
         # shutil.rmtree(b_tmp)
     else:
