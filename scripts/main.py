@@ -112,7 +112,7 @@ def vfdbBlast(inputFile):
                      "-query", inputFile,
                      "-num_threads", "4",
                      "-evalue", "1e-10",
-                     "-outfmt", "'6 stitle qseqid pident qcovs qstart qend qseq evalue bitscore'",
+                     "-outfmt", "6 stitle qseqid pident qcovs qstart qend qseq evalue bitscore",
                      "-best_hit_score_edge", "0.1",
                      "-best_hit_overhang", "0.1",
                      "-max_target_seqs", "1",
