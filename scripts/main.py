@@ -107,7 +107,7 @@ def bedtools_func(name, input, tmp):
 
 ## functional_annotation
 def vfdbBlast(inputFile):
-    subprocess.call(["team1tools/FunctionalAnnotation/ncbi-blast-2.9.0+/bin/blastn",  # todo: fix path
+    subprocess.call(["../../team1tools/FunctionalAnnotation/ncbi-blast-2.9.0+/bin/blastn",
                      "-db", "team1tools/FunctionalAnnotation/vfDB",
                      "-query", inputFile,
                      "-num_threads", "4",
@@ -116,7 +116,7 @@ def vfdbBlast(inputFile):
                      "-best_hit_score_edge", "0.1",
                      "-best_hit_overhang", "0.1",
                      "-max_target_seqs", "1",
-                     "-out", "vfdb_temp"])
+                     "-out", tmp + "/vfdb_temp"])
 
 
 def vfdb_to_gff(inputFile, outputFile):
@@ -137,25 +137,20 @@ def vfdb_to_gff(inputFile, outputFile):
 def vfdb(inputFile, outputFile):
     vfdbBlast(inputFile)
 
-    vfdb_to_gff("vfdb_temp", outputFile)
+    vfdb_to_gff(tmp + "/vfdb_temp", outputFile)
 
-    subprocess.call(["rm", "vfdb_temp"])
+    # subprocess.call(["rm", "-rf", tmp + "/vfdb_temp"])
 
 
 def CARD_rgi(inputFile):
-    card = "/team1tools/FunctionalAnnotation/rgi-4.2.2/card.json"
-    model = "/team1tools/FunctionalAnnotation/rgi-4.2.2/protein_fasta_protein_homolog_model.fasta"  # todo: fix path
+    card = "../../team1tools/FunctionalAnnotation/rgi-4.2.2/card.json"
+    model = "../../team1tools/FunctionalAnnotation/rgi-4.2.2/protein_fasta_protein_homolog_model.fasta"
 
-    subprocess.run(["rgi", "load",
-                    "-i", card,
-                    "--card_annotation", model,
-                    "--local"])
+    subprocess.run(["../../team1tools/FunctionalAnnotation/rgi-4.2.2/rgi", "load",
+                    "-i", card, "--card_annotation", model, "--local"])
 
-    subprocess.run(["rgi", "main",
-                    "-i", inputFile,
-                    "-o", "card_temp",
-                    "--input_type", "protein",
-                    "--local"])
+    subprocess.run(["../../team1tools/FunctionalAnnotation/rgi-4.2.2/rgi", "main", "-i",
+                    inputFile, "-o", tmp + "/card_temp", "--input_type", "protein", "--local"])
 
 
 def rgi_to_gff(inputFile, outputFile):
@@ -181,15 +176,15 @@ def rgi_to_gff(inputFile, outputFile):
 
 
 def CARD(inputFile, outputFile):
-    cardtemp = "card_temp.txt"
-    cardtemp2 = "card_temp.json"
+    cardtemp = tmp + "/card_temp.txt"
+    cardtemp2 = tmp + "/card_temp.json"
 
     CARD_rgi(inputFile)
 
     rgi_to_gff(cardtemp, outputFile)
 
-    subprocess.call(["rm", cardtemp])
-    subprocess.call(["rm", cardtemp2])
+    # subprocess.call(["rm", "-f", cardtemp])
+    # subprocess.call(["rm", "-f", cardtemp2])
 
 
 ## gene assembly
@@ -426,15 +421,12 @@ if __name__ == "__main__":
         subprocess.call(['mv', os.path.join(tmp + "/prodigalresults/nucleotide", "{}.fna".format(args.j)), "../storage/app/uploads/prediction/"])
         subprocess.call(['mv', os.path.join(tmp + "/prodigalresults/gff", "{}.gff".format(args.j)), "../storage/app/uploads/prediction/"])
     if args.c:
-        annotation_result = "annotation"
+        in_annotation_faa = "../storage/app/uploads/prediction/%s.faa"%args.j
+        in_annotation_fna = "../storage/app/uploads/prediction/%s.fna"%args.j
         if args.f == "card":
-            # CARD(predict_result, )
-            pass
+            CARD(in_annotation_faa, "../storage/app/uploads/annotation/%s.gff"%args.j)
         else:
-            # vfdb()
-            pass
-    else:
-        annotation_result = args.infasta
+            vfdb(in_annotation_fna, "../storage/app/uploads/annotation/%s.gff"%args.j)
     if args.d:
         pass
     subprocess.call(["rm", "-rf", "../storage/app/uploads/meinv"])
