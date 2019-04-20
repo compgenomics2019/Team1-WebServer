@@ -1,6 +1,4 @@
 // set the dimensions and margins of the graph
-
-console.log("running")
 $(document).ready(function() { 
 		var w = 900,
     h = 400,
