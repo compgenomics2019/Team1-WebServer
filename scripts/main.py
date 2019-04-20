@@ -411,7 +411,7 @@ if __name__ == "__main__":
         assemble_genomes(tmp, args.j)
     if args.b:
         if args.infasta:
-            in_prediction = args.infasta
+            in_prediction = "../storage/app/uploads/" + args.infasta
         else:
             in_prediction = "../storage/app/uploads/assemble/" + args.j + "_genome.fasta"
         prodigal(args.j, in_prediction, tmp)
