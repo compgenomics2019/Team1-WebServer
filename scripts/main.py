@@ -252,7 +252,10 @@ def run_fastqc(_input_file, _tmp_dir):
     :param _tmp_dir: tmp directory
     :return: None
     """
-    subprocess.call(["../../team1tools/GenomeAssembly/FastQC/fastqc", "--extract", "-o", _tmp_dir, _input_file], stderr=subprocess.DEVNULL)
+    fastqc = subprocess.Popen(["../../team1tools/GenomeAssembly/FastQC/fastqc", "--extract", "-o", _tmp_dir, _input_file], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    out, err = fastqc.communicate()
+    print(out)
+    print(err)
 
 
 def check_crop(_tmp_dir, _fastqc_dirs):
