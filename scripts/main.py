@@ -108,7 +108,7 @@ def bedtools_func(name, input, tmp):
 ## functional_annotation
 def vfdbBlast(inputFile):
     subprocess.call(["../../team1tools/FunctionalAnnotation/ncbi-blast-2.9.0+/bin/blastn",
-                     "-db", "team1tools/FunctionalAnnotation/vfDB",
+                     "-db", "../../team1tools/FunctionalAnnotation/vfDB",
                      "-query", inputFile,
                      "-num_threads", "4",
                      "-evalue", "1e-10",
