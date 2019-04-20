@@ -100,7 +100,7 @@ def bedtools_func(name, input, tmp):
     subprocess.call(fastasequences)
 
     dnatoaapy = os.path.join("../../team1tools/GenePrediction", "nucl2prot.py")
-    subprocess.call(['python3', dnatoaapy, nucleotides, amino])
+    subprocess.call(['../../t1g5/bin/python3', dnatoaapy, nucleotides, amino])
     subprocess.call(['rm', '-f', '{}.fai'.format(name)])
     # todo: move result to uploads/predict
 
@@ -242,7 +242,7 @@ def run_fake_trim(trimmomatic_jar, _input_files, _tmp_dir):
     prefix = "../storage/app/uploads/"
     print("running fake trim")
     command = ["java", "-jar", trimmomatic_jar, "PE", prefix + _input_files[0], prefix + _input_files[1], "-baseout", _tmp_dir + "/trimmed.fastq", "MINLEN:100"]
-    subprocess.call(command)
+    subprocess.call(command, stderr=subprocess.DEVNULL)
     subprocess.call(["rm", "-rf", "{0}/trimmed_*U.fastq".format(_tmp_dir)])
 
 
