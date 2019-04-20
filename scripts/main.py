@@ -252,10 +252,7 @@ def run_fastqc(_input_file, _tmp_dir):
     :param _tmp_dir: tmp directory
     :return: None
     """
-    fastqc = subprocess.Popen(["../../team1tools/GenomeAssembly/FastQC/fastqc", "--extract", "-o", _tmp_dir, _input_file], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    out, err = fastqc.communicate()
-    print(out)
-    print(err)
+    fastqc = subprocess.Popen(["../../team1tools/GenomeAssembly/FastQC/fastqc", "--extract", "-o", _tmp_dir, _input_file])
 
 
 def check_crop(_tmp_dir, _fastqc_dirs):
@@ -346,11 +343,11 @@ def trim_files(input_files, tmp_dir, trimmomatic_jar):
         fastqc_dirs[i] = os.path.split(file)[-1].rstrip(".fastq") + "_fastqc"
         os.mkdir(tmp_dir + "/" + fastqc_dirs[i])
         run_fastqc(prefix+file, tmp_dir + "/" + fastqc_dirs[i])
-        os.remove("%s/%s.html" % (tmp_dir, fastqc_dirs[i]))
-        os.remove("%s/%s.zip" % (tmp_dir, fastqc_dirs[i]))
+        os.remove("{0}/{1}/{1}.html".format(tmp_dir, fastqc_dirs[i]))
+        os.remove("{0}/{1}/{1}.zip".format(tmp_dir, fastqc_dirs[i]))
     print("-" * 20 + "fastqc finished" + "-" * 20)
 
-    with open("%s/%s/summary.txt" % (tmp_dir, fastqc_dirs[0]), "r") as f1, open("%s/%s/summary.txt" % (tmp_dir, fastqc_dirs[1]), "r") as f2:
+    with open("{0}/{1}/{1}/summary.txt".format(tmp_dir, fastqc_dirs[0]), "r") as f1, open("{0}/{1}/{1}/summary.txt".format(tmp_dir, fastqc_dirs[1]), "r") as f2:
         line1 = f1.readline()
         line1 = f1.readline()
         line2 = f2.readline()
