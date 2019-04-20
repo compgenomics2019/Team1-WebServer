@@ -429,5 +429,4 @@ if __name__ == "__main__":
             vfdb(in_annotation_fna, "../storage/app/uploads/annotation/%s.gff"%args.j)
     if args.d:
         pass
-    subprocess.call(["rm", "-rf", "../storage/app/uploads/meinv"])
     print("main.py finished!")
