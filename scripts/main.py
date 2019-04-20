@@ -267,7 +267,7 @@ def check_crop(_tmp_dir, _fastqc_dirs):
     for i, dir in enumerate(_fastqc_dirs):
         qualities = []
         positions = []
-        data_file_name = "%s/%s/fastqc_data.txt" % (_tmp_dir, dir)
+        data_file_name = "{0}/{1}/{1}/fastqc_data.txt".format(_tmp_dir, dir)
         with open(data_file_name, "r") as data:
             data_recorded = False
             for line in data:
