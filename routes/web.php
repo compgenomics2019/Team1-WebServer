@@ -27,9 +27,9 @@ Route::get('output2', function () {
     return view('output2');
 });
 
-Route::get('analysis', 'Home\FileManagerController@get_file_list');
+Route::get('analysis/start', 'Home\FileManagerController@start_analysis');
 
-Route::get('start', 'Home\FileManagerController@start_analysis');
+Route::get('analysis/{status}', 'Home\FileManagerController@get_file_list');
 
 Route::post('FileManager/file_upload', 'Home\FileManagerController@upload');
 

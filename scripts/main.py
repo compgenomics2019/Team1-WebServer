@@ -102,6 +102,7 @@ def bedtools_func(name, input, tmp):
     dnatoaapy = os.path.join("../../team1tools/GenePrediction","nucl2prot.py")
     subprocess.call(['python3',dnatoaapy,nucleotides,amino])
     subprocess.call(['rm', '-f', '{}.fai'.format(name)])
+    # todo: move result to uploads/predict
 
 
 ## functional_annotation
@@ -192,7 +193,7 @@ def CARD(inputFile, outputFile):
 
 
 ## gene assembly
-def assemble_genomes(_tmp_dir, tmp_next, results):
+def assemble_genomes(_tmp_dir, jobname):
     """
     run different assemblers and choose the best result
     :param _tmp_dir: tmp directory
@@ -211,10 +212,10 @@ def assemble_genomes(_tmp_dir, tmp_next, results):
         print("Abort")
         return
     result.loc["score"] = np.log(result.loc["Total length (>= 0 bp)"] * result.loc["N50"] / result.loc["# contigs"])
-    result.to_csv(results + "/quast.csv", header=True, index=True)
+    result.to_csv("../storage/app/uploads/assemble/" +jobname + "_quast.csv", header=True, index=True)
     print("-" * 20 + "quast finished" + "-" * 20)
 
-    subprocess.call(["mv", _tmp_dir + "/spades/scaffolds.fasta", tmp_next + "/input.fasta"])
+    subprocess.call(["mv", _tmp_dir + "/spades/scaffolds.fasta", "../storage/app/uploads/assemble/" + jobname + "_genome.fasta"])
 
 
 def run_spades(_tmp_dir):
@@ -362,6 +363,7 @@ def trim_files(input_files, tmp_dir, trimmomatic_jar):
             return
 
     trim_condition = [window_steps[0], 20, *check_crop(tmp_dir, fastqc_dirs)]
+    drop_rate = 100
     while trim_condition is not False:
         subprocess.call(["rm", "-rf", "{0}/trimmed_*.fastq".format(tmp_dir)])
         drop_rate = run_trim(trimmomatic_jar, input_files, tmp_dir, *trim_condition)
@@ -384,51 +386,15 @@ def trim_files(input_files, tmp_dir, trimmomatic_jar):
     return length
 
 
-## main
-def main(args):
-    results = "../storage/app/public/results"
-    if not os.path.exists(results):
-        os.mkdir(results)
-    a_tmp = "../storage/app/public/assemble"
-    if not os.path.exists(a_tmp):
-        os.mkdir(a_tmp)
-    b_tmp = "../storage/app/public/prediction"
-    if not os.path.exists(b_tmp):
-        os.mkdir(b_tmp)
-
-    if args.a:
-        trim_files(args.infastq, a_tmp, "../../team1tools/GenomeAssembly/Trimmomatic-0.36/trimmomatic-0.36.jar")
-        assemble_genomes(a_tmp, b_tmp, results)
-        assemble_result = b_tmp + "/input.fasta"
-        shutil.rmtree(a_tmp)
-    else:
-        assemble_result = args.infasta
-    if args.b:
-        prodigal("input", assemble_result, b_tmp)
-        genemark("input", assemble_result, b_tmp)
-        bedtools_func("input", assemble_result, b_tmp)
-        predict_result = ""
-        # shutil.rmtree(b_tmp)
-    else:
-        predict_result = args.infasta
-    if args.c:
-        pass
-    else:
-        annotation_result = args.infasta
-    if args.d:
-        pass
-    shutil.rmtree(a_tmp)
-
-    print("main.py finished!")
-    # parse arguments and call proper functions
-
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     # I/O parameters
     parser.add_argument('--infastq', metavar=("file1", "file2"), nargs=2, help='input fastq')
     parser.add_argument('--infasta', help='input fasta')
-    parser.add_argument('--outfile', required=True, help='output file name')
+    parser.add_argument('--outfile', help='output file name')
+    parser.add_argument('--jobname', required=True, help='jobname')
+
     parser.add_argument('-a', action="store_true", help='do step 1')
     parser.add_argument('-b', action="store_true", help='do step 2')
     parser.add_argument('-c', action="store_true", help='do step 3')
@@ -437,11 +403,43 @@ if __name__ == "__main__":
     # parameters for genome assembly: None
     # parameters for gene prediction: None
     # parameters for functional annotation
-
+    parser.add_argument('-f', help='card or vfdb')
     # parameters for comparative analysis
 
     # other parameters
     parser.add_argument('--email', default=None, help='email address(if given) used to send notification')
 
     args = parser.parse_args()
-    main(args)
+    tmp = "../storage/app/public/" + args.jobname
+    if not os.path.exists(tmp):
+        os.mkdir(tmp)
+    else:
+        shutil.rmtree(tmp)
+        os.mkdir(tmp)
+
+    if args.a:
+        trim_files(args.infastq, tmp, "../../team1tools/GenomeAssembly/Trimmomatic-0.36/trimmomatic-0.36.jar")
+        assemble_genomes(tmp, args.jobname)
+    if args.b:
+        if args.infasta:
+            in_prediction = args.infasta
+        else:
+            in_prediction = "../storage/app/uploads/assemble/" + args.jobname + "_genome.fasta"
+        prodigal(args.jobname, in_prediction, tmp)
+        genemark(args.jobname, in_prediction, tmp)
+        bedtools_func(args.jobname, in_prediction, tmp)
+        predict_result = ""
+        # shutil.rmtree(b_tmp)
+    else:
+        predict_result = args.infasta
+    if args.c:
+        annotation_result = "annotation"
+        if args.f == "card":
+            CARD(predict_result, )
+        else:
+            vfdb()
+    else:
+        annotation_result = args.infasta
+    if args.d:
+        pass
+    print("main.py finished!")

@@ -49,7 +49,7 @@
                 <div class="overlay" style="background-color: #edebeb">
                     <img class="img" style="width:100%; display: block; height:100%" src="img/compare.png">
                 </div>
-                <h5 style="font-family:verdana;text-align: center;"><a href={{url('analysis')}}>Start Analysis</a></h5>
+                <h5 style="font-family:verdana;text-align: center;"><a href={{url('analysis/ready')}}>Start Analysis</a></h5>
             </div>
             <div class="col">
                 <div class="overlay" style="background-color: #edebeb">

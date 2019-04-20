@@ -36,20 +36,28 @@
                 <div class="col-md-1 mb-3">
                     <p>I/O options:</p>
                 </div>
-                <div class="col-md-3 mb-3">
-                    <label for="validationTooltip02">Input File</label>
-                    <select id="inputFile" name="inputFile" class="form-control">
+                <div class="col-md-2 mb-3">
+                    <label for="validationTooltip02">InputFile#1</label>
+                    <select id="inputFile" name="inputFile1" class="form-control">
                         @foreach ($files as $f)
                         <option>{{ $f }}</option>
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-3 mb-3">
-                    <label for="validationTooltip01">Output file name</label>
-                    <input type="text" class="form-control" name="outputFile" id="outputFile" placeholder="output.gff" required>
+                <div class="col-md-2 mb-3">
+                    <label for="validationTooltip02">InputFile#2</label>
+                    <select id="inputFile" name="inputFile2" class="form-control">
+                        @foreach ($files as $f)
+                        <option>{{ $f }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-1 mb-3">
+                    <label for="validationTooltip01">JobName</label>
+                    <input type="text" class="form-control" name="jobName" id="jobname" placeholder="job1" required>
                 </div>
                 <div class="col-md-3 mb-3">
-                    <label for="validationTooltip01">Email notification</label>
+                    <label for="validationTooltip01">Email</label>
                     <input type="text" class="form-control" name="email" id="email" placeholder="example@gatech.edu" required>
                 </div>
             </div>
@@ -65,8 +73,7 @@
                     <label class="form-check-label" for="inlineCheckbox1">Gene Prediction</label>
                 </div>
             </div>
-            {{--functional annotation options--}}
-            <div class="form-row">
+            {{--functional annotation options--}}<div class="form-row">
                 <div class="col-md-2 mb-3">
                     <input class="form-check-input" type="checkbox" name="doAnnotation" id="inlineCheckbox1" value="1" checked="checked">
                     <label class="form-check-label" for="inlineCheckbox1">Functional Annotation</label>
@@ -95,7 +102,7 @@
 @endsection
 @section("main_container2")
     <div class="container">
-        <text>Output</text>
+        <p>{!! $prompt !!}</p>
     </div>
 @endsection
 @section("footer")

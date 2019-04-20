@@ -55,10 +55,26 @@ class FileManagerController extends Controller
         }
     }
 
-    public function get_file_list()
+    public function get_file_list($status)
     {
         $files = Storage::allFiles("/");
-        return view("analysis", compact("files"));
+        switch ($status) {
+            case "ready":
+                $prompt = "Please read tutorial carefully before start!";
+                break;
+
+            case "dupin":
+                $prompt = "Duplicate input file. Abort!";
+                break;
+
+            case "nojob":
+                $prompt = "please give a unique job name";
+                break;
+
+            case "noinput":
+                $prompt = "no input file! Abort!";
+        }
+        return view("analysis", compact("files", "prompt"));
     }
 
     // todo: robust
@@ -80,14 +96,41 @@ class FileManagerController extends Controller
     public function start_analysis(Request $request)
     {
         $input = $request->all();
+//        dd($input);
+        // check input
+        if ($request->input('inputFile1') == $request->input('inputFile2')){
+            return redirect("analysis/dupin");
+        }elseif (empty($request->input('inputFile1'))) {
+            return redirect("analysis/noinput");
+        }elseif (empty($request->input('jobName'))) {
+            return redirect("analysis/nojob");
+        }else{
+            // pass all pre check
+            $base_cmd = '../../t1g5/bin/python3 ../scripts/main.py -j '.$request->input('jobName');
+            if (!empty($request->input('doAssemble'))){
+                $base_cmd = $base_cmd." -a";
+                $input_file = " --infastq ".$request->input('inputFile1')." ".$request->input('inputFile2');
+            }
+            if (!empty($request->input('doPrediction'))){
+                $base_cmd = $base_cmd." -b";
+                if (!isset($input_file)){
+                    $input_file = " --infasta ".$request->input('inputFile1');
+                }
+            }
+            if (!empty($request->input('doAnnotation'))){
+                $base_cmd = $base_cmd." -c -f ".$request->input('annotationRadio');
+            }
+            if (!empty($request->input('doComparative'))){
+                $base_cmd = $base_cmd." -d";
+            }
+            $base_cmd = $base_cmd.$input_file;
 
-
-
-
-        dd($input);
+        }
+//        dd($base_cmd);
         echo("<script>console.log('your script is running');</script>");
-        $output = exec('../../t1g5/bin/python3 ../scripts/main.py', $array, $return);
+        exec($base_cmd, $array, $return);
         echo("<script>console.log('".$array."');</script>");
-        return view('index');
+        echo("<script>console.log('".$return."');</script>");
+        return view('about');
     }
 }
