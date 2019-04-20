@@ -147,10 +147,12 @@ def CARD_rgi(inputFile):
     model = "../../team1tools/FunctionalAnnotation/rgi-4.2.2/protein_fasta_protein_homolog_model.fasta"
 
     subprocess.run(["../../t1g5/bin/python3", "../../team1tools/FunctionalAnnotation/rgi-4.2.2/rgi", "load",
-                    "-i", card, "--card_annotation", model, "--local"])
+                    "-i", card, "--card_annotation", model])
+                       # , "--local"])
 
     subprocess.run(["../../t1g5/bin/python3", "../../team1tools/FunctionalAnnotation/rgi-4.2.2/rgi", "main", "-i",
-                    inputFile, "-o", tmp + "/card_temp", "--input_type", "protein", "--local"])
+                    inputFile, "-o", tmp + "/card_temp", "--input_type", "protein"])
+                       # , "--local"])
 
 
 def rgi_to_gff(inputFile, outputFile):
