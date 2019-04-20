@@ -404,8 +404,8 @@ def main(args):
     else:
         assemble_result = args.infasta
     if args.b:
-        prodigal(assemble_result, b_tmp)
-        genemark(assemble_result, b_tmp)
+        prodigal("input", assemble_result, b_tmp)
+        genemark("input", assemble_result, b_tmp)
         bedtools_func("input", assemble_result, b_tmp)
         predict_result = ""
         # shutil.rmtree(b_tmp)
