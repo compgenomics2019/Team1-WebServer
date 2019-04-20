@@ -120,7 +120,7 @@ def vfdbBlast(inputFile):
 
 
 def vfdb_to_gff(inputFile, outputFile):
-    output_name = outputFile + ".gff"
+    output_name = outputFile
     output = open(output_name, "w+")
 
     with open(inputFile, "r", encoding='latin-1') as fh:
@@ -146,10 +146,10 @@ def CARD_rgi(inputFile):
     card = "../../team1tools/FunctionalAnnotation/rgi-4.2.2/card.json"
     model = "../../team1tools/FunctionalAnnotation/rgi-4.2.2/protein_fasta_protein_homolog_model.fasta"
 
-    subprocess.run(["../../team1tools/FunctionalAnnotation/rgi-4.2.2/rgi", "load",
+    subprocess.run(["../../t1g5/bin/python3", "../../team1tools/FunctionalAnnotation/rgi-4.2.2/rgi", "load",
                     "-i", card, "--card_annotation", model, "--local"])
 
-    subprocess.run(["../../team1tools/FunctionalAnnotation/rgi-4.2.2/rgi", "main", "-i",
+    subprocess.run(["../../t1g5/bin/python3", "../../team1tools/FunctionalAnnotation/rgi-4.2.2/rgi", "main", "-i",
                     inputFile, "-o", tmp + "/card_temp", "--input_type", "protein", "--local"])
 
 
