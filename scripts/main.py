@@ -314,6 +314,7 @@ def run_trim(trimmomatic_jar, _input_files, _tmp_dir, window, threshold, headcro
     proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     proc.wait()
     out, trim_summary = proc.communicate()
+    print(trim_summary)
     if trim_summary:
         trim_summary = trim_summary.decode("utf-8")
         drop_rate = trim_summary.split("\n")[-3].split()[-1][1:-2]
@@ -369,7 +370,6 @@ def trim_files(input_files, tmp_dir, trimmomatic_jar):
     while trim_condition is not False:
         subprocess.call(["rm", "-rf", "{0}/trimmed_*.fastq".format(tmp_dir)])
         drop_rate = run_trim(trimmomatic_jar, input_files, tmp_dir, *trim_condition)
-        # print("-" * 10, drop_rate)
         if drop_rate > 33 and trim_condition[0] != window_steps[-1]:
             trim_condition[0] = window_steps[window_steps.index(trim_condition[0]) + 1]
         else:
@@ -377,15 +377,6 @@ def trim_files(input_files, tmp_dir, trimmomatic_jar):
         print("-" * 20 + "trim finished" + "-" * 20)
     if drop_rate > 33:
         run_fake_trim(trimmomatic_jar, input_files, tmp_dir)
-    length = "250"
-    print("%s/%s/fastqc_data.txt" % (tmp_dir, fastqc_dirs[0]))
-    with open("%s/%s/fastqc_data.txt" % (tmp_dir, fastqc_dirs[0]), "r") as f:
-        for line in f:
-            if line.startswith("Sequence length"):
-                # print(line)
-                length = line.strip().split()[-1]
-                break
-    return length
 
 
 
