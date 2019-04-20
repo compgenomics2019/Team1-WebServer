@@ -17,7 +17,7 @@ import re
 
 
 ## gene prediction
-def genemark(i, tmp):
+def genemark(name, input, tmp):
     if os.path.exists(tmp + "/gms2results") != True:
         subprocess.call(["mkdir", tmp + "/gms2results"])
     if os.path.exists(tmp + "/gms2results/gfffiles") != True:
@@ -27,15 +27,14 @@ def genemark(i, tmp):
     if os.path.exists(tmp + "/gms2results/proteinfasta") != True:
         subprocess.call(["mkdir", tmp + "/gms2results/proteinfasta"])
 
-    gff = os.path.join(tmp + "/gms2results/gfffiles", "{}.gff".format(i.split(".")[0]))
-    nucleotides = os.path.join(tmp + "/gms2results/nucleotidefasta", "{}.fna".format(i.split(".")[0]))
-    proteins = os.path.join(tmp + "/gms2results/proteinfasta", "{}.faa".format(i.split(".")[0]))
-    dir = i
-    subprocess.call(["../../team1tools/GenePrediction/gms2_linux_64/gms2.pl", "--seq", dir, "--genome-type", "bacteria", "--output", gff, "--format", "gff", "--fnn", nucleotides, "--faa", proteins])
+    gff = os.path.join(tmp + "/gms2results/gfffiles", "{}.gff".format(name))
+    nucleotides = os.path.join(tmp + "/gms2results/nucleotidefasta", "{}.fna".format(name))
+    proteins = os.path.join(tmp + "/gms2results/proteinfasta", "{}.faa".format(name))
+    subprocess.call(["../../team1tools/GenePrediction/gms2_linux_64/gms2.pl", "--seq", input, "--genome-type", "bacteria", "--output", gff, "--format", "gff", "--fnn", nucleotides, "--faa", proteins])
     print("-" * 20 + "genemark done")
 
 
-def prodigal(i, tmp):
+def prodigal(name, input, tmp):
     if os.path.exists(tmp + "/prodigalresults") != True:
         subprocess.call(["mkdir", tmp + "/prodigalresults"])
     if os.path.exists(tmp + "/prodigalresults/nucleotide") != True:
@@ -45,11 +44,12 @@ def prodigal(i, tmp):
     if os.path.exists(tmp + "/prodigalresults/gff") != True:
         subprocess.call(["mkdir", tmp + "/prodigalresults/gff"])
 
-    protein = os.path.join(tmp + "/prodigalresults/protein", "{}.faa".format(i.split(".")[0]))
-    nucleotide = os.path.join(tmp + "/prodigalresults/nucleotide", "{}.fna".format(i.split(".")[0]))
-    gff = os.path.join(tmp + "/prodigalresults/gff", "{}.gff".format(i.split(".")[0]))
-    dir = i
-    subprocess.call(["../../team1tools/GenePrediction/Prodigal/prodigal", "-i", dir, "-a", protein, "-d", nucleotide, "-o", gff, "-f", "gff"])
+    protein = os.path.join(tmp + "/prodigalresults/protein", "{}.faa".format(name))
+    nucleotide = os.path.join(tmp + "/prodigalresults/nucleotide", "{}.fna".format(name))
+    gff = os.path.join(tmp + "/prodigalresults/gff", "{}.gff".format(name))
+    subprocess.call(["../../team1tools/GenePrediction/Prodigal/prodigal", "-i", input, "-a", protein, "-d", nucleotide, "-o", gff, "-f", "gff"])
+    subprocess.call(['rm', '-f', 'GMS2.mod'])
+    subprocess.call(['rm', '-f', 'log'])
     print("-" * 20 + "prodigal done")
 
 
@@ -85,10 +85,11 @@ def bedtools_func(name, input, tmp):
     subprocess.call(bedtools_intersect1, shell=True)
     subprocess.call(bedtools_intersect2, shell=True)
     subprocess.call(bedtools_common, shell=True)
-
+    print("common done")
     # concatenates to get union
     cat = ['cat {0} {1} {2} > {3}'.format(intersect1, intersect2, common, union)]
     subprocess.call(cat, shell=True)
+    print("cat done")
     # dir = tmp + "/fai"
     # creates fasta index
     createfastaindex = ['../../team1tools/GenePrediction/samtools-1.9/bin/samtools', 'faidx', input]
