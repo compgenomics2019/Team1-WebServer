@@ -306,7 +306,8 @@ def run_trim(trimmomatic_jar, _input_files, _tmp_dir, window, threshold, headcro
     :param crop: hard crop from end
     :return: drop rate of this trimming
     """
-    command = ["java", "-jar", trimmomatic_jar, "PE", _input_files[0], _input_files[1], "-baseout", _tmp_dir + "/trimmed.fastq"]
+    prefix = "../storage/app/uploads/"
+    command = ["java", "-jar", trimmomatic_jar, "PE", prefix+_input_files[0],prefix+ _input_files[1], "-baseout", _tmp_dir + "/trimmed.fastq"]
     command.append("HEADCROP:%d" % headcrop)
     command.append("CROP:%d" % crop)
     command.extend(["SLIDINGWINDOW:%d:%d" % (window, threshold), "MINLEN:100"])
