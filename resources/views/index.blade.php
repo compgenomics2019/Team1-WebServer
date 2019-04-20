@@ -47,19 +47,19 @@
         <div class="row">
             <div class="col">
                 <div class="overlay" style="background-color: #edebeb">
-                    <img class="img" style="width:100%; display: block; height:100%" src="img/compare.png">
+                    <img class="img" style="width:100%; display: block; height:100%" src="img/gears.png">
                 </div>
-                <h5 style="font-family:verdana;text-align: center;"><a href={{url('analysis/ready')}}>Start Analysis</a></h5>
+                <h5 style="font-family:verdana;text-align: center;"><a href={{url('analysis/ready')}}>Run</a></h5>
             </div>
             <div class="col">
                 <div class="overlay" style="background-color: #edebeb">
-                    <img class="img" style="width:100%; display: block; height:100%" src="img/compare.png">
+                    <img class="img" style="width:100%; display: block; height:100%" src="img/manual.png">
                 </div>
                 <h5 style="font-family:verdana;text-align: center;"><a href="https://compgenomics2019.biosci.gatech.edu/Team_I_Webserver_Group">Tutorial</a></h5>
             </div>
             <div class="col">
                 <div class="overlay" style="background-color: #edebeb">
-                    <img class="img" style="width:100%; display: block; height:100%" src="img/compare.png">
+                    <img class="img" style="width:100%; display: block; height:100%" src="img/team.png">
                 </div>
                 <h5 style="font-family:verdana;text-align: center;"><a href={{url('about')}}>About Us</a></h5>
             </div>
