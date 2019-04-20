@@ -18,121 +18,122 @@ import re
 
 ## gene prediction
 def genemark(i, tmp):
-
     if os.path.exists(tmp + "/gms2results") != True:
         subprocess.call(["mkdir", tmp + "/gms2results"])
     if os.path.exists(tmp + "/gms2results/gfffiles") != True:
-        subprocess.call(["mkdir",tmp + "/gms2results/gfffiles"])
+        subprocess.call(["mkdir", tmp + "/gms2results/gfffiles"])
     if os.path.exists(tmp + "/gms2results/nucleotidefasta") != True:
-        subprocess.call(["mkdir",tmp + "/gms2results/nucleotidefasta"])
+        subprocess.call(["mkdir", tmp + "/gms2results/nucleotidefasta"])
     if os.path.exists(tmp + "/gms2results/proteinfasta") != True:
-        subprocess.call(["mkdir",tmp + "/gms2results/proteinfasta"])
+        subprocess.call(["mkdir", tmp + "/gms2results/proteinfasta"])
 
-    gff = os.path.join(tmp + "/gms2results/gfffiles","{}.gff".format(i.split(".")[0]))
-    nucleotides = os.path.join(tmp + "/gms2results/nucleotidefasta","{}.fna".format(i.split(".")[0]))
-    proteins = os.path.join(tmp + "/gms2results/proteinfasta","{}.faa".format(i.split(".")[0]))
+    gff = os.path.join(tmp + "/gms2results/gfffiles", "{}.gff".format(i.split(".")[0]))
+    nucleotides = os.path.join(tmp + "/gms2results/nucleotidefasta", "{}.fna".format(i.split(".")[0]))
+    proteins = os.path.join(tmp + "/gms2results/proteinfasta", "{}.faa".format(i.split(".")[0]))
     dir = i
-    subprocess.call(["../../team1tools/GenePrediction/gms2_linux_64/gms2.pl", "--seq", dir, "--genome-type", "bacteria", "--output",gff,"--format","gff","--fnn",nucleotides,"--faa",proteins])
-    print("-" *20 + "genemark done")
+    subprocess.call(["../../team1tools/GenePrediction/gms2_linux_64/gms2.pl", "--seq", dir, "--genome-type", "bacteria", "--output", gff, "--format", "gff", "--fnn", nucleotides, "--faa", proteins])
+    print("-" * 20 + "genemark done")
+
 
 def prodigal(i, tmp):
     if os.path.exists(tmp + "/prodigalresults") != True:
-        subprocess.call(["mkdir",tmp + "/prodigalresults"])
+        subprocess.call(["mkdir", tmp + "/prodigalresults"])
     if os.path.exists(tmp + "/prodigalresults/nucleotide") != True:
-        subprocess.call(["mkdir",tmp + "/prodigalresults/nucleotide"])
+        subprocess.call(["mkdir", tmp + "/prodigalresults/nucleotide"])
     if os.path.exists(tmp + "/prodigalresults/protein") != True:
-        subprocess.call(["mkdir",tmp + "/prodigalresults/protein"])
+        subprocess.call(["mkdir", tmp + "/prodigalresults/protein"])
     if os.path.exists(tmp + "/prodigalresults/gff") != True:
-        subprocess.call(["mkdir",tmp + "/prodigalresults/gff"])
+        subprocess.call(["mkdir", tmp + "/prodigalresults/gff"])
 
-    protein = os.path.join(tmp + "/prodigalresults/protein","{}.faa".format(i.split(".")[0]))
-    nucleotide = os.path.join(tmp + "/prodigalresults/nucleotide","{}.fna".format(i.split(".")[0]))
-    gff = os.path.join(tmp + "/prodigalresults/gff","{}.gff".format(i.split(".")[0]))
+    protein = os.path.join(tmp + "/prodigalresults/protein", "{}.faa".format(i.split(".")[0]))
+    nucleotide = os.path.join(tmp + "/prodigalresults/nucleotide", "{}.fna".format(i.split(".")[0]))
+    gff = os.path.join(tmp + "/prodigalresults/gff", "{}.gff".format(i.split(".")[0]))
     dir = i
-    subprocess.call(["../../team1tools/GenePrediction/Prodigal/prodigal","-i",dir,"-a",protein,"-d",nucleotide,"-o",gff,"-f","gff"])
+    subprocess.call(["../../team1tools/GenePrediction/Prodigal/prodigal", "-i", dir, "-a", protein, "-d", nucleotide, "-o", gff, "-f", "gff"])
     print("-" * 20 + "prodigal done")
+
 
 def bedtools_func(i, tmp):
     if os.path.exists(tmp + "/prodigal-genemark") != True:
-        subprocess.call(['mkdir',tmp + '/prodigal-genemark'])
+        subprocess.call(['mkdir', tmp + '/prodigal-genemark'])
     if os.path.exists(tmp + "/prodigal-genemark/gfffiles") != True:
-        subprocess.call(['mkdir',tmp + '/prodigal-genemark/gfffiles'])
+        subprocess.call(['mkdir', tmp + '/prodigal-genemark/gfffiles'])
     if os.path.exists(tmp + "/prodigal-genemark/gfffilesunion") != True:
-        subprocess.call(['mkdir',tmp + '/prodigal-genemark/gfffilesunion'])
+        subprocess.call(['mkdir', tmp + '/prodigal-genemark/gfffilesunion'])
     if os.path.exists(tmp + "/prodigal-genemark/nucleotides") != True:
-        subprocess.call(['mkdir',tmp + '/prodigal-genemark/nucleotides'])
+        subprocess.call(['mkdir', tmp + '/prodigal-genemark/nucleotides'])
     if os.path.exists(tmp + "/prodigal-genemark/aminoacids") != True:
-        subprocess.call(['mkdir',tmp + '/prodigal-genemark/aminoacids'])
+        subprocess.call(['mkdir', tmp + '/prodigal-genemark/aminoacids'])
 
-    #gets gff files from prodigal
-    prodigal_gff = os.path.join(tmp + '/prodigalresults','gff','{}.gff'.format(i.split(".")[0]))
-    #gets gff files from genemark
-    genemark_gff = os.path.join(tmp + '/gms2results','gfffiles','{}.gff'.format(i.split(".")[0]))
-    #gets intersect from genemark and prodigal
-    intersect1 = os.path.join(tmp + '/prodigal-genemark/gfffiles','{}intersect1.gff'.format(i.split(".")[0]))
-    intersect2 = os.path.join(tmp + '/prodigal-genemark/gfffiles','{}intersect2.gff'.format(i.split(".")[0]))
-    #gets common from genemark and prodigal
-    common = os.path.join(tmp + '/prodigal-genemark/gfffiles','{}common.gff'.format(i.split(".")[0]))
-    #gets union
-    union = os.path.join(tmp + '/prodigal-genemark/gfffilesunion','{}union.gff'.format(i.split(".")[0]))
-    #command for intersect
-    bedtools_intersect1 = ['../../team1tools/GenePrediction/bedtools2/bin/bedtools intersect -f 1.0 -r -wa -v -a {} -b {} > {}'.format(prodigal_gff,genemark_gff,intersect1)]
-    bedtools_intersect2 = ['../../team1tools/GenePrediction/bedtools2/bin/bedtools intersect -f 1.0 -r -wa -v -b {} -a {} > {}'.format(prodigal_gff,genemark_gff,intersect2)]
-    #command for common
-    bedtools_common = ['../../team1tools/GenePrediction/bedtools2/bin/bedtools intersect -f 1.0  -r -a {} -b {} > {}'.format(prodigal_gff,genemark_gff,common)]
+    # gets gff files from prodigal
+    prodigal_gff = os.path.join(tmp + '/prodigalresults', 'gff', '{}.gff'.format(i.split(".")[0]))
+    # gets gff files from genemark
+    genemark_gff = os.path.join(tmp + '/gms2results', 'gfffiles', '{}.gff'.format(i.split(".")[0]))
+    # gets intersect from genemark and prodigal
+    intersect1 = os.path.join(tmp + '/prodigal-genemark/gfffiles', '{}intersect1.gff'.format(i.split(".")[0]))
+    intersect2 = os.path.join(tmp + '/prodigal-genemark/gfffiles', '{}intersect2.gff'.format(i.split(".")[0]))
+    # gets common from genemark and prodigal
+    common = os.path.join(tmp + '/prodigal-genemark/gfffiles', '{}common.gff'.format(i.split(".")[0]))
+    # gets union
+    union = os.path.join(tmp + '/prodigal-genemark/gfffilesunion', '{}union.gff'.format(i.split(".")[0]))
+    # command for intersect
+    bedtools_intersect1 = ['../../team1tools/GenePrediction/bedtools2/bin/bedtools intersect -f 1.0 -r -wa -v -a {} -b {} > {}'.format(prodigal_gff, genemark_gff, intersect1)]
+    bedtools_intersect2 = ['../../team1tools/GenePrediction/bedtools2/bin/bedtools intersect -f 1.0 -r -wa -v -b {} -a {} > {}'.format(prodigal_gff, genemark_gff, intersect2)]
+    # command for common
+    bedtools_common = ['../../team1tools/GenePrediction/bedtools2/bin/bedtools intersect -f 1.0  -r -a {} -b {} > {}'.format(prodigal_gff, genemark_gff, common)]
 
-    subprocess.call(bedtools_intersect1,shell=True)
-    subprocess.call(bedtools_intersect2,shell=True)
-    subprocess.call(bedtools_common,shell=True)
+    subprocess.call(bedtools_intersect1, shell=True)
+    subprocess.call(bedtools_intersect2, shell=True)
+    subprocess.call(bedtools_common, shell=True)
 
-    #concatenates to get union
-    cat = ['cat {0} {1} {2} > {3}'.format(intersect1,intersect2,common,union)]
-    subprocess.call(cat,shell=True)
+    # concatenates to get union
+    cat = ['cat {0} {1} {2} > {3}'.format(intersect1, intersect2, common, union)]
+    subprocess.call(cat, shell=True)
     # dir = tmp + "/fai"
     dir = i
-    #creates fasta index
-    createfastaindex = ['../../team1tools/GenePrediction/samtools-1.9/bin/samtools','faidx',dir]
+    # creates fasta index
+    createfastaindex = ['../../team1tools/GenePrediction/samtools-1.9/bin/samtools', 'faidx', dir]
     subprocess.call(createfastaindex)
-    # dnatoaapy = os.path.join(home,"nucltoprotein.py")
-    nucleotides = os.path.join(tmp,"prodigal-genemark/nucleotides","{}.fna".format(i.split(".")[0]))
-    # amino = os.path.join(home,"prodigal-genemark/aminoacids","{}.faa".format(i.split(".")[0]))
-    fastasequences = ['../../team1tools/GenePrediction/bedtools2/bin/bedtools','getfasta','-fo',nucleotides,'-fi',dir,'-bed',union]
+    nucleotides = os.path.join(tmp, "prodigal-genemark/nucleotides", "{}.fna".format(i.split(".")[0]))
+    amino = os.path.join(tmp,"prodigal-genemark/aminoacids","{}.faa".format(i.split(".")[0]))
+    fastasequences = ['../../team1tools/GenePrediction/bedtools2/bin/bedtools', 'getfasta', '-fo', nucleotides, '-fi', dir, '-bed', union]
     subprocess.call(fastasequences)
 
-    #subprocess.call(['python3',dnatoaapy,nucleotides,amino])
-    subprocess.call(['rm','-f','{}.fai'.format(dir)])
+    dnatoaapy = os.path.join("../../team1tools/GenePrediction","nucltoprotein.py")
+    subprocess.call(['python3',dnatoaapy,nucleotides,amino])
+    subprocess.call(['rm', '-f', '{}.fai'.format(dir)])
+
 
 ## functional_annotation
 def vfdbBlast(inputFile):
+    subprocess.call(["team1tools/FunctionalAnnotation/ncbi-blast-2.9.0+/bin/blastn",  # todo: fix path
+                     "-db", "team1tools/FunctionalAnnotation/vfDB",
+                     "-query", inputFile,
+                     "-num_threads", "4",
+                     "-evalue", "1e-10",
+                     "-outfmt", "'6 stitle qseqid pident qcovs qstart qend qseq evalue bitscore'",
+                     "-best_hit_score_edge", "0.1",
+                     "-best_hit_overhang", "0.1",
+                     "-max_target_seqs", "1",
+                     "-out", "vfdb_temp"])
 
-    subprocess.call(["team1tools/FunctionalAnnotation/ncbi-blast-2.9.0+/bin/blastn", # todo: fix path
-                    "-db", "team1tools/FunctionalAnnotation/vfDB",
-                    "-query", inputFile,
-                    "-num_threads", "4",
-                    "-evalue" ,"1e-10",
-                    "-outfmt", "'6 stitle qseqid pident qcovs qstart qend qseq evalue bitscore'",
-                    "-best_hit_score_edge", "0.1",
-                    "-best_hit_overhang", "0.1",
-                    "-max_target_seqs", "1",
-                    "-out", "vfdb_temp"])
 
 def vfdb_to_gff(inputFile, outputFile):
-
     output_name = outputFile + ".gff"
     output = open(output_name, "w+")
 
-    with open(inputFile,"r",encoding='latin-1') as fh:
-         for l in fh:
-             l=l.strip("\n").split("\t")
-             notes=l[0]
-             seqid=l[1]
-             start=l[5]
-             end=l[8]
-             output.write("{}\tVFDB-BLAST\tBacterial Virulent genes\t{}\t{}\t.\t.\t.\t{}\n".format(seqid,start,end,notes))
+    with open(inputFile, "r", encoding='latin-1') as fh:
+        for l in fh:
+            l = l.strip("\n").split("\t")
+            notes = l[0]
+            seqid = l[1]
+            start = l[5]
+            end = l[8]
+            output.write("{}\tVFDB-BLAST\tBacterial Virulent genes\t{}\t{}\t.\t.\t.\t{}\n".format(seqid, start, end, notes))
     output.close()
 
-def vfdb(inputFile, outputFile):
 
+def vfdb(inputFile, outputFile):
     vfdbBlast(inputFile)
 
     vfdb_to_gff("vfdb_temp", outputFile)
@@ -189,8 +190,9 @@ def CARD(inputFile, outputFile):
     subprocess.call(["rm", cardtemp])
     subprocess.call(["rm", cardtemp2])
 
+
 ## gene assembly
-def assemble_genomes(_tmp_dir,  tmp_next, results):
+def assemble_genomes(_tmp_dir, tmp_next, results):
     """
     run different assemblers and choose the best result
     :param _tmp_dir: tmp directory
@@ -200,14 +202,14 @@ def assemble_genomes(_tmp_dir,  tmp_next, results):
     # spades
     run_spades(_tmp_dir)
     # quast
-    subprocess.call(["../../team1tools/GenomeAssembly/quast-5.0.2/quast.py",  _tmp_dir + "/spades/scaffolds.fasta", "-o", _tmp_dir + "/quast"])
+    subprocess.call(["../../team1tools/GenomeAssembly/quast-5.0.2/quast.py", _tmp_dir + "/spades/scaffolds.fasta", "-o", _tmp_dir + "/quast"])
     quast_result = "%s/quast/report.tsv" % _tmp_dir
     try:
-       result = pd.read_table(quast_result, index_col=0)
+        result = pd.read_table(quast_result, index_col=0)
     except FileNotFoundError:
-       print("quast report does not exist!")
-       print("Abort")
-       return
+        print("quast report does not exist!")
+        print("Abort")
+        return
     result.loc["score"] = np.log(result.loc["Total length (>= 0 bp)"] * result.loc["N50"] / result.loc["# contigs"])
     result.to_csv(results + "/quast.csv", header=True, index=True)
     print("-" * 20 + "quast finished" + "-" * 20)
@@ -221,7 +223,8 @@ def run_spades(_tmp_dir):
     :param _tmp_dir: tmp directory
     :return: output contigs file name
     """
-    spades_cmd =["../../team1tools/GenomeAssembly/SPAdes-3.11.1-Linux/bin/spades.py", "--phred-offset", "33", "-k", "99", "-1", "{0}/trimmed_1P.fastq".format(_tmp_dir), "-2", "{0}/trimmed_2P.fastq".format(_tmp_dir), "-o", "{0}/spades".format(_tmp_dir)]
+    spades_cmd = ["../../team1tools/GenomeAssembly/SPAdes-3.11.1-Linux/bin/spades.py", "--phred-offset", "33", "-k", "99", "-1", "{0}/trimmed_1P.fastq".format(_tmp_dir), "-2",
+                  "{0}/trimmed_2P.fastq".format(_tmp_dir), "-o", "{0}/spades".format(_tmp_dir)]
     if "trimmed_U.fastq" in os.listdir(_tmp_dir):
         spades_cmd.extend(["-s", "{0}/trimmed_U.fastq".format(_tmp_dir)])
     subprocess.call(spades_cmd)
@@ -306,7 +309,7 @@ def run_trim(trimmomatic_jar, _input_files, _tmp_dir, window, threshold, headcro
     command.append("HEADCROP:%d" % headcrop)
     command.append("CROP:%d" % crop)
     command.extend(["SLIDINGWINDOW:%d:%d" % (window, threshold), "MINLEN:100"])
-    #print("trim cmd", command)
+    # print("trim cmd", command)
     proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     proc.wait()
     out, trim_summary = proc.communicate()
@@ -375,7 +378,7 @@ def trim_files(input_files, tmp_dir, trimmomatic_jar):
     with open("%s/%s/fastqc_data.txt" % (tmp_dir, fastqc_dirs[0]), "r") as f:
         for line in f:
             if line.startswith("Sequence length"):
-                #print(line)
+                # print(line)
                 length = line.strip().split()[-1]
                 break
     return length
