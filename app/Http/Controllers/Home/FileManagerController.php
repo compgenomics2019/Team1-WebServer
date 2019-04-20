@@ -127,7 +127,7 @@ class FileManagerController extends Controller
         }
 //        dd($base_cmd);
         echo("<script>console.log('your script is running');</script>");
-        exec($base_cmd, $array, $return);
+        exec($base_cmd." 2>&1", $array, $return);
         echo("<script>console.log('".$return."');</script>");
         dd($array);
         return view('about');
