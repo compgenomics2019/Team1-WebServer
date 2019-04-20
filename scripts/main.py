@@ -315,6 +315,7 @@ def run_trim(trimmomatic_jar, _input_files, _tmp_dir, window, threshold, headcro
     proc.wait()
     out, trim_summary = proc.communicate()
     print(trim_summary)
+    return 0
     if trim_summary:
         trim_summary = trim_summary.decode("utf-8")
         drop_rate = trim_summary.split("\n")[-3].split()[-1][1:-2]
