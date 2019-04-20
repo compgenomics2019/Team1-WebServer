@@ -85,7 +85,6 @@ class FileManagerController extends Controller
         switch ($request->btn) {
             case "download":
                 return Storage::download($category . "/" . $fileName);  // todo: test download
-                break;
 
             case "delete":
                 Storage::delete($category . "/" . $fileName);
@@ -129,8 +128,8 @@ class FileManagerController extends Controller
 //        dd($base_cmd);
         echo("<script>console.log('your script is running');</script>");
         exec($base_cmd, $array, $return);
-        dd($array);
         echo("<script>console.log('".$return."');</script>");
+        dd($array);
         return view('about');
     }
 }
