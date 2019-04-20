@@ -99,7 +99,7 @@ def bedtools_func(i, tmp):
     fastasequences = ['../../team1tools/GenePrediction/bedtools2/bin/bedtools', 'getfasta', '-fo', nucleotides, '-fi', dir, '-bed', union]
     subprocess.call(fastasequences)
 
-    dnatoaapy = os.path.join("../../team1tools/GenePrediction","nucltoprotein.py")
+    dnatoaapy = os.path.join("../../team1tools/GenePrediction","nucl2prot.py")
     subprocess.call(['python3',dnatoaapy,nucleotides,amino])
     subprocess.call(['rm', '-f', '{}.fai'.format(dir)])
 
