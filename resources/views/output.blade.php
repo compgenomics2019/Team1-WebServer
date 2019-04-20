@@ -3,6 +3,7 @@
 <head>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
+	<link href="{{ asset('css/StackedPlot.css') }}" rel="stylesheet" type="text/css" >
 </head>
 <body>
 
@@ -31,63 +32,57 @@
     </nav>
 @endsection
 @section("main_container")
-<div class="container" style="max-width:90%">
-	<label id="show-length"><input type="checkbox"> Show branch length</label><br>
+<div class="tab">
+  <button class="tablinks active" onclick="openCity(event, 'London')">Phylogenetic Trees</button>
+  <button class="tablinks" onclick="openCity(event, 'Paris')">Heatmaps</button>
+  <button class="tablinks" onclick="openCity(event, 'Tokyo')">Time Series</button>
+</div>
 
-	<input type="radio" name="gender" value="0"> Source Site
-	<input type="radio" name="gender" value="1"> Source Type
-	<input type="radio" name="gender" value="2" checked> State
+
+<div id="London" class="tabcontent" style="display: block;">
+<div class="container" style="max-width:90%">
 	<div class="row">
 		  <div class="column">
-		   
-			<div id="main" class="container" style="margin-top:100px">
+		    <div style="margin-top:50px;margin-left:50px">
+		   	<label id="show-length"><input type="checkbox"> Show branch length</label><br>
+			<input type="radio" name="gender" value="0"> Source Site
+			<input type="radio" name="gender" value="1"> Source Type
+			<input type="radio" name="gender" value="2" checked> State
+			</div>
+			<div id="main" class="container" style="margin-top:40px">
 			</div>
 			<script type="text/javascript" src="{{ URL::asset('js/StackedPlot.js') }}"></script>
 		  </div>
 		  <div class="column">
-				<div id="drop"></div>
+				<div id="drop" style="max-height:540px"></div>
 		  </div>
     </div>
 </div>
-<style>
-		body {
-		  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-		  margin: 0;
-		}
+</div>
 
-		#show-length {
-		  position: absolute;
-		}
 
-		.links {
-		  fill: none;
-		  stroke: #000;
-		  stroke-width:5
-		}
 
-		.link-extensions {
-		  fill: none;
-		  stroke: #000;
-		  stroke-opacity: .25;
-		}
 
-		.labels {
-		  font: 10px sans-serif;
-		}
 
-		.link--active {
-		  stroke: #000 !important;
-		  stroke-width: 1.5px;
-		}
 
-		.link-extension--active {
-		  stroke-opacity: .6;
-		}
+<div id="Paris" class="tabcontent">
+	<div class="container" style="max-width:90%">
+		<div class="row">
+		  <div class="column" style="width:50%; text-align:center"">
+				<div id="my_dataviz"></div> 
+		  </div>
+		  <div class="column" style="width:50%; text-align:center">
+				<div id="Virulence"></div> 
+		  </div>
+		</div>
+	</div>
+  <script type="text/javascript" src="{{ URL::asset('js/Heatmap.js') }}"></script>
+</div>
 
-		.label--active {
-		  font-weight: bold;
-		}
-</style>
+<div id="Tokyo" class="tabcontent">
+  <h3>Tokyo</h3>
+  <p>Tokyo is the capital of Japan.</p>
+</div>
 @endsection
 @section("main_container2")
 @endsection
