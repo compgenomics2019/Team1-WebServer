@@ -410,7 +410,7 @@ if __name__ == "__main__":
     parser.add_argument('--email', default=None, help='email address(if given) used to send notification')
 
     args = parser.parse_args()
-    tmp = "../storage/app/public/" + args.jobname
+    tmp = "../storage/app/public/" + args.j
     if not os.path.exists(tmp):
         os.mkdir(tmp)
     else:
@@ -419,15 +419,15 @@ if __name__ == "__main__":
 
     if args.a:
         trim_files(args.infastq, tmp, "../../team1tools/GenomeAssembly/Trimmomatic-0.36/trimmomatic-0.36.jar")
-        assemble_genomes(tmp, args.jobname)
+        assemble_genomes(tmp, args.j)
     if args.b:
         if args.infasta:
             in_prediction = args.infasta
         else:
-            in_prediction = "../storage/app/uploads/assemble/" + args.jobname + "_genome.fasta"
-        prodigal(args.jobname, in_prediction, tmp)
-        genemark(args.jobname, in_prediction, tmp)
-        bedtools_func(args.jobname, in_prediction, tmp)
+            in_prediction = "../storage/app/uploads/assemble/" + args.j + "_genome.fasta"
+        prodigal(args.j, in_prediction, tmp)
+        genemark(args.j, in_prediction, tmp)
+        bedtools_func(args.j, in_prediction, tmp)
         predict_result = ""
         # shutil.rmtree(b_tmp)
     else:
@@ -435,9 +435,11 @@ if __name__ == "__main__":
     if args.c:
         annotation_result = "annotation"
         if args.f == "card":
-            CARD(predict_result, )
+            # CARD(predict_result, )
+            pass
         else:
-            vfdb()
+            # vfdb()
+            pass
     else:
         annotation_result = args.infasta
     if args.d:
