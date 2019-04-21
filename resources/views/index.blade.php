@@ -169,7 +169,7 @@
             console.log("function is running");
             document.getElementById("Head").innerHTML = "Analysis Pipeline is running" + '<img src="img/ajax-loader.gif" alt="Wait" />';
             $.ajax({
-                url: 'start_ajax',
+                url: '/start_ajax',
                 method: 'get',
                 data: {
                     inputFile1: $('#inputFile1').val(),
