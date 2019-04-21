@@ -1,12 +1,3 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <link rel="stylesheet" href="/css/Home.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-</head>
-<body>
-
 @extends("main_template")
 
 @section('title', 'WebServer')
@@ -40,6 +31,7 @@
 @endsection
 
 @section("main_container2")
+
     <div class="container" style="text-align: center;">
         <ul id="progress">
             <li class="steps">Gene Assembly</li>
@@ -131,37 +123,59 @@
                                        checked="checked">
                                 <label class="form-check-label" for="inlineCheckbox1">Gene Prediction</label>
                             </div>
-						</div>
-                            {{--functional annotation options--}}
-                            <div class="form-row">
-                                <div class="col-md-6 mb-3">
-                                    <input class="" type="checkbox" name="doAnnotation" id="inlineCheckbox1" value="1"
-                                           checked="checked">
-                                    <label class="form-check-label" for="inlineCheckbox1">Functional Annotation</label>
-                                </div>
-                                {{--comparative genomics options--}}
-                                <div class="col-md-6 mb-3">
-                                    <input class="" type="checkbox" name="doComparative" id="inlineCheckbox1" value="1"
-                                           checked="checked">
-                                    <label class="form-check-label" for="inlineCheckbox1">Comparative Analysis</label>
-                                </div>
+                        </div>
+                        {{--functional annotation options--}}
+                        <div class="form-row">
+                            <div class="col-md-6 mb-3">
+                                <input class="" type="checkbox" name="doAnnotation" id="inlineCheckbox1" value="1"
+                                       checked="checked">
+                                <label class="form-check-label" for="inlineCheckbox1">Functional Annotation</label>
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button class="btn btn-success" id="play" type="submit">Run</button>
+                            {{--comparative genomics options--}}
+                            <div class="col-md-6 mb-3">
+                                <input class="" type="checkbox" name="doComparative" id="inlineCheckbox1" value="1"
+                                       checked="checked">
+                                <label class="form-check-label" for="inlineCheckbox1">Comparative Analysis</label>
                             </div>
                         </div>
                     </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button class="btn btn-success" id="play" type="submit">Run</button>
+                    </div>
                 </form>
+                <div class="modal-footer">
+                    <button class="btn btn-success" type="button" disabled="disabled" id="delete_button"
+                            onClick="clickrun">Run2
+                    </button>
+                </div>
             </div>
         </div>
     </div>
     </div>
-<script>
-function myfunction(){
-	document.getElementById("Head").innerHTML="Analysis Pipeline "+ '<img src="/img/ajax-loader.gif" alt="Wait" />'
-}
-</script>
+    <script>
+        function myfunction() {
+            document.getElementById("Head").innerHTML = "Analysis Pipeline " + '<img src="img/ajax-loader.gif" alt="Wait" />'
+            jQuery.ajax({
+                url: "{{ url('analysis/start_ajax') }}",
+                method: 'get',
+                data: {
+                    name: jQuery('#inputFile1').val(),
+                    type: jQuery('#inputFile2').val(),
+                    price: jQuery('#price').val()
+                },
+                success: function (result) {
+                    console.log("succcess");
+                    console.log(result);
+                },
+                error: function (result) {
+                    console.log("error");
+                    console.log(result);
+                }
+            });
+        }
+
+    </script>
 @endsection
 @section("footer")
     <div class="container-fluid" style="background-color: black; position: fixed; left: 0; bottom: 0;">
