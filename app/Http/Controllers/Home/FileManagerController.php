@@ -118,7 +118,7 @@ class FileManagerController extends Controller
         return view('about');
     }
 
-    public function start_analysis_ajax(Request $request)
+    public function ajax_analysis(Request $request)
     {
         $input = $request->all();
 //        dd($input);

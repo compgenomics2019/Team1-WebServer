@@ -29,9 +29,9 @@ Route::get('output2', function () {
 
 Route::get('/', 'Home\FileManagerController@get_file_list');
 
-Route::get('start_ajax', 'Home\FileManagerController@start_analysis_ajax');
+Route::get('start_ajax', 'Home\FileManagerController@ajax_analysis');
 
-Route::get('analysis/start', 'Home\FileManagerController@start_analysis');
+//Route::get('analysis/start', 'Home\FileManagerController@start_analysis');
 
 
 Route::get('analysis/{status}', 'Home\FileManagerController@get_file_list');
