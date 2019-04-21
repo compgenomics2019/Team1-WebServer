@@ -125,11 +125,11 @@ class FileManagerController extends Controller
         // check input
         // todo: check if job name exists
         if ($request->input('inputFile1') == $request->input('inputFile2')){
-            return "error: dupin";
+            return response()->json(['error' => "error: dupin"], 404);
         }elseif (empty($request->input('inputFile1'))) {
-            return "error: noinput";
+            return response()->json(['error' => "error: noin"], 404);
         }elseif (empty($request->input('jobName'))) {
-            return "error: invalid jobname";
+            return response()->json(['error' => "error: nojob"], 404);
         }else{
             // pass all pre check
             $base_cmd = '../../t1g5/bin/python3 ../scripts/main.py -j '.$request->input('jobName');
