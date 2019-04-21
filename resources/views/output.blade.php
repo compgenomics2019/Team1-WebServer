@@ -32,7 +32,8 @@
     </nav>
 @endsection
 @section("main_container")
-<div class="tab">
+<div style="text-align:center;margin-left: 30px;">
+<div class="tab" style="max-width:98%">
   <button class="tablinks active" onclick="openCity(event, 'London')">Phylogenetic Trees</button>
   <button class="tablinks" onclick="openCity(event, 'Paris')">Heatmaps</button>
   <button class="tablinks" onclick="openCity(event, 'Tokyo')">Time Series</button>
@@ -82,6 +83,7 @@
 <div id="Tokyo" class="tabcontent">
   <h3>Tokyo</h3>
   <p>Tokyo is the capital of Japan.</p>
+</div>
 </div>
 @endsection
 @section("main_container2")
