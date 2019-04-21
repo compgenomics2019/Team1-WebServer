@@ -89,12 +89,17 @@
                 <div class="col-md-6 mb-3">
                     <label for="validationTooltip02">InputFile#1</label>
                     <select id="inputFile" name="inputFile1" class="form-control">
-                   </select>
+                        @foreach ($files as $f)
+                            <option>{{ $f }}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="validationTooltip02">InputFile#2</label>
                     <select id="inputFile" name="inputFile2" class="form-control">
-
+                        @foreach ($files as $f)
+                            <option>{{ $f }}</option>
+                        @endforeach
                     </select>
                 </div>
 			</div>

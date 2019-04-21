@@ -55,26 +55,10 @@ class FileManagerController extends Controller
         }
     }
 
-    public function get_file_list($status)
+    public function get_file_list()
     {
         $files = Storage::allFiles("/");
-        switch ($status) {
-            case "ready":
-                $prompt = "Please read tutorial carefully before start!";
-                break;
-
-            case "dupin":
-                $prompt = "Duplicate input file. Abort!";
-                break;
-
-            case "nojob":
-                $prompt = "please give a unique job name";
-                break;
-
-            case "noinput":
-                $prompt = "no input file! Abort!";
-        }
-        return view("analysis", compact("files", "prompt"));
+        return view("index", compact("files"));
     }
 
     // todo: robust
