@@ -146,7 +146,7 @@
                 </form>
                 <div class="modal-footer">
                     <button class="btn btn-success" type="button" id="run2_button"
-                            onClick="clickrun">Run2
+                            onClick="clickrun()">Run2
                     </button>
                 </div>
             </div>
