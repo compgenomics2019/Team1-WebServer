@@ -77,7 +77,8 @@
                     <h5 class="modal-title" id="Head">Analysis Pipeline</h5>
                 </div>
 
-                <form class="needs-validation" method="get" action="analysis/start" novalidate>
+                {{--<form class="needs-validation" method="get" action="analysis/start" novalidate>--}}
+                <form class="needs-validation" novalidate>
                     {{--IO options--}}
                     <div class="modal-body">
                         <div class="form-row">
