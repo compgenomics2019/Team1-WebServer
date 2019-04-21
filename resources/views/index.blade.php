@@ -82,7 +82,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Analysis Pipeline</h5>
+                    <h5 class="modal-title" id="Head">Analysis Pipeline</h5>
                 </div>
 
                 <form class="needs-validation" method="get" action="analysis/start" novalidate>
@@ -148,7 +148,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button class="btn btn-success" type="submit">Run</button>
+                                <button class="btn btn-success" id="play" type="submit">Run</button>
                             </div>
                         </div>
                     </div>
@@ -157,6 +157,11 @@
         </div>
     </div>
     </div>
+<script>
+function myfunction(){
+	document.getElementById("Head").innerHTML="Analysis Pipeline "+ '<img src="/img/ajax-loader.gif" alt="Wait" />'
+}
+</script>
 @endsection
 @section("footer")
     <div class="container-fluid" style="background-color: black; position: fixed; left: 0; bottom: 0;">

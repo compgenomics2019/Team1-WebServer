@@ -37,7 +37,7 @@
 <div class="tab" style="max-width:98%">
   <button class="tablinks active" onclick="openCity(event, 'London')">Phylogenetic Trees</button>
   <button class="tablinks" onclick="openCity(event, 'Paris')">Heatmaps</button>
-  <button class="tablinks" onclick="openCity(event, 'Tokyo')">Time Line</button>
+  <button class="tablinks" onclick="openCity(event, 'Tokyo')">Time/Location</button>
 </div>
 
 
@@ -45,11 +45,11 @@
 <div class="container" style="max-width:90%">
 	<div class="row">
 		  <div class="column">
-		    <div style="margin-top:50px;margin-left:50px">
+		    <div style="margin-top:50px;margin-left:50px;text-align: left;">
 		   	<label id="show-length"><input type="checkbox"> Show branch length</label><br>
-			<input type="radio" name="gender" value="0"> Source Site
+			<input type="radio" name="gender" value="0" checked> Source Site
 			<input type="radio" name="gender" value="1"> Source Type
-			<input type="radio" name="gender" value="2" checked> State
+			<input type="radio" name="gender" value="2"> State
 			</div>
 			<div id="main" class="container" style="margin-top:40px">
 			</div>
@@ -61,12 +61,6 @@
     </div>
 </div>
 </div>
-
-
-
-
-
-
 <div id="Paris" class="tabcontent">
 	<div class="container" style="max-width:90%">
 		<div class="row">
@@ -82,10 +76,19 @@
 </div>
 
 <div id="Tokyo" class="tabcontent">
-
-<div id="metric-modal"></div>
+	<div class="container" style="max-width:95%">
+		<div class="row">
+		  <div class="column" style="width:50%; text-align:center"">
+				<div id="metric-modal"></div> 
+		  </div>
+		  <div class="column" style="width:50%; text-align:center">
+				<div id="Choropleth"></div> 
+		  </div>
+		</div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
 <script type="text/javascript" src="{{ URL::asset('js/Timeline.js') }}"></script>
+<script type="text/javascript" src="{{ URL::asset('js/choropleth.js') }}"></script>
+<link href="{{ asset('css/choropleth.css') }}" rel="stylesheet" type="text/css" >
 <link href="{{ asset('css/Timeline.css') }}" rel="stylesheet" type="text/css" >
 </div>
 </div>
