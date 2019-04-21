@@ -125,11 +125,11 @@ class FileManagerController extends Controller
         // check input
         // todo: check if job name exists
         if ($request->input('inputFile1') == $request->input('inputFile2')){
-            return redirect("analysis/dupin");
+            return "error: dupin";
         }elseif (empty($request->input('inputFile1'))) {
-            return redirect("analysis/noinput");
+            return "error: noinput";
         }elseif (empty($request->input('jobName'))) {
-            return redirect("analysis/nojob");
+            return "error: invalid jobname";
         }else{
             // pass all pre check
             $base_cmd = '../../t1g5/bin/python3 ../scripts/main.py -j '.$request->input('jobName');
@@ -150,7 +150,6 @@ class FileManagerController extends Controller
                 $base_cmd = $base_cmd." -d";
             }
             $base_cmd = $base_cmd.$input_file;
-
         }
 //        dd($base_cmd);
         echo("<script>console.log('your script is running');</script>");

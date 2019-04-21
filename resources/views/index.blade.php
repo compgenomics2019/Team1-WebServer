@@ -184,7 +184,7 @@
                     console.log(result);
                 }
             });
-            document.getElementById("Head").innerHTML = "Analysis Pipeline is done";
+            // document.getElementById("Head").innerHTML = "Analysis Pipeline is done";
         }
 
     </script>
