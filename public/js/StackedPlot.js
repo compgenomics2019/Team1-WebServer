@@ -54,8 +54,8 @@ d3.csv('BIOL7210-Team1-Metadata.csv', function (csv) {
         SourceSite[i] = csv[i]['Source Site']
     }
 
-    update(SourceState)
-    update_barchart(SourceState, "state.csv")
+    update(SourceSite)
+    update_barchart(SourceSite, "source_site.csv")
 })
 
 
