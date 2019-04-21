@@ -30,7 +30,7 @@ def genemark(name, input, tmp):
     gff = os.path.join(tmp + "/gms2results/gfffiles", "{}.gff".format(name))
     nucleotides = os.path.join(tmp + "/gms2results/nucleotidefasta", "{}.fna".format(name))
     proteins = os.path.join(tmp + "/gms2results/proteinfasta", "{}.faa".format(name))
-    subprocess.call(["../../team1tools/GenePrediction/gms2_linux_64/gms2.pl", "--seq", input, "--genome-type", "bacteria", "--output", gff, "--format", "gff", "--fnn", nucleotides, "--faa", proteins])
+    subprocess.call(["../../team1tools/GenePrediction/gms2_linux_64/gms2.pl", "--seq", input, "--genome-type", "bacteria", "--output", gff, "--format", "gff", "--fnn", nucleotides, "--faa", proteins], stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
     print("-" * 20 + "genemark done")
 
 
