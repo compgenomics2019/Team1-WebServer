@@ -3,6 +3,7 @@
 <head>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
+    <script type="text/javascript" src="js/d3.v3.js"></script>
 	<link href="{{ asset('css/StackedPlot.css') }}" rel="stylesheet" type="text/css" >
 </head>
 <body>
@@ -36,7 +37,7 @@
 <div class="tab" style="max-width:98%">
   <button class="tablinks active" onclick="openCity(event, 'London')">Phylogenetic Trees</button>
   <button class="tablinks" onclick="openCity(event, 'Paris')">Heatmaps</button>
-  <button class="tablinks" onclick="openCity(event, 'Tokyo')">Time Series</button>
+  <button class="tablinks" onclick="openCity(event, 'Tokyo')">Time Line</button>
 </div>
 
 
@@ -81,8 +82,11 @@
 </div>
 
 <div id="Tokyo" class="tabcontent">
-  <h3>Tokyo</h3>
-  <p>Tokyo is the capital of Japan.</p>
+
+<div id="metric-modal"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
+<script type="text/javascript" src="{{ URL::asset('js/Timeline.js') }}"></script>
+<link href="{{ asset('css/Timeline.css') }}" rel="stylesheet" type="text/css" >
 </div>
 </div>
 @endsection
