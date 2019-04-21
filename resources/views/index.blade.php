@@ -152,9 +152,10 @@
             </div>
         </div>
     </div>
-    </div>
+
     <script>
-        function myfunction() {
+        function clickrun() {
+            console.log("function is running");
             document.getElementById("Head").innerHTML = "Analysis Pipeline " + '<img src="img/ajax-loader.gif" alt="Wait" />'
             jQuery.ajax({
                 url: "{{ url('analysis/start_ajax') }}",
