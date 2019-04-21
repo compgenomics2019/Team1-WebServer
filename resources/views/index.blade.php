@@ -168,9 +168,10 @@
         function clickrun() {
             console.log("function is running");
             document.getElementById("Head").innerHTML = "Analysis Pipeline is running" + '<img src="img/ajax-loader.gif" alt="Wait" />';
+            var url = '/start_ajax';
             $.ajax({
                 url: '/start_ajax',
-                type: 'get',
+                type: 'GET',
                 data: {
                     inputFile1: $('#inputFile1').val(),
                     inputFile2: $('#inputFile2').val(),
