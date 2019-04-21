@@ -145,7 +145,7 @@
                     </div>
                 </form>
                 <div class="modal-footer">
-                    <button class="btn btn-success" type="button" disabled="disabled" id="delete_button"
+                    <button class="btn btn-success" type="button" id="run2_button"
                             onClick="clickrun">Run2
                     </button>
                 </div>
