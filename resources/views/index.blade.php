@@ -131,6 +131,18 @@
                                        checked="checked">
                                 <label class="form-check-label" for="inlineCheckbox1">Functional Annotation</label>
                             </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="annotationRadio" id="inlineCheckbox" value="vfdb" checked="checked">
+                                    <label class="form-check-label" for="inlineCheckbox1">vfDB</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="annotationRadio" id="inlineCheckbox" value="card">
+                                    <label class="form-check-label" for="inlineCheckbox2">CARD</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
                             {{--comparative genomics options--}}
                             <div class="col-md-6 mb-3">
                                 <input class="" type="checkbox" name="doComparative" id="inlineCheckbox1" value="1"
