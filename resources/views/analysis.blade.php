@@ -3,7 +3,6 @@
 <head>
 </head>
 <body>
-
 @extends("main_template")
 
 @section('title', 'WebServer - Analysis')
