@@ -168,20 +168,20 @@
         function clickrun() {
             console.log("function is running");
             document.getElementById("Head").innerHTML = "Analysis Pipeline is running" + '<img src="img/ajax-loader.gif" alt="Wait" />';
-            jQuery.ajax({
-                url: "{{ url('start_ajax') }}",
+            $.ajax({
+                url: 'start_ajax',
                 method: 'get',
                 data: {
-                    inputFile1: jQuery('#inputFile1').val(),
-                    inputFile2: jQuery('#inputFile2').val(),
-                    jobName: jQuery('#jobName').val()
+                    inputFile1: $('#inputFile1').val(),
+                    inputFile2: $('#inputFile2').val(),
+                    jobName: $('#jobName').val()
                 },
                 success: function (result) {
-                    console.log("succcess");
+                    console.log("ajax succcess");
                     console.log(result);
                 },
                 error: function (result) {
-                    console.log("error");
+                    console.log("ajax error");
                     console.log(result);
                 }
             });
