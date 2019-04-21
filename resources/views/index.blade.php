@@ -142,13 +142,11 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         <button class="btn btn-success" id="play" type="submit">Run</button>
+                        <button class="btn btn-success" id="run2_button"
+                                onClick="clickrun()">Run2
+                        </button>
                     </div>
                 </form>
-                <div class="modal-footer">
-                    <button class="btn btn-success" type="button" id="run2_button"
-                            onClick="clickrun()">Run2
-                    </button>
-                </div>
             </div>
         </div>
     </div>
@@ -156,14 +154,14 @@
     <script>
         function clickrun() {
             console.log("function is running");
-            document.getElementById("Head").innerHTML = "Analysis Pipeline " + '<img src="img/ajax-loader.gif" alt="Wait" />'
+            document.getElementById("Head").innerHTML = "Analysis Pipeline is running" + '<img src="img/ajax-loader.gif" alt="Wait" />';
             jQuery.ajax({
                 url: "{{ url('analysis/start_ajax') }}",
                 method: 'get',
                 data: {
-                    name: jQuery('#inputFile1').val(),
-                    type: jQuery('#inputFile2').val(),
-                    price: jQuery('#price').val()
+                    inputFile1: jQuery('#inputFile1').val(),
+                    inputFile2: jQuery('#inputFile2').val(),
+                    jobName: jQuery('#jobName').val()
                 },
                 success: function (result) {
                     console.log("succcess");
@@ -174,6 +172,7 @@
                     console.log(result);
                 }
             });
+            document.getElementById("Head").innerHTML = "Analysis Pipeline is done";
         }
 
     </script>
