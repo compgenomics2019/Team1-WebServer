@@ -154,7 +154,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button class="btn btn-success" id="play" type="submit">Run</button>
+                        {{--<button class="btn btn-success" id="play" type="submit">Run</button>--}}
                         <button class="btn btn-success" id="run2_button"
                                 onClick="clickrun()">Run2
                         </button>
