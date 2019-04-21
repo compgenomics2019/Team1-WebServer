@@ -1,4 +1,11 @@
-
+<!doctype html>
+<html lang="en">
+<head>
+<link rel="stylesheet" href="/css/Home.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</head>
+<body>
 
 @extends("main_template")
 
@@ -49,7 +56,9 @@
                 <div class="overlay" style="background-color: #edebeb">
                     <img class="img" style="width:100%; display: block; height:100%" src="img/gears.png">
                 </div>
-                <h5 style="font-family:verdana;text-align: center;"><a href={{url('analysis/ready')}}>Run</a></h5>
+                <h5 style="font-family:verdana;text-align: center;">
+				<a href="#myModal" role="button" class="btn" data-toggle="modal">Run</a>
+				</h5>
             </div>
             <div class="col">
                 <div class="overlay" style="background-color: #edebeb">
@@ -62,6 +71,72 @@
                     <img class="img" style="width:100%; display: block; height:100%" src="img/team.png">
                 </div>
                 <h5 style="font-family:verdana;text-align: center;"><a href={{url('about')}}>About Us</a></h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="myModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Analysis Pipeline</h5>
+            </div>
+            <div class="modal-body">
+        <form class="needs-validation" method="get" action="analysis/start" novalidate>
+            {{--IO options--}}
+            <div class="form-row">
+                <div class="col-md-6 mb-3">
+                    <label for="validationTooltip02">InputFile#1</label>
+                    <select id="inputFile" name="inputFile1" class="form-control">
+                   </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="validationTooltip02">InputFile#2</label>
+                    <select id="inputFile" name="inputFile2" class="form-control">
+
+                    </select>
+                </div>
+			</div>
+			<div class="form-row">
+                <div class="col-md-6 mb-3">
+                    <label for="validationTooltip01">JobName</label>
+                    <input type="text" class="form-control" name="jobName" id="jobname" placeholder="job1" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="validationTooltip01">Email</label>
+                    <input type="text" class="form-control" name="email" id="email" placeholder="example@gatech.edu" required>
+                </div>
+            </div>
+            <div class="form-row">
+                {{--assembly options--}}
+                <div class="col-md-6 mb-3">
+                    <input class="" type="checkbox" name="doAssemble" id="inlineCheckbox1" value="1" checked="checked">
+                    <label class="form-check-label" for="inlineCheckbox1">Assemble</label>
+                </div>
+                {{--gene prediction options--}}
+                <div class="col-md-6 mb-3">
+                    <input class="" type="checkbox" name="doPrediction" id="inlineCheckbox1" value="1" checked="checked">
+                    <label class="form-check-label" for="inlineCheckbox1">Gene Prediction</label>
+                </div>
+            </div>
+            {{--functional annotation options--}}
+			<div class="form-row">
+                <div class="col-md-6 mb-3">
+                    <input class="" type="checkbox" name="doAnnotation" id="inlineCheckbox1" value="1" checked="checked">
+                    <label class="form-check-label" for="inlineCheckbox1">Functional Annotation</label>
+                </div>
+                {{--comparative genomics options--}}
+                <div class="col-md-6 mb-3">
+                    <input class="" type="checkbox" name="doComparative" id="inlineCheckbox1" value="1" checked="checked">
+                    <label class="form-check-label" for="inlineCheckbox1">Comparative Analysis</label>
+                </div>
+            </div>
+        </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" type="submit">Run</button>
             </div>
         </div>
     </div>
