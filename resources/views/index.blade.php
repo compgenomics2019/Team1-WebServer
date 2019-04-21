@@ -168,7 +168,7 @@
             console.log("function is running");
             document.getElementById("Head").innerHTML = "Analysis Pipeline is running" + '<img src="img/ajax-loader.gif" alt="Wait" />';
             jQuery.ajax({
-                url: "{{ url('analysis/start_ajax') }}",
+                url: "{{ route('start_ajax') }}",
                 method: 'get',
                 data: {
                     inputFile1: jQuery('#inputFile1').val(),

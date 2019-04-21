@@ -31,7 +31,7 @@ Route::get('/', 'Home\FileManagerController@get_file_list');
 
 Route::get('analysis/start', 'Home\FileManagerController@start_analysis');
 
-Route::get('analysis/start_ajax', 'Home\FileManagerController@start_analysis_ajax');
+Route::get('start_ajax', 'Home\FileManagerController@start_analysis_ajax');
 
 Route::get('analysis/{status}', 'Home\FileManagerController@get_file_list');
 
