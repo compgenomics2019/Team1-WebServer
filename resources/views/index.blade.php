@@ -204,10 +204,12 @@ function clickrun() {
                     console.log(result);
                     $("#myModal").modal('hide');
                     $("#Success").modal('show');
+
                 },
                 error: function (result) {
                     console.log("ajax error");
                     console.log("resultjson: ", result.responseJSON);
+                    console.log("resulttext: ", result.responseText);
                     console.log("result", result);
                     document.getElementById("Head").innerHTML = "Analysis Pipeline";
                     alert(result.responseJSON["error"]);
