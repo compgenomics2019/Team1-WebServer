@@ -108,7 +108,7 @@
                             <div class="col-md-6 mb-3">
                                 <label for="validationTooltip01">Email</label>
                                 <input type="text" class="form-control" name="email" id="email"
-                                       placeholder="example@gatech.edu" required>
+                                       placeholder="example@gatech.edu">
                             </div>
                         </div>
                         <div class="form-row">
@@ -182,19 +182,23 @@ function clickrun() {
             document.getElementById("Head").innerHTML = "Analysis Pipeline" + '<img src="img/ajax-loader.gif" alt="Wait" />';
             console.log("function is running");
             var url = 'start_ajax';
+            var f1 = $('#inputFile1').val();
+            var f2 = $('#inputFile2').val();
+            console.log(f1);
+            console.log(f2);
             $.ajax({
                 url: url,
                 type: 'GET',
                 data: {
-                    inputFile1: $('#inputFile1').val(),
-                    inputFile2: $('#inputFile2').val(),
+                    inputFile1: f1,
+                    inputFile2: f2,
                     jobName: $('#jobName').val(),
                     annotationRadio: $("#annotationRadio").val(),
                     email: $("#email").val(),
                     doAssemble: $("#doAssemble").val(),
                     doPrediction: $("#doPrediction").val(),
                     doAnnotation: $("#doAnnotation").val(),
-                    doComparative: $("#doComparative").val(),
+                    doComparative: $("#doComparative").val()
 
                 },
                 success: function (result) {
