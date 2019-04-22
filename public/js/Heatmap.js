@@ -68,7 +68,6 @@ function plot_map(filename, div, title) {
                 .style("opacity", 1)
             d3.select(this)
                 .style("stroke", "black")
-                .style("opacity", 1)
         }
         var mousemove = function (d) {
 			var vval = 100
@@ -77,12 +76,12 @@ function plot_map(filename, div, title) {
             tooltip
                 .html("Isolate"+d.variable+" is resistant to " + d.group)
                 .style("left", (d3.mouse(this)[0] + vval) + "px")
-                .style("top", (d3.mouse(this)[1]) + "px")}
+                .style("top", (d3.mouse(this)[1]) +150+ "px")}
 			else{
             tooltip
                 .html("Isolate"+d.variable+" is not resistant to " + d.group)
                 .style("left", (d3.mouse(this)[0] + vval) + "px")
-                .style("top", (d3.mouse(this)[1]) + "px")}				
+                .style("top", (d3.mouse(this)[1]) +150+ "px")}				
         }
         var mouseleave = function (d) {
             tooltip

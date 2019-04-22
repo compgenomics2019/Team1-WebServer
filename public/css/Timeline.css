@@ -18,7 +18,7 @@
 
 /* CB: padding to display better on bl.ocks.org */
 #metric-modal {
-	padding: 64px;
+	padding: 10px 64px 64px 64px;
 }
 
 #metric-modal .metric-chart rect.plot-background{

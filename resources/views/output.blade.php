@@ -62,7 +62,7 @@
 </div>
 </div>
 <div id="Paris" class="tabcontent">
-	<div class="container" style="max-width:90%">
+	<div class="container" style="max-width:90%;padding-top: 30px;">
 		<div class="row">
 		  <div class="column" style="width:50%; text-align:center"">
 				<div id="my_dataviz"></div> 
@@ -77,14 +77,17 @@
 
 <div id="Tokyo" class="tabcontent">
 	<div class="container" style="max-width:95%">
-		<div class="row">
+		<div class="row" style="padding-top:40px">
 		  <div class="column" style="width:50%; text-align:center"">
+		  <h4 style="padding-top:5px">Isolate Timeline</h4>
 				<div id="metric-modal"></div> 
 		  </div>
 		  <div class="column" style="width:50%; text-align:center">
+		  <h4 style="padding-top:5px">Isolate Distribution</h4>
 				<div id="Choropleth"></div> 
 		  </div>
 		</div>
+<script type="text/javascript" src="{{ URL::asset('js/d3-tip.js') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
 <script type="text/javascript" src="{{ URL::asset('js/Timeline.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/choropleth.js') }}"></script>

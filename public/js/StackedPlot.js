@@ -128,7 +128,7 @@ function update_barchart(ColorBy, filename) {
             })
             .attr("width", x.bandwidth())
             .on("mouseover", function () {
-                tooltip.style("display", null);
+                tooltip.style("display", "block");
             })
             .on("mouseout", function () {
                 tooltip.style("display", "none");
@@ -138,7 +138,7 @@ function update_barchart(ColorBy, filename) {
                 var xPosition = d3.mouse(this)[0] - 5;
                 var yPosition = d3.mouse(this)[1] - 5;
                 tooltip.attr("transform", "translate(" + xPosition + "," + yPosition + ")");
-                tooltip.select("text").text(d[1] - d[0]);
+                tooltip.select("text").text("Isolate Count = "+(d[1] - d[0]).toString());
                 console.log(tooltip)
             });
 
@@ -157,6 +157,16 @@ function update_barchart(ColorBy, filename) {
             .attr("fill", "#000")
             .attr("font-weight", "bold")
             .attr("text-anchor", "start");
+			
+			g.append("text")
+    .attr("class", "y axis title")
+    .text("Isolate Count")
+    .attr("x", (-(height/2)))
+    .attr("y", -45)
+    .attr("dy", "1em")
+    .attr("transform", "rotate(-90)")
+    .style("text-anchor", "middle");
+			
 
         /*   var legend = g.append("g")
               .attr("font-family", "sans-serif")
@@ -183,16 +193,17 @@ function update_barchart(ColorBy, filename) {
     // Prep the tooltip bits, initial display is hidden
     var tooltip = svg.append("g")
         .attr("class", "tooltip")
-        .style("display", "none");
+        .style("display", "none")
+		.style("opacity", 1);
 
     tooltip.append("rect")
-        .attr("width", 60)
+        .attr("width", 120)
         .attr("height", 20)
         .attr("fill", "white")
-        .style("opacity", 0.5);
+		.attr("stroke", "black");
 
     tooltip.append("text")
-        .attr("x", 30)
+        .attr("x", 63)
         .attr("dy", "1.2em")
         .style("text-anchor", "middle")
         .attr("font-size", "12px")

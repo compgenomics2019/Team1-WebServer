@@ -56,7 +56,17 @@ d3.csv("statesdata.csv", function(data) {
         }
       }
     }
-
+    // Set tooltips
+	var tip = d3.tip()
+            .attr('class', 'd3-tip')
+            .offset([-10, 0])
+			.style('background', 'white')
+			.style('border', 'solid')
+			.style('padding', '2px')
+            .html(function(temp1) {
+              return temp1.properties.value+" isolates from "+temp1.properties.name;
+            })
+	svg.call(tip);
     // Bind the data to the SVG and create one path per GeoJSON feature
     svg.selectAll("path")
       .data(json.features)
@@ -65,7 +75,18 @@ d3.csv("statesdata.csv", function(data) {
       .attr("d", path)
       .style("stroke", "#b3b3b3")
       .style("stroke-width", "1")
-      .style("fill", function(d) { return ramp(d.properties.value) });
+      .style("fill", function(d) { return ramp(d.properties.value) })
+	  .on('mouseover',function(d){
+          tip.show(d);
+          d3.select(this)
+            .style("stroke-width",3);
+        })
+        .on('mouseout', function(d){
+          tip.hide(d);
+
+            d3.select(this)
+            .style("stroke-width",1);
+        });
     
 		// add a legend
 		var w = 140, h = 250;
