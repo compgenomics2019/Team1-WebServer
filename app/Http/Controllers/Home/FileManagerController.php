@@ -65,8 +65,10 @@ class FileManagerController extends Controller
     {
         $category = $request->input('fileCategory')[0];
         $fileName = $request->input('fileName');
+        dd($category);
         switch ($request->btn) {
             case "download":
+//                if ()
                 return Storage::download($category . "/" . $fileName);
 
             case "delete":

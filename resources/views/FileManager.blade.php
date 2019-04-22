@@ -76,7 +76,7 @@
                 <div class="col-md-2 mb-3">
                     <label for="validationTooltip05">Category</label>
                     <select id="fileCategory" name="fileCategory[]" class="form-control">
-                        <option value="assemble" selected>job</option>
+                        <option value="job" selected>job</option>
                         <option value="assemble">assemble</option>
                         <option value="prediction">prediction</option>
                         <option value="annotation">annotation</option>
