@@ -157,7 +157,7 @@ class FileManagerController extends Controller
         exec($base_cmd." 2>&1", $array, $return);
         echo("<script>console.log('".$return."');</script>");
 //        dd($array);
-        return response()->json(["cmd" => $base_cmd], 200);
+        return response()->json(['cmd' => '$base_cmd'], 200);
 //        return view('about');
     }
 
