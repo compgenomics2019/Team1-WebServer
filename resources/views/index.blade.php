@@ -201,7 +201,7 @@ function clickrun() {
                 },
                 success: function (result) {
 					document.getElementById("Head").innerHTML = "Analysis Pipeline";
-                    console.log(result.responseJSON);
+                    console.log(result);
                     $("#myModal").modal('hide');
                     $("#Success").modal('show');
                 },
