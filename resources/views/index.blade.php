@@ -114,13 +114,13 @@
                         <div class="form-row">
                             {{--assembly options--}}
                             <div class="col-md-6 mb-3">
-                                <input class="" type="checkbox" name="doAssemble" id="inlineCheckbox1" value="1"
+                                <input class="" type="checkbox" name="doAssemble" id="doAssemble" value="1"
                                        checked="checked">
                                 <label class="form-check-label" for="inlineCheckbox1">Assemble</label>
                             </div>
                             {{--gene prediction options--}}
                             <div class="col-md-6 mb-3">
-                                <input class="" type="checkbox" name="doPrediction" id="inlineCheckbox1" value="1"
+                                <input class="" type="checkbox" name="doPrediction" id="doPrediction" value="1"
                                        checked="checked">
                                 <label class="form-check-label" for="inlineCheckbox1">Gene Prediction</label>
                             </div>
@@ -128,17 +128,17 @@
                         {{--functional annotation options--}}
                         <div class="form-row">
                             <div class="col-md-6 mb-3">
-                                <input class="" type="checkbox" name="doAnnotation" id="inlineCheckbox1" value="1"
+                                <input class="" type="checkbox" name="doAnnotation" id="doAnnotation" value="1"
                                        checked="checked">
                                 <label class="form-check-label" for="inlineCheckbox1">Functional Annotation</label>
                             </div>
                             <div class="col-md-4 mb-3">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="annotationRadio" id="inlineCheckbox" value="vfdb" checked="checked">
+                                    <input class="form-check-input" type="radio" name="annotationRadio" id="annotationRadio" value="vfdb" checked="checked">
                                     <label class="form-check-label" for="inlineCheckbox1">vfDB</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="annotationRadio" id="inlineCheckbox" value="card">
+                                    <input class="form-check-input" type="radio" name="annotationRadio" id="annotationRadio" value="card">
                                     <label class="form-check-label" for="inlineCheckbox2">CARD</label>
                                 </div>
                             </div>
@@ -146,7 +146,7 @@
                         <div class="form-row">
                             {{--comparative genomics options--}}
                             <div class="col-md-6 mb-3">
-                                <input class="" type="checkbox" name="doComparative" id="inlineCheckbox1" value="1"
+                                <input class="" type="checkbox" name="doComparative" id="doComparative" value="1"
                                        checked="checked">
                                 <label class="form-check-label" for="inlineCheckbox1">Comparative Analysis</label>
                             </div>
