@@ -402,12 +402,12 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     tmp = "../storage/app/public/" + args.j
-    os.mkdir(tmp)
-    # if not os.path.exists(tmp):
-    #     pass
-    # else:
-    #     shutil.rmtree(tmp)
-    #     os.mkdir(tmp)
+    #os.mkdir(tmp)
+    if not os.path.exists(tmp):
+        os.mkdir(tmp)
+    else:
+        shutil.rmtree(tmp)
+        os.mkdir(tmp)
 
     if args.a:
         trim_files(args.infastq, tmp, "../../team1tools/GenomeAssembly/Trimmomatic-0.36/trimmomatic-0.36.jar")
