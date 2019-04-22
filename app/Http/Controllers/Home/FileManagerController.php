@@ -121,7 +121,7 @@ class FileManagerController extends Controller
     public function ajax_analysis(Request $request)
     {
         $input = $request->all();
-//        dd($input);
+        dd($input);
         // check input
         // todo: check if job name exists
         if ($request->input('inputFile1') == $request->input('inputFile2')){

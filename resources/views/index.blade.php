@@ -78,7 +78,7 @@
                 </div>
 
                 {{--<form class="needs-validation" method="get" action="analysis/start" novalidate>--}}
-                <form class="needs-validation" novalidate>
+                {{--<form class="needs-validation" novalidate>--}}
                     {{--IO options--}}
                     <div class="modal-body">
                         <div class="form-row">
@@ -153,21 +153,21 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button class="btn btn-success" id="play" type="submit">Run</button>
+                        {{--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>--}}
+                        {{--<button class="btn btn-success" id="play" type="submit">Run</button>--}}
                         <button class="btn btn-success" id="run2_button"
                                 onClick="clickrun()">Run2
                         </button>
                     </div>
-                </form>
+                {{--</form>--}}
             </div>
         </div>
     </div>
 
     <script>
         function clickrun() {
-            console.log("function is running");
             document.getElementById("Head").innerHTML = "Analysis Pipeline is running" + '<img src="img/ajax-loader.gif" alt="Wait" />';
+            console.log("function is running");
             var url = 'start_ajax';
             $.ajax({
                 url: url,
@@ -175,7 +175,8 @@
                 data: {
                     inputFile1: $('#inputFile1').val(),
                     inputFile2: $('#inputFile2').val(),
-                    jobName: $('#jobName').val()
+                    jobName: $('#jobName').val(),
+                    annotationRadio: $("annotationRadio").val()
                 },
                 success: function (result) {
                     console.log("ajax succcess");
@@ -183,10 +184,12 @@
                 },
                 error: function (result) {
                     console.log("ajax error");
-                    console.log(result);
+                    console.log(result.responseJSON);
+                    document.getElementById("Head").innerHTML = "Analysis Pipeline";
+                    alert(result.responseJSON["error"]);
                 }
             });
-            // document.getElementById("Head").innerHTML = "Analysis Pipeline is done";
+
         }
 
     </script>
