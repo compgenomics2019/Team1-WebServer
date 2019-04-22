@@ -23,7 +23,7 @@
     </nav>
 @endsection
 
-@section("main_container")
+@section("main_container2")
     <div class="container">
         <div>
             @foreach ($files as $f)
@@ -33,7 +33,7 @@
     </div>
 @endsection
 
-@section("main_container2")
+@section("main_container")
     <div class="container">
         <div class="mb-2">
             <p>{!! $prompt !!}</p>

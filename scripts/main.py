@@ -30,7 +30,7 @@ def genemark(name, input, tmp):
     gff = os.path.join(tmp + "/gms2results/gfffiles", "{}.gff".format(name))
     nucleotides = os.path.join(tmp + "/gms2results/nucleotidefasta", "{}.fna".format(name))
     proteins = os.path.join(tmp + "/gms2results/proteinfasta", "{}.faa".format(name))
-    subprocess.call(["../../team1tools/GenePrediction/gms2_linux_64/gms2.pl", "--seq", input, "--genome-type", "bacteria", "--output", gff, "--format", "gff", "--fnn", nucleotides, "--faa", proteins])
+    subprocess.call(["../../team1tools/GenePrediction/gms2_linux_64/gms2.pl", "--seq", input, "--genome-type", "bacteria", "--output", gff, "--format", "gff", "--fnn", nucleotides, "--faa", proteins], stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
     print("-" * 20 + "genemark done")
 
 
@@ -47,7 +47,7 @@ def prodigal(name, input, tmp):
     protein = os.path.join(tmp + "/prodigalresults/protein", "{}.faa".format(name))
     nucleotide = os.path.join(tmp + "/prodigalresults/nucleotide", "{}.fna".format(name))
     gff = os.path.join(tmp + "/prodigalresults/gff", "{}.gff".format(name))
-    subprocess.call(["../../team1tools/GenePrediction/Prodigal/prodigal", "-i", input, "-a", protein, "-d", nucleotide, "-o", gff, "-f", "gff"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    subprocess.call(["../../team1tools/GenePrediction/Prodigal/prodigal", "-i", input, "-a", protein, "-d", nucleotide, "-o", gff, "-f", "gff"], stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
     subprocess.call(['rm', '-f', 'GMS2.mod'])
     subprocess.call(['rm', '-f', 'log'])
     print("-" * 20 + "prodigal done")
@@ -103,6 +103,90 @@ def bedtools_func(name, input, tmp):
     subprocess.call(['../../t1g5/bin/python3', dnatoaapy, nucleotides, amino])
     subprocess.call(['rm', '-f', '{}.fai'.format(name)])
     # todo: move result to uploads/predict
+
+
+## functional_annotation
+def vfdbBlast(inputFile):
+    subprocess.call(["../../team1tools/FunctionalAnnotation/ncbi-blast-2.9.0+/bin/blastn",
+                     "-db", "../../team1tools/FunctionalAnnotation/vfDB",
+                     "-query", inputFile,
+                     "-num_threads", "4",
+                     "-evalue", "1e-10",
+                     "-outfmt", "6 stitle qseqid pident qcovs qstart qend qseq evalue bitscore",
+                     "-best_hit_score_edge", "0.1",
+                     "-best_hit_overhang", "0.1",
+                     "-max_target_seqs", "1",
+                     "-out", tmp + "/vfdb_temp"])
+
+
+def vfdb_to_gff(inputFile, outputFile):
+    output_name = outputFile
+    output = open(output_name, "w+")
+
+    with open(inputFile, "r", encoding='latin-1') as fh:
+        for l in fh:
+            l = l.strip("\n").split("\t")
+            notes = l[0]
+            seqid = l[1]
+            start = l[5]
+            end = l[8]
+            output.write("{}\tVFDB-BLAST\tBacterial Virulent genes\t{}\t{}\t.\t.\t.\t{}\n".format(seqid, start, end, notes))
+    output.close()
+
+
+def vfdb(inputFile, outputFile):
+    vfdbBlast(inputFile)
+
+    vfdb_to_gff(tmp + "/vfdb_temp", outputFile)
+
+    # subprocess.call(["rm", "-rf", tmp + "/vfdb_temp"])
+
+
+def CARD_rgi(inputFile):
+    card = "../../team1tools/FunctionalAnnotation/rgi-4.2.2/card.json"
+    model = "../../team1tools/FunctionalAnnotation/rgi-4.2.2/protein_fasta_protein_homolog_model.fasta"
+
+    subprocess.run(["../../t1g5/bin/python3", "../../team1tools/FunctionalAnnotation/rgi-4.2.2/rgi", "load",
+                    "-i", card, "--card_annotation", model])
+                       # , "--local"])
+
+    subprocess.run(["../../t1g5/bin/python3", "../../team1tools/FunctionalAnnotation/rgi-4.2.2/rgi", "main", "-i",
+                    inputFile, "-o", tmp + "/card_temp", "--input_type", "protein"])
+                       # , "--local"])
+
+
+def rgi_to_gff(inputFile, outputFile):
+    file = open(inputFile, 'r', encoding='latin-1')
+    next(file)
+
+    output_name = outputFile + ".gff"
+    output = open(output_name, "w")
+    output.write("##gff-version 3\n")
+
+    for line in file:
+        line = re.sub('\s+', '\t', line).strip().split("\t")
+        # print(line)
+        seqid = line[0]
+        start = line[2]
+        end = line[4]
+        notes = line[12:-5]
+        notes = ';'.join(notes)
+        output.write("{}\tRGI-CARD\tAntibiotic resistant genes\t{}\t{}\t.\t.\t.\t{}\n".format(seqid, start, end, notes))
+
+    file.close()
+    output.close()
+
+
+def CARD(inputFile, outputFile):
+    cardtemp = tmp + "/card_temp.txt"
+    cardtemp2 = tmp + "/card_temp.json"
+
+    CARD_rgi(inputFile)
+
+    rgi_to_gff(cardtemp, outputFile)
+
+    # subprocess.call(["rm", "-f", cardtemp])
+    # subprocess.call(["rm", "-f", cardtemp2])
 
 
 ## gene assembly
@@ -166,7 +250,7 @@ def run_fastqc(_input_file, _tmp_dir):
     :param _tmp_dir: tmp directory
     :return: None
     """
-    fastqc = subprocess.call(["../../team1tools/GenomeAssembly/FastQC/fastqc", "--extract", "-o", _tmp_dir, _input_file])
+    fastqc = subprocess.call(["../../team1tools/GenomeAssembly/FastQC/fastqc", "--extract", "-o", _tmp_dir, _input_file], stderr=subprocess.DEVNULL)
 
 
 def check_crop(_tmp_dir, _fastqc_dirs):
@@ -294,90 +378,6 @@ def trim_files(input_files, tmp_dir, trimmomatic_jar):
         run_fake_trim(trimmomatic_jar, input_files, tmp_dir)
 
 
-## functional_annotation
-def vfdbBlast(inputFile):
-    subprocess.call(["../../team1tools/FunctionalAnnotation/ncbi-blast-2.9.0+/bin/blastn",
-                     "-db", "../../team1tools/FunctionalAnnotation/vfDB",
-                     "-query", inputFile,
-                     "-num_threads", "4",
-                     "-evalue", "1e-10",
-                     "-outfmt", "6 stitle qseqid pident qcovs qstart qend qseq evalue bitscore",
-                     "-best_hit_score_edge", "0.1",
-                     "-best_hit_overhang", "0.1",
-                     "-max_target_seqs", "1",
-                     "-out", tmp + "/vfdb_temp"])
-
-
-def vfdb_to_gff(inputFile, outputFile):
-    output_name = outputFile
-    output = open(output_name, "w+")
-
-    with open(inputFile, "r", encoding='latin-1') as fh:
-        for l in fh:
-            l = l.strip("\n").split("\t")
-            notes = l[0]
-            seqid = l[1]
-            start = l[5]
-            end = l[8]
-            output.write("{}\tVFDB-BLAST\tBacterial Virulent genes\t{}\t{}\t.\t.\t.\t{}\n".format(seqid, start, end, notes))
-    output.close()
-
-
-def vfdb(inputFile, outputFile):
-    print("running vfdb...")
-    vfdbBlast(inputFile)
-
-    vfdb_to_gff(tmp + "/vfdb_temp", outputFile)
-    print("vfdb done!")
-
-def CARD_rgi(inputFile):
-    card = "../../team1tools/FunctionalAnnotation/rgi-4.2.2/card.json"
-    model = "../../team1tools/FunctionalAnnotation/rgi-4.2.2/protein_fasta_protein_homolog_model.fasta"
-
-    subprocess.run(["../../t1g5/bin/python3", "../../team1tools/FunctionalAnnotation/rgi-4.2.2/rgi", "load",
-                    "-i", card, "--card_annotation", model])
-    # , "--local"])
-
-    subprocess.run(["../../t1g5/bin/python3", "../../team1tools/FunctionalAnnotation/rgi-4.2.2/rgi", "main", "-i",
-                    inputFile, "-o", tmp + "/card_temp", "--input_type", "protein"])
-    # , "--local"])
-
-
-def rgi_to_gff(inputFile, outputFile):
-    file = open(inputFile, 'r', encoding='latin-1')
-    next(file)
-
-    output_name = outputFile + ".gff"
-    output = open(output_name, "w")
-    output.write("##gff-version 3\n")
-
-    for line in file:
-        line = re.sub('\s+', '\t', line).strip().split("\t")
-        # print(line)
-        seqid = line[0]
-        start = line[2]
-        end = line[4]
-        notes = line[12:-5]
-        notes = ';'.join(notes)
-        output.write("{}\tRGI-CARD\tAntibiotic resistant genes\t{}\t{}\t.\t.\t.\t{}\n".format(seqid, start, end, notes))
-
-    file.close()
-    output.close()
-
-
-def CARD(inputFile, outputFile):
-    cardtemp = tmp + "/card_temp.txt"
-    cardtemp2 = tmp + "/card_temp.json"
-    print("running card")
-    CARD_rgi(inputFile)
-
-    rgi_to_gff(cardtemp, outputFile)
-    print("card done")
-
-    # subprocess.call(["rm", "-f", cardtemp])
-    # subprocess.call(["rm", "-f", cardtemp2])
-
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     # I/O parameters
@@ -402,6 +402,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     tmp = "../storage/app/public/" + args.j
+    #os.mkdir(tmp)
     if not os.path.exists(tmp):
         os.mkdir(tmp)
     else:
@@ -423,12 +424,13 @@ if __name__ == "__main__":
         subprocess.call(['mv', os.path.join(tmp + "/prodigalresults/nucleotide", "{}.fna".format(args.j)), "../storage/app/uploads/prediction/"])
         subprocess.call(['mv', os.path.join(tmp + "/prodigalresults/gff", "{}.gff".format(args.j)), "../storage/app/uploads/prediction/"])
     if args.c:
-        in_annotation_faa = "../storage/app/uploads/prediction/%s.faa" % args.j
-        in_annotation_fna = "../storage/app/uploads/prediction/%s.fna" % args.j
+        in_annotation_faa = "../storage/app/uploads/prediction/%s.faa"%args.j
+        in_annotation_fna = "../storage/app/uploads/prediction/%s.fna"%args.j
         if args.f == "card":
-            CARD(in_annotation_faa, "../storage/app/uploads/annotation/%s.gff" % args.j)
+            CARD(in_annotation_faa, "../storage/app/uploads/annotation/%s.gff"%args.j)
         else:
-            vfdb(in_annotation_fna, "../storage/app/uploads/annotation/%s.gff" % args.j)
+            vfdb(in_annotation_fna, "../storage/app/uploads/annotation/%s.gff"%args.j)
     if args.d:
         pass
+    subprocess.call(['rm', "-rf", tmp])
     print("main.py finished!")
