@@ -216,7 +216,7 @@ function clickrun() {
 					document.getElementById("Head").innerHTML = "Analysis Pipeline";
                     console.log(result);
                     $("#myModal").modal('hide');
-                    $("#Success").modal('show');
+                    $("#Success").modal('show');  // todo: modify link with jobname
 
                 },
                 error: function (result) {
