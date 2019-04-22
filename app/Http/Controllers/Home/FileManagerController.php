@@ -65,7 +65,7 @@ class FileManagerController extends Controller
     {
         $category = $request->input('fileCategory')[0];
         $fileName = $request->input('fileName');
-        dd($category);
+//        dd($category);
         switch ($request->btn) {
             case "download":
 //                if ()
