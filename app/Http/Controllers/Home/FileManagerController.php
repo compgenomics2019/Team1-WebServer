@@ -134,6 +134,7 @@ class FileManagerController extends Controller
         }else{
             // pass all pre check
             $base_cmd = '../../t1g5/bin/python3 ../scripts/main.py -j '.$request->input('jobName');
+            echo("<script>console.log('".$base_cmd."');</script>");
             if (!empty($request->input('doAssemble'))){
                 $base_cmd = $base_cmd." -a";
                 $input_file = " --infastq ".$request->input('inputFile1')." ".$request->input('inputFile2');
@@ -155,9 +156,9 @@ class FileManagerController extends Controller
 //        dd($base_cmd);
         echo("<script>console.log('your script is running');</script>");
         exec($base_cmd." 2>&1", $array, $return);
-        echo("<script>console.log('".$return."');</script>");
+        echo("<script>console.log('".implode(" ", $array)."');</script>");
 //        dd($array);
-        return response()->json(["cmd" => $base_cmd], 200);
+        return response()->json(['cmd' => '$base_cmd', 'success' => 'succcess'], 200);
 //        return view('about');
     }
 
