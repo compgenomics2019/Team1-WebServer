@@ -38,6 +38,7 @@
   <button class="tablinks active" onclick="openCity(event, 'London')">Phylogenetic Trees</button>
   <button class="tablinks" onclick="openCity(event, 'Paris')">Heatmaps</button>
   <button class="tablinks" onclick="openCity(event, 'Tokyo')">Time/Location</button>
+  <button class="tablinks" id="download" onclick="download()"></button>
 </div>
 
 
@@ -96,6 +97,12 @@
 </div>
 </div>
 </div>
+
+<script>
+function download(){
+	
+}
+</script>
 @endsection
 @section("main_container2")
 @endsection
