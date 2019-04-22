@@ -207,7 +207,8 @@ function clickrun() {
                 },
                 error: function (result) {
                     console.log("ajax error");
-                    console.log(result.responseJSON);
+                    console.log("resultjson: ", result.responseJSON);
+                    console.log("result", result);
                     document.getElementById("Head").innerHTML = "Analysis Pipeline";
                     alert(result.responseJSON["error"]);
                 }
