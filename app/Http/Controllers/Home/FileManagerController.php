@@ -76,52 +76,53 @@ class FileManagerController extends Controller
         }
     }
 
-    public function start_analysis(Request $request)
-    {
-        $input = $request->all();
-//        dd($input);
-        // check input
-        // todo: check if job name exists
-        if ($request->input('inputFile1') == $request->input('inputFile2')){
-            return redirect("analysis/dupin");
-        }elseif (empty($request->input('inputFile1'))) {
-            return redirect("analysis/noinput");
-        }elseif (empty($request->input('jobName'))) {
-            return redirect("analysis/nojob");
-        }else{
-            // pass all pre check
-            $base_cmd = '../../t1g5/bin/python3 ../scripts/main.py -j '.$request->input('jobName');
-            if (!empty($request->input('doAssemble'))){
-                $base_cmd = $base_cmd." -a";
-                $input_file = " --infastq ".$request->input('inputFile1')." ".$request->input('inputFile2');
-            }
-            if (!empty($request->input('doPrediction'))){
-                $base_cmd = $base_cmd." -b";
-                if (!isset($input_file)){
-                    $input_file = " --infasta ".$request->input('inputFile1');
-                }
-            }
-            if (!empty($request->input('doAnnotation'))){
-                $base_cmd = $base_cmd." -c -f ".$request->input('annotationRadio');
-            }
-            if (!empty($request->input('doComparative'))){
-                $base_cmd = $base_cmd." -d";
-            }
-            $base_cmd = $base_cmd.$input_file;
-
-        }
-//        dd($base_cmd);
-        echo("<script>console.log('your script is running');</script>");
-        exec($base_cmd." 2>&1", $array, $return);
-        echo("<script>console.log('".$return."');</script>");
-        dd($array);
-        return view('about');
-    }
+//    public function start_analysis(Request $request)
+//    {
+//        $input = $request->all();
+////        dd($input);
+//        // check input
+//        // check if job name exists
+//        if ($request->input('inputFile1') == $request->input('inputFile2')){
+//            return redirect("analysis/dupin");
+//        }elseif (empty($request->input('inputFile1'))) {
+//            return redirect("analysis/noinput");
+//        }elseif (empty($request->input('jobName'))) {
+//            return redirect("analysis/nojob");
+//        }else{
+//            // pass all pre check
+//            $base_cmd = '../../t1g5/bin/python3 ../scripts/main.py -j '.$request->input('jobName');
+//            if (!empty($request->input('doAssemble'))){
+//                $base_cmd = $base_cmd." -a";
+//                $input_file = " --infastq ".$request->input('inputFile1')." ".$request->input('inputFile2');
+//            }
+//            if (!empty($request->input('doPrediction'))){
+//                $base_cmd = $base_cmd." -b";
+//                if (!isset($input_file)){
+//                    $input_file = " --infasta ".$request->input('inputFile1');
+//                }
+//            }
+//            if (!empty($request->input('doAnnotation'))){
+//                $base_cmd = $base_cmd." -c -f ".$request->input('annotationRadio');
+//            }
+//            if (!empty($request->input('doComparative'))){
+//                $base_cmd = $base_cmd." -d";
+//            }
+//            $base_cmd = $base_cmd.$input_file;
+//
+//        }
+////        dd($base_cmd);
+//        echo("<script>console.log('your script is running');</script>");
+//        exec($base_cmd." 2>&1", $array, $return);
+//        echo("<script>console.log('".$return."');</script>");
+//        dd($array);
+//        return view('about');
+//    }
 
     public function ajax_analysis(Request $request)
     {
         $input = $request->all();
         dd($input);
+//        echo("<script>console.log($request->input('inputFile1'));</script>");
         // check input
         // todo: check if job name exists
         if ($request->input('inputFile1') == $request->input('inputFile2')){
@@ -156,7 +157,7 @@ class FileManagerController extends Controller
         exec($base_cmd." 2>&1", $array, $return);
         echo("<script>console.log('".$return."');</script>");
 //        dd($array);
-        return $array;
+        return response()->json(array($array), 200);
 //        return view('about');
     }
 

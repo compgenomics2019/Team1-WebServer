@@ -176,7 +176,7 @@
                     inputFile1: $('#inputFile1').val(),
                     inputFile2: $('#inputFile2').val(),
                     jobName: $('#jobName').val(),
-                    annotationRadio: $("annotationRadio").val()
+                    annotationRadio: $("#annotationRadio").val()
                 },
                 success: function (result) {
                     console.log("ajax succcess");
