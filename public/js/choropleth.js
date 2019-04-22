@@ -86,7 +86,7 @@ d3.csv("statesdata.csv", function(data) {
 
             d3.select(this)
             .style("stroke-width",1);
-        });;
+        });
     
 		// add a legend
 		var w = 140, h = 250;
