@@ -184,8 +184,6 @@ function clickrun() {
             var url = 'start_ajax';
             var f1 = $('#inputFile1').val();
             var f2 = $('#inputFile2').val();
-            console.log(f1);
-            console.log(f2);
             $.ajax({
                 url: url,
                 type: 'GET',
@@ -220,7 +218,7 @@ function clickrun() {
 </script>
 @endsection
 @section("footer")
-    <div class="container-fluid" style="background-color: black; position: fixed; left: 0; bottom: 0;">
+    <div class="container" style="background-color: black; position: fixed; left: 0; bottom: 0;">
         <footer style="text-align: center;">
             <br>
             <p style="color: white;"> &copy 2019 Team 1 Predictive Webserver Group</p>
