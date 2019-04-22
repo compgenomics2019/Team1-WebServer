@@ -71,9 +71,12 @@ class FileManagerController extends Controller
 
             case "delete":
                 if ($category == "job"){
-                    Storage::delete("assemble/" . $fileName);
-                    Storage::delete("prediction/" . $fileName);
-                    Storage::delete("annotation/" . $fileName);
+                    Storage::delete("assemble/" . $fileName."_genome.fasta");
+                    Storage::delete("assemble/" . $fileName."_quast.csv");
+                    Storage::delete("prediction/" . $fileName.".fna");
+                    Storage::delete("prediction/" . $fileName.".faa");
+                    Storage::delete("prediction/" . $fileName.".gff");
+                    Storage::delete("annotation/" . $fileName.".gff");
                     Storage::delete("comparative/" . $fileName);
                 }else{
                     Storage::delete($category . "/" . $fileName);
