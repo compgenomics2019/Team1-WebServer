@@ -156,17 +156,30 @@
                         {{--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>--}}
                         {{--<button class="btn btn-success" id="play" type="submit">Run</button>--}}
                         <button class="btn btn-success" id="run2_button"
-                                onClick="clickrun()">Run2
+                                onClick="clickrun()">Run
                         </button>
                     </div>
                 {{--</form>--}}
             </div>
         </div>
     </div>
+<div id="Success" class="modal fade">
+     <div class="modal-dialog">
+        <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="Head">Success!</h5>
+                </div>
+				<div class="modal-body" style="text-align:center">
+				    <h7> Follow this link for results: </h7>
+                    <a style="text-align:center" href={{url('output')}}>http://predict2019t1.biosci.gatech.edu/output</a>
+                </div>
+        </div>
+     </div>
+</div>
 
-    <script>
-        function clickrun() {
-            document.getElementById("Head").innerHTML = "Analysis Pipeline is running" + '<img src="img/ajax-loader.gif" alt="Wait" />';
+<script>
+function clickrun() {
+            document.getElementById("Head").innerHTML = "Analysis Pipeline" + '<img src="img/ajax-loader.gif" alt="Wait" />';
             console.log("function is running");
             var url = 'start_ajax';
             $.ajax({
@@ -176,10 +189,18 @@
                     inputFile1: $('#inputFile1').val(),
                     inputFile2: $('#inputFile2').val(),
                     jobName: $('#jobName').val(),
-                    annotationRadio: $("#annotationRadio").val()
+                    annotationRadio: $("#annotationRadio").val(),
+                    email: $("#email").val(),
+                    doAssemble: $("#doAssemble").val(),
+                    doPrediction: $("#doPrediction").val(),
+                    doAnnotation: $("#doAnnotation").val(),
+                    doComparative: $("#doComparative").val(),
+
                 },
                 success: function (result) {
-                    console.log("ajax succcess");
+					document.getElementById("Head").innerHTML = "Analysis Pipeline";
+					$("#myModal").modal('hide');
+                    $("#Success").modal('show');
                     console.log(result);
                 },
                 error: function (result) {
@@ -192,7 +213,7 @@
 
         }
 
-    </script>
+</script>
 @endsection
 @section("footer")
     <div class="container-fluid" style="background-color: black; position: fixed; left: 0; bottom: 0;">
