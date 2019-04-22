@@ -177,6 +177,19 @@
      </div>
 </div>
 
+<div id="Error" class="modal fade">
+     <div class="modal-dialog">
+        <div class="modal-content">
+				<div class="modal-body">
+				    <h7>Error! Check Inputs</h7>
+                </div>
+		<div class="modal-footer">
+              <button class="btn btn-danger" data-dismiss="modal">OK</button>
+       </div>
+        </div>
+     </div>
+</div>
+
 <script>
 function clickrun() {
             document.getElementById("Head").innerHTML = "Analysis Pipeline" + '<img src="img/ajax-loader.gif" alt="Wait" />';
@@ -212,7 +225,7 @@ function clickrun() {
                     console.log("resulttext: ", result.responseText);
                     console.log("result", result);
                     document.getElementById("Head").innerHTML = "Analysis Pipeline";
-                    alert(result.responseJSON["error"]);
+                    $("#Error").modal('show');
                 }
             });
 
