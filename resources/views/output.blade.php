@@ -85,6 +85,7 @@
 				<div id="Choropleth"></div> 
 		  </div>
 		</div>
+<script type="text/javascript" src="{{ URL::asset('js/d3-tip.js') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
 <script type="text/javascript" src="{{ URL::asset('js/Timeline.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/choropleth.js') }}"></script>
