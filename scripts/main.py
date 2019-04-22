@@ -47,7 +47,7 @@ def prodigal(name, input, tmp):
     protein = os.path.join(tmp + "/prodigalresults/protein", "{}.faa".format(name))
     nucleotide = os.path.join(tmp + "/prodigalresults/nucleotide", "{}.fna".format(name))
     gff = os.path.join(tmp + "/prodigalresults/gff", "{}.gff".format(name))
-    subprocess.call(["../../team1tools/GenePrediction/Prodigal/prodigal", "-i", input, "-a", protein, "-d", nucleotide, "-o", gff, "-f", "gff"])
+    subprocess.call(["../../team1tools/GenePrediction/Prodigal/prodigal", "-i", input, "-a", protein, "-d", nucleotide, "-o", gff, "-f", "gff"], stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
     subprocess.call(['rm', '-f', 'GMS2.mod'])
     subprocess.call(['rm', '-f', 'log'])
     print("-" * 20 + "prodigal done")
@@ -250,7 +250,7 @@ def run_fastqc(_input_file, _tmp_dir):
     :param _tmp_dir: tmp directory
     :return: None
     """
-    fastqc = subprocess.call(["../../team1tools/GenomeAssembly/FastQC/fastqc", "--extract", "-o", _tmp_dir, _input_file])
+    fastqc = subprocess.call(["../../team1tools/GenomeAssembly/FastQC/fastqc", "--extract", "-o", _tmp_dir, _input_file], stderr=subprocess.DEVNULL)
 
 
 def check_crop(_tmp_dir, _fastqc_dirs):
