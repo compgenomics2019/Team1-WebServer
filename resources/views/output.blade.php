@@ -1,13 +1,3 @@
-<!doctype html>
-<html lang="en">
-<head>
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-	<script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
-    <script type="text/javascript" src="js/d3.v3.js"></script>
-	<link href="{{ asset('css/StackedPlot.css') }}" rel="stylesheet" type="text/css" >
-</head>
-<body>
-
 @extends("main_template")
 
 @section('title', 'WebServer')

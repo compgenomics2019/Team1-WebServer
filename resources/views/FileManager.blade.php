@@ -1,11 +1,11 @@
 @extends("main_template")
 
-@section('title', 'FileManager')
+@section('title', 'LOKI')
 
 @section("navbar")
     <nav class="navbar navbar-expand-lg navbar-custom">
         <!--<img class="img" style="width:2%; display: block; height:2%" src="img/Icon.png">-->
-        <p class="navbar-brand"> Team1 Webserver - File Manager</p>
+        <p class="navbar-brand"> LOKI - File Manager</p>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -76,7 +76,8 @@
                 <div class="col-md-2 mb-3">
                     <label for="validationTooltip05">Category</label>
                     <select id="fileCategory" name="fileCategory[]" class="form-control">
-                        <option value="assemble" selected>assemble</option>
+                        <option value="assemble" selected>job</option>
+                        <option value="assemble">assemble</option>
                         <option value="prediction">prediction</option>
                         <option value="annotation">annotation</option>
                         <option value="comparative">comparative</option>
