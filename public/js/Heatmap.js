@@ -10,7 +10,7 @@ function plot_map(filename, div, title) {
     var svg = d3.select(div)
         .append("svg")
         .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
+        .attr("height", 500)
         .append("g")
         .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")");
@@ -71,10 +71,18 @@ function plot_map(filename, div, title) {
                 .style("opacity", 1)
         }
         var mousemove = function (d) {
+			var vval = 100
+		    if(div == "#Virulence"){vval=800}
+			if(d.value == 1){
             tooltip
-                .html("The exact value of<br>this cell is: " + d.value)
-                .style("left", (d3.mouse(this)[0] + 70) + "px")
-                .style("top", (d3.mouse(this)[1]) + "px")
+                .html("Isolate"+d.variable+" is resistant to " + d.group)
+                .style("left", (d3.mouse(this)[0] + vval) + "px")
+                .style("top", (d3.mouse(this)[1]) + "px")}
+			else{
+            tooltip
+                .html("Isolate"+d.variable+" is not resistant to " + d.group)
+                .style("left", (d3.mouse(this)[0] + vval) + "px")
+                .style("top", (d3.mouse(this)[1]) + "px")}				
         }
         var mouseleave = function (d) {
             tooltip
@@ -129,5 +137,46 @@ function plot_map(filename, div, title) {
         .style("fill", "grey")
         .style("max-width", 400)
         .text("A short description of the take-away message of this chart.");
+		
+		var cellSize = 17;
+	    var myColor = ["white", "#e68a00"];	
+
+		
+	if(div == "#Virulence"){
+		var key = svg.append("g")
+            .attr("id","key")
+            .attr("class","key")
+            .attr("transform", "translate(170,400)");
+        
+        key.selectAll("rect")
+            .data(myColor)
+            .enter()
+            .append("rect")
+            .attr("width",cellSize)
+            .attr("height",cellSize)
+			.attr("stroke","black")
+            .attr("x",function(d,i){
+                return i*130;
+            })
+            .attr("fill",function(d){
+                return d;
+            });
+        
+        key.selectAll("text")
+            .data(myColor)
+            .enter()
+            .append("text")
+            .attr("x",function(d,i){
+                return cellSize+5+(i*130);
+            })
+            .attr("y","1em")
+            .text(function(d,i){
+                if (i<myColor.length-1){
+                    return "Nonresistant";
+                }   else    {
+                    return "Resistant";   
+                }
+	});
+	}
 
 }
