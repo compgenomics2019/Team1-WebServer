@@ -4,7 +4,7 @@
 
 @section("navbar")
     <nav class="navbar navbar-expand-lg navbar-custom">
-        <a class="navbar-brand" href=""> LOKI </a>
+        <a class="navbar-brand" href=""> LOKI - ecoLi OutbreaK Investigator</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -28,10 +28,6 @@
             <img class="banner-img" style="width:100%; display: block; height:5%" src="img/banner.jpg">
         </div>
         <div class="container">
-            <p style="color: black; font-size:20px;">
-                Welcome to use ecoLi OutbreaK Investigator !
-            </p>
-
         </div>
     </div>
 @endsection

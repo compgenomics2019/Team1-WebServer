@@ -4,7 +4,7 @@ plot_map("VFs.csv", "#Virulence", "Virulence Factors")
 function plot_map(filename, div, title) {
     var margin = {top: 80, right: 25, bottom: 30, left: 40},
         width = 450 - margin.left - margin.right,
-        height = 450 - margin.top - margin.bottom;
+        height = 470 - margin.top - margin.bottom;
 
     // append the svg object to the body of the page
     var svg = d3.select(div)
