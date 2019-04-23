@@ -121,7 +121,11 @@ class FileManagerController extends Controller
             echo("<script>console.log('".$base_cmd."');</script>");
         }
         exec($base_cmd." 2>&1", $array, $return);
+        if ($return != 0){
+            return response()->json(['error' => "pipeline failed"], 404);
+        }
         echo("<script>console.log('".implode(" ", $array)."');</script>");
-        return response()->json(['cmd' => '$base_cmd', 'success' => 'succcess'], 200);
+        $nwk = Storage::get('uploads/newtrick.nwk');
+        return response()->json(['$tree' => $nwk], 200);
     }
 }
