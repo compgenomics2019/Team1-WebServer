@@ -132,18 +132,6 @@
                                    checked="checked">
                             <label class="form-check-label" for="inlineCheckbox1">Functional Annotation</label>
                         </div>
-                        <div class="col-md-4 mb-3">
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="annotationRadio" id="annotationRadio"
-                                       value="vfdb" checked="checked">
-                                <label class="form-check-label" for="inlineCheckbox1">vfDB</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="annotationRadio" id="annotationRadio"
-                                       value="card">
-                                <label class="form-check-label" for="inlineCheckbox2">CARD</label>
-                            </div>
-                        </div>
                     </div>
                     <div class="form-row">
                         {{--comparative genomics options--}}
@@ -228,7 +216,6 @@
                     inputFile1: f1,
                     inputFile2: f2,
                     jobName: $('#jobName').val(),
-                    annotationRadio: $("#annotationRadio").val(),
                     email: $("#email").val(),
                     doAssemble: ass,
                     doPrediction: pred,
