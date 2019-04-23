@@ -380,100 +380,6 @@ def trim_files(input_files, tmp_dir, trimmomatic_jar):
         run_fake_trim(trimmomatic_jar, input_files, tmp_dir)
 
 # comparative
-def kSNP3(inFile, outDir, job):
-    ## Automatically create in file, makefasta, kchooser for user and run kSNP3
-    # Copy .fasta contigs file (from Genome Assembly output) into directory w/ database contigs for MakeKSNPinfile command
-    subprocess.call(["mkdir", "../storage/app/public/{0}/ksnp_in".format(job)])
-    subprocess.call(["cp", "../storage/app/uploads/assemble/{}_genome.fasta".format(job), "../storage/app/public/{0}/ksnp_in/{0}.fasta".format(job)])
-    input_File = "../storage/app/public/%s/ksnp_in_file"%job
-    input_Dir = "../storage/app/public/%s/ksnp_in/"%job
-    cmd_prefix = "../../team1tools/ComparativeGenomics/kSNP3.1_Linux_package/kSNP3"
-    # Creates input file, which is just a list of all of the genome file paths
-    MakeKSNPin = [cmd_prefix + "/MakeKSNP3infile", input_Dir, input_File, "A"]
-    subprocess.call(MakeKSNPin)
-    # Concatenates all genomic files for a fasta to optimize k-mer length
-    makeFASTA = [cmd_prefix + "/MakeFasta", input_File, "../storage/app/public/%s/ksnp_fasta_file"%job]
-    subprocess.call(makeFASTA)
-    # Optimize k-mer length
-    # kCHOOSE_r = [cmd_prefix + "/Kchooser", "../storage/app/public/%s/ksnp_fasta_file"%job]
-    # subprocess.call(kCHOOSE_r)
-    # # Parse Kchooser.report for optimal k-value
-    # print("here")
-    # file_hand = open('../storage/app/public/%s/Kchooser.report'% job, 'r')
-    # k_val = 0
-    # for i in file_hand:
-    #     if i.startswith('When'):
-    #         k_val = int(i.split()[3])
-    # file_hand.close()
-    # Run kSNP3 given input file and optimal k-mer length
-    k_script = [cmd_prefix + "/kSNP3", "-in", input_File,"-outdir",outDir, "-k", "19", "-ML", "|", "tee", "../storage/app/public/%s/ksnp_log"%job]
-    subprocess.call(k_script)
-
-def calDifference1(inFile):
-    """ before calculate difference for output of cgMLST, the last two columns need to be cut
-    the output will be on the inFile """
-    inFile_dropST = os.path.abspath(inFile) + "_dropST.csv"
-    dropColumns(inFile, inFile_dropST)
-    outFile = os.path.join("/".join(os.path.abspath(inFile_dropST).split("/")[:-1]), "diffMatrix.csv")
-
-    # after dropping ST columns, now can begin calculating the difference
-    create_diff_matrix(inFile_dropST, outFile)
-
-
-def dropColumns(inFile, outFile):
-    file = pd.read_csv(inFile, sep='\t')
-    file = file.drop(columns=['ST', 'clonal_complex'])  ### drop columns
-    file.to_csv(outFile, sep=',', index=False)  ### write into csv
-
-
-def createMatrix(names, size):
-    m = [[]] * (size + 1)
-    for i in range(size + 1):
-        m[i] = [[]] * (size + 1)
-    m[0][0] = "name"
-    for r in range(1, size + 1):
-        m[r][0] = names[r - 1]
-    for c in range(1, size + 1):
-        m[0][c] = names[c - 1]
-    # put 0= identical for m[i][j] where i==j, 100% means completely different
-    for r in range(1, size + 1):
-        for c in range(1, size + 1):
-            if r == c:
-                m[r][c] = 0
-    return m
-
-
-def calDifference2(gene1, gene2):
-    # iterate to each col and count different
-    diff_list = [i != j for i, j in zip(gene1, gene2)]  # [True, False,True, False...]
-    diff_val = diff_list.count(False) / len(gene1)  # count difference
-    return round(diff_val, 4)
-
-
-def create_diff_matrix(inputFile, outputFile):
-    with open(inputFile, newline='') as csv_file:
-        csv_reader = csv.reader(csv_file, delimiter=",")
-        next(csv_reader, None)  # skip header
-        row_list = list(csv_reader)  # all rows in cgMLST_matrix file, has 50 rows
-        nameList = [l[0] for l in row_list]
-        m = createMatrix(nameList, len(nameList))
-        idx_list = [i for i in range(50)]
-        pairs_list = list(itertools.combinations(idx_list, 2))
-
-        for pair in pairs_list:
-            gene1, gene2 = row_list[pair[0]][1:], row_list[pair[1]][1:]  # [1:] is to get rid of the first item CGT...
-            gene1_idx, gene2_idx = pair[0] + 1, pair[1] + 1
-            # print(gene1_idx,gene2_idx)
-            diff = calDifference2(gene1, gene2)
-            m[gene1_idx][gene2_idx] = diff
-            m[gene2_idx][gene1_idx] = diff
-        # print(DataFrame(m))
-    with open(outputFile, "w") as outFile:  # use csv.writer
-        wr = csv.writer(outFile)
-        for r in m:
-            wr.writerow(r)
-
-
 def MASH(path, job):
     ## Compute MASH distance while querying to find potentially related strains
     file_list=  os.listdir(path)
@@ -546,7 +452,7 @@ if __name__ == "__main__":
     # parameters for genome assembly: None
     # parameters for gene prediction: None
     # parameters for functional annotation
-    parser.add_argument('-f', help='card or vfdb')
+    # parser.add_argument('-f', help='card or vfdb')
     # parameters for comparative analysis
 
     # other parameters
@@ -578,10 +484,8 @@ if __name__ == "__main__":
     if args.c:
         in_annotation_faa = "../storage/app/uploads/prediction/%s.faa"%args.j
         in_annotation_fna = "../storage/app/uploads/prediction/%s.fna"%args.j
-        if args.f == "card":
-            CARD(in_annotation_faa, "../storage/app/uploads/annotation/%s.gff"%args.j)
-        else:
-            vfdb(in_annotation_fna, "../storage/app/uploads/annotation/%s.gff"%args.j)
+        vfdb(in_annotation_fna, "../storage/app/uploads/annotation/%s_vfdb.gff"%args.j)
+        CARD(in_annotation_faa, "../storage/app/uploads/annotation/%s_card.gff"%args.j)
     if args.d:
         in_compare = "../storage/app/uploads/annotation/%s.gff"%args.j
         out_dir = tmp
