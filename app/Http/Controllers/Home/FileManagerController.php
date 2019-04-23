@@ -102,20 +102,20 @@ class FileManagerController extends Controller
             // pass all pre check
             $base_cmd = '../../t1g5/bin/python3 ../scripts/main.py -j '.$request->input('jobName');
             echo("<script>console.log('".$base_cmd."');</script>");
-            if (!empty($request->input('doAssemble'))){
+            if ($request->input('doAssemble') == true){
                 $base_cmd = $base_cmd." -a";
                 $input_file = " --infastq ".$request->input('inputFile1')." ".$request->input('inputFile2');
             }
-            if (!empty($request->input('doPrediction'))){
+            if ($request->input('doPrediction') == true){
                 $base_cmd = $base_cmd." -b";
                 if (!isset($input_file)){
                     $input_file = " --infasta ".$request->input('inputFile1');
                 }
             }
-            if (!empty($request->input('doAnnotation'))){
+            if ($request->input('doAnnotation') == true){
                 $base_cmd = $base_cmd." -c -f ".$request->input('annotationRadio');
             }
-            if (!empty($request->input('doComparative'))){
+            if ($request->input('doComparative') == true){
                 $base_cmd = $base_cmd." -d";
             }
             $base_cmd = $base_cmd.$input_file;

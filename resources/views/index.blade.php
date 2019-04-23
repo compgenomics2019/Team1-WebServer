@@ -210,9 +210,9 @@ function clickrun() {
                     annotationRadio: $("#annotationRadio").val(),
                     email: $("#email").val(),
                     doAssemble: $("#doAssemble").is(':checked'),
-                    doPrediction: $("#doPrediction").val(),
-                    doAnnotation: $("#doAnnotation").val(),
-                    doComparative: $("#doComparative").val()
+                    doPrediction: $("#doPrediction").is(':checked'),
+                    doAnnotation: $("#doAnnotation").is(':checked'),
+                    doComparative: $("#doComparative").is(':checked')
 
                 },
                 success: function (result) {
