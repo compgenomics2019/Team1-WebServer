@@ -4,7 +4,7 @@
 
 @section("navbar")
     <nav class="navbar navbar-expand-lg navbar-custom">
-        <a class="navbar-brand" href="">ecoLi OutbreaK Investigator</a>
+        <a class="navbar-brand" href=""> Team1 Webserver</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -254,10 +254,6 @@
                     console.log("result", result);
                     document.getElementById("Head").innerHTML = "Analysis Pipeline";
                     $("#Error").modal('show');
-                    {{--win = window.open('{{url('output')}}');--}}
-                    {{--setTimeout(function () {--}}
-                    {{--win.ready(result["$tree"]);--}}
-                    {{--}, 2000);--}}
                 }
             });
 
