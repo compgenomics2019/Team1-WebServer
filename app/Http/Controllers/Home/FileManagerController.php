@@ -124,12 +124,4 @@ class FileManagerController extends Controller
         echo("<script>console.log('".implode(" ", $array)."');</script>");
         return response()->json(['cmd' => '$base_cmd', 'success' => 'succcess'], 200);
     }
-
-    public function download($job){
-
-    }
-
-    public function make_out($jobname){
-        return view("output") -> with("jobname", $jobname);
-    }
 }

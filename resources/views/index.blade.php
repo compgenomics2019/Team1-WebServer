@@ -81,171 +81,173 @@
 
                 {{--<form class="needs-validation" method="get" action="analysis/start" novalidate>--}}
                 {{--<form class="needs-validation" novalidate>--}}
-                    {{--IO options--}}
-                    <div class="modal-body">
-                        <div class="form-row">
-                            <div class="col-md-6 mb-3">
-                                <label for="validationTooltip02">InputFile#1</label>
-                                <select id="inputFile1" name="inputFile1" class="form-control">
-                                    @foreach ($files as $f)
-                                        <option>{{ $f }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="validationTooltip02">InputFile#2</label>
-                                <select id="inputFile2" name="inputFile2" class="form-control">
-                                    @foreach ($files as $f)
-                                        <option>{{ $f }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                {{--IO options--}}
+                <div class="modal-body">
+                    <div class="form-row">
+                        <div class="col-md-6 mb-3">
+                            <label for="validationTooltip02">InputFile#1</label>
+                            <select id="inputFile1" name="inputFile1" class="form-control">
+                                @foreach ($files as $f)
+                                    <option>{{ $f }}</option>
+                                @endforeach
+                            </select>
                         </div>
-                        <div class="form-row">
-                            <div class="col-md-6 mb-3">
-                                <label for="validationTooltip01">JobName</label>
-                                <input type="text" class="form-control" name="jobName" id="jobName" placeholder="job1"
-                                       required>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="validationTooltip01">Email</label>
-                                <input type="text" class="form-control" name="email" id="email"
-                                       placeholder="example@gatech.edu">
-                            </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="validationTooltip02">InputFile#2</label>
+                            <select id="inputFile2" name="inputFile2" class="form-control">
+                                @foreach ($files as $f)
+                                    <option>{{ $f }}</option>
+                                @endforeach
+                            </select>
                         </div>
-                        <div class="form-row">
-                            {{--assembly options--}}
-                            <div class="col-md-6 mb-3">
-                                <input class="" type="checkbox" name="doAssemble" id="doAssemble" value="1"
-                                       checked="checked">
-                                <label class="form-check-label" for="inlineCheckbox1">Assemble</label>
-                            </div>
-                            {{--gene prediction options--}}
-                            <div class="col-md-6 mb-3">
-                                <input class="" type="checkbox" name="doPrediction" id="doPrediction" value="1"
-                                       checked="checked">
-                                <label class="form-check-label" for="inlineCheckbox1">Gene Prediction</label>
-                            </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-6 mb-3">
+                            <label for="validationTooltip01">JobName</label>
+                            <input type="text" class="form-control" name="jobName" id="jobName" placeholder="job1"
+                                   required>
                         </div>
-                        {{--functional annotation options--}}
-                        <div class="form-row">
-                            <div class="col-md-6 mb-3">
-                                <input class="" type="checkbox" name="doAnnotation" id="doAnnotation" value="1"
-                                       checked="checked">
-                                <label class="form-check-label" for="inlineCheckbox1">Functional Annotation</label>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="annotationRadio" id="annotationRadio" value="vfdb" checked="checked">
-                                    <label class="form-check-label" for="inlineCheckbox1">vfDB</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="annotationRadio" id="annotationRadio" value="card">
-                                    <label class="form-check-label" for="inlineCheckbox2">CARD</label>
-                                </div>
-                            </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="validationTooltip01">Email</label>
+                            <input type="text" class="form-control" name="email" id="email"
+                                   placeholder="example@gatech.edu">
                         </div>
-                        <div class="form-row">
-                            {{--comparative genomics options--}}
-                            <div class="col-md-6 mb-3">
-                                <input class="" type="checkbox" name="doComparative" id="doComparative" value="1"
-                                       checked="checked">
-                                <label class="form-check-label" for="inlineCheckbox1">Comparative Analysis</label>
+                    </div>
+                    <div class="form-row">
+                        {{--assembly options--}}
+                        <div class="col-md-6 mb-3">
+                            <input class="" type="checkbox" name="doAssemble" id="doAssemble" value="1"
+                                   checked="checked">
+                            <label class="form-check-label" for="inlineCheckbox1">Assemble</label>
+                        </div>
+                        {{--gene prediction options--}}
+                        <div class="col-md-6 mb-3">
+                            <input class="" type="checkbox" name="doPrediction" id="doPrediction" value="1"
+                                   checked="checked">
+                            <label class="form-check-label" for="inlineCheckbox1">Gene Prediction</label>
+                        </div>
+                    </div>
+                    {{--functional annotation options--}}
+                    <div class="form-row">
+                        <div class="col-md-6 mb-3">
+                            <input class="" type="checkbox" name="doAnnotation" id="doAnnotation" value="1"
+                                   checked="checked">
+                            <label class="form-check-label" for="inlineCheckbox1">Functional Annotation</label>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="annotationRadio" id="annotationRadio"
+                                       value="vfdb" checked="checked">
+                                <label class="form-check-label" for="inlineCheckbox1">vfDB</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="annotationRadio" id="annotationRadio"
+                                       value="card">
+                                <label class="form-check-label" for="inlineCheckbox2">CARD</label>
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        {{--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>--}}
-                        {{--<button class="btn btn-success" id="play" type="submit">Run</button>--}}
-                        <button class="btn btn-success" id="run2_button"
-                                onClick="clickrun()">Run
-                        </button>
+                    <div class="form-row">
+                        {{--comparative genomics options--}}
+                        <div class="col-md-6 mb-3">
+                            <input class="" type="checkbox" name="doComparative" id="doComparative" value="1"
+                                   checked="checked">
+                            <label class="form-check-label" for="inlineCheckbox1">Comparative Analysis</label>
+                        </div>
                     </div>
+                </div>
+                <div class="modal-footer">
+                    {{--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>--}}
+                    {{--<button class="btn btn-success" id="play" type="submit">Run</button>--}}
+                    <button class="btn btn-success" id="run2_button"
+                            onClick="clickrun()">Run
+                    </button>
+                </div>
                 {{--</form>--}}
             </div>
         </div>
     </div>
-<div id="Success" class="modal fade">
-     <div class="modal-dialog">
-        <div class="modal-content">
+    <div id="Success" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="Head">Success!</h5>
                 </div>
-				<div class="modal-body" style="text-align:center">
-				    <h7> Follow this link for results: </h7>
+                <div class="modal-body" style="text-align:center">
+                    <h7> Follow this link for results:</h7>
                     <a style="text-align:center" id="successlink" href={{url('output')}}>http://predict2019t1.biosci.gatech.edu/output</a>
                 </div>
+            </div>
         </div>
-     </div>
-</div>
+    </div>
 
-<div id="Error" class="modal fade">
-     <div class="modal-dialog">
-        <div class="modal-content">
-				<div class="modal-body">
-				    <h7>Error! Check Inputs</h7>
+    <div id="Error" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h7>Error! Check Inputs</h7>
                 </div>
-		<div class="modal-footer">
-              <button class="btn btn-danger" data-dismiss="modal">OK</button>
-       </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger" data-dismiss="modal">OK</button>
+                </div>
+            </div>
         </div>
-     </div>
-</div>
+    </div>
 
-<script>
-function clickrun() {
+    <script>
+        function clickrun() {
             document.getElementById("Head").innerHTML = "Analysis Pipeline is running" + '<img src="img/ajax-loader.gif" alt="Wait" />';
             console.log("function is running");
             var url = 'start_ajax';
             var f1 = $('#inputFile1').val();
             var f2 = $('#inputFile2').val();
-            if ($("#doAssemble").is(':checked')){
+            if ($("#doAssemble").is(':checked')) {
                 var ass = 1;
-            }else{
+            } else {
                 var ass = 0;
             }
-            if ($("#doPrediction").is(':checked')){
+            if ($("#doPrediction").is(':checked')) {
                 var pred = 1;
-            }else{
+            } else {
                 var pred = 0;
             }
-            if ($("#doAnnotation").is(':checked')){
+            if ($("#doAnnotation").is(':checked')) {
                 var anno = 1;
-            }else{
+            } else {
                 var anno = 0;
             }
-            if ($("#doComparative").is(':checked')){
+            if ($("#doComparative").is(':checked')) {
                 var comp = 1;
-            }else{
+            } else {
                 var comp = 0;
             }
             console.log(ass, pred, anno, comp);
             $.ajax({
-                        url: url,
-                        type: 'GET',
-                        data: {
-                            inputFile1: f1,
-                            inputFile2: f2,
-                            jobName: $('#jobName').val(),
-                            annotationRadio: $("#annotationRadio").val(),
-                            email: $("#email").val(),
-                            doAssemble: ass,
-                            doPrediction: pred,
-                            doAnnotation: anno,
-                            doComparative: comp
+                url: url,
+                type: 'GET',
+                data: {
+                    inputFile1: f1,
+                    inputFile2: f2,
+                    jobName: $('#jobName').val(),
+                    annotationRadio: $("#annotationRadio").val(),
+                    email: $("#email").val(),
+                    doAssemble: ass,
+                    doPrediction: pred,
+                    doAnnotation: anno,
+                    doComparative: comp
 
-                        },
-                        success: function (result) {
-                            document.getElementById("Head").innerHTML = "Analysis Pipeline";
-                            console.log(result);
-                            $('#successlink').attr('href','http://predict2019t1.biosci.gatech.edu/output/' + $('#jobName').val());
-                            $("#myModal").modal('hide');
-                            $("#Success").modal('show');  // todo: modify link with jobname
+                },
+                success: function (result) {
+                    document.getElementById("Head").innerHTML = "Analysis Pipeline";
+                    console.log(result);
+                    $('#successlink').attr('href', 'http://predict2019t1.biosci.gatech.edu/output/' + $('#jobName').val());
+                    $("#myModal").modal('hide');
+                    $("#Success").modal('show');  // todo: modify link with jobname
 
-                        },
-                        error: function (result) {
-                            console.log("ajax error");
-                            console.log("resultjson: ", result.responseJSON);
+                },
+                error: function (result) {
+                    console.log("ajax error");
+                    console.log("resultjson: ", result.responseJSON);
                     console.log("resulttext: ", result.responseText);
                     console.log("result", result);
                     document.getElementById("Head").innerHTML = "Analysis Pipeline";
@@ -255,7 +257,7 @@ function clickrun() {
 
         }
 
-</script>
+    </script>
 @endsection
 @section("footer")
     <div class="container-fluid" style="background-color: black; position: fixed; left: 0; bottom: 0;">

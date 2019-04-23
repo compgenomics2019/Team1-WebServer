@@ -19,18 +19,13 @@ Route::get('about', function () {
     return view('about');
 });
 
-Route::get('output/{jobname}', 'Home\FileManagerController@make_out');
-
-Route::get('output2', function () {
-    return view('output2');
+Route::get('output', function () {
+    return view('output');
 });
 
-Route::get('/', 'Home\FileManagerController@get_file_list');
+Route::get('download/{jobname}', 'Home\FileManagerController@download');
 
 Route::get('start_ajax', 'Home\FileManagerController@ajax_analysis');
-
-//Route::get('analysis/start', 'Home\FileManagerController@start_analysis');
-
 
 Route::get('analysis/{status}', 'Home\FileManagerController@get_file_list');
 
