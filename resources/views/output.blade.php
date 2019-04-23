@@ -28,7 +28,8 @@
             <button class="tablinks active" onclick="openCity(event, 'London')">Phylogenetic Trees</button>
             <button class="tablinks" onclick="openCity(event, 'Paris')">Heatmaps</button>
             <button class="tablinks" onclick="openCity(event, 'Tokyo')">Time/Location</button>
-            <button class="tablinks" id="download" onclick="download()"></button>
+            {{--<button class="tablinks" id="download"></button>--}}
+            <button class="tablinks" id="download" onclick="location.href='{{url('FileManager/ready')}}'"></button>
         </div>
 
 
