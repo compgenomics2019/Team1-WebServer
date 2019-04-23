@@ -101,7 +101,6 @@ class FileManagerController extends Controller
         }else{
             // pass all pre check
             $base_cmd = '../../t1g5/bin/python3 ../scripts/main.py -j '.$request->input('jobName');
-            echo("<script>console.log('".$base_cmd."');</script>");
             if ($request->input('doAssemble') == true){
                 $base_cmd = $base_cmd." -a";
                 $input_file = " --infastq ".$request->input('inputFile1')." ".$request->input('inputFile2');
@@ -116,9 +115,13 @@ class FileManagerController extends Controller
                 $base_cmd = $base_cmd." -c -f ".$request->input('annotationRadio');
             }
             if ($request->input('doComparative') == true){
+                if (!isset($input_file)){
+                    $input_file = " --infasta ".$request->input('inputFile1');
+                }
                 $base_cmd = $base_cmd." -d";
             }
             $base_cmd = $base_cmd.$input_file;
+            echo("<script>console.log('".$base_cmd."');</script>");
         }
 //        dd($base_cmd);
         echo("<script>console.log('your script is running');</script>");

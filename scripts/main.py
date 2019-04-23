@@ -488,10 +488,10 @@ if __name__ == "__main__":
     parser.add_argument('--outfile', help='output file name')
     parser.add_argument('-j', required=True, help='jobname')
 
-    parser.add_argument('-a', action="store_true", help='do step 1')
-    parser.add_argument('-b', action="store_true", help='do step 2')
-    parser.add_argument('-c', action="store_true", help='do step 3')
-    parser.add_argument('-d', action="store_true", help='do step 4')
+    parser.add_argument('-a', action="store_true", default=False, help='do step 1')
+    parser.add_argument('-b', action="store_true", default=False, help='do step 2')
+    parser.add_argument('-c', action="store_true", default=False, help='do step 3')
+    parser.add_argument('-d', action="store_true", default=False, help='do step 4')
 
     # parameters for genome assembly: None
     # parameters for gene prediction: None
