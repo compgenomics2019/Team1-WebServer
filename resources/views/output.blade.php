@@ -70,8 +70,7 @@
         <div id="Tokyo" class="tabcontent">
             <div class="container" style="max-width:95%">
                 <div class="row" style="padding-top:40px">
-                    <div class="column" style="width:50%; text-align:center"
-                    ">
+                    <div class="column" style="width:50%; text-align:center">
                     <h4 style="padding-top:5px">Isolate Timeline</h4>
                     <div id="metric-modal"></div>
                 </div>
