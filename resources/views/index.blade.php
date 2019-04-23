@@ -114,13 +114,13 @@
                     <div class="form-row">
                         {{--assembly options--}}
                         <div class="col-md-6 mb-3">
-                            <input class="" type="checkbox" disabled name="doAssemble" id="doAssemble" value="1"
+                            <input class="" type="checkbox" name="doAssemble" id="doAssemble" value="1"
                                    checked="checked">
                             <label class="form-check-label" for="inlineCheckbox1">Assemble</label>
                         </div>
                         {{--gene prediction options--}}
                         <div class="col-md-6 mb-3">
-                            <input class="" type="checkbox" name="doPrediction" id="doPrediction" value="1"
+                            <input class="" type="checkbox" disabled name="doPrediction" id="doPrediction" value="1"
                                    checked="checked">
                             <label class="form-check-label" for="inlineCheckbox1">Gene Prediction</label>
                         </div>
