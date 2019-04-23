@@ -411,12 +411,12 @@ def kSNP3(inFile, outDir, job):
 
 def MASH(inFile, job):
     ## Compute MASH distance while querying to find potentially related strains
-    f = open(tmp + "{0}/distances.tab".format(job), "w")
+    f = open(tmp + "/distances.tab", "w")
     mash_cmd = ["../../team1tools/ComparativeGenomics/mash-Linux64-v2.0/mash", "dist", "../../team1tools/ComparativeGenomics/refseq.genomes.k21s1000.msh", inFile]
     subprocess.call(mash_cmd, stdout=f)
     f.close()
     f = open("{0}/strains_file.txt".format(tmp), "a")
-    mash_out = ["sort",  "-gk3" ,  tmp + "/{0}/distances.tab".format(job),  "|", "head", "-n1"]
+    mash_out = ["sort",  "-gk3" ,  tmp + "/distances.tab",  "|", "head", "-n1"]
     subprocess.call(mash_out, stdout=f)
     f.close()
 
