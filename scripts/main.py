@@ -387,14 +387,14 @@ def kSNP3(inFile, outDir, job):
     input_File = "../storage/app/public/ksnp_in.fasta"
     cmd_prefix = "../../team1tools/ComparativeGenomics/kSNP3.1_Linux_package/kSNP3"
     # Creates input file, which is just a list of all of the genome file paths
-    MakeKSNPin = cmd_prefix + "MakeKSNP3infile {} {}_ksnp_infile A".format(input_File, job)
-    subprocess.call(MakeKSNPin, shell=True)
+    MakeKSNPin = cmd_prefix + "/MakeKSNP3infile {} {}_ksnp_infile A".format(input_File, job)
+    subprocess.call(MakeKSNPin)
     # Concatenates all genomic files for a fasta to optimize k-mer length
-    makeFASTA = cmd_prefix + "MakeFasta {}_infile {}_ksnp.fasta".format(input_File, job)
-    subprocess.call(makeFASTA, shell=True)
+    makeFASTA = cmd_prefix + "/MakeFasta {}_infile {}_ksnp.fasta".format(input_File, job)
+    subprocess.call(makeFASTA)
     # Optimize k-mer length
-    kCHOOSE_r = cmd_prefix + "Kchooser {}.fasta".format(input_File)
-    subprocess.call(kCHOOSE_r, shell=True)
+    kCHOOSE_r = cmd_prefix + "/Kchooser {}.fasta".format(input_File)
+    subprocess.call(kCHOOSE_r)
     # Parse Kchooser.report for optimal k-value
     dir_kc = os.getcwd()
     file_hand = open('../storage/app/public/Kchooser.report', 'r')
@@ -404,8 +404,8 @@ def kSNP3(inFile, outDir, job):
             k_val = int(i.split()[3])
     file_hand.close()
     # Run kSNP3 given input file and optimal k-mer length
-    k_script = "kSNP3 -in {}_infile -outdir {} -k {} -ML | tee ../storage/app/public/ksnp_log".format(input_File, outDir, k_val)
-    subprocess.call(k_script, shell=True)
+    k_script = tmp + "/kSNP3 -in {}_infile -outdir {} -k {} -ML | tee ../storage/app/public/ksnp_log".format(input_File, outDir, k_val)
+    subprocess.call(k_script)
 
 def MASH(inFile, job):
     ## Compute MASH distance while querying to find potentially related strains
