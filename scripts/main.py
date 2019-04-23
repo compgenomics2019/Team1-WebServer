@@ -395,16 +395,16 @@ def kSNP3(inFile, outDir, job):
     makeFASTA = [cmd_prefix + "/MakeFasta", input_File, "../storage/app/public/%s/ksnp_fasta_file"%job]
     subprocess.call(makeFASTA)
     # Optimize k-mer length
-    kCHOOSE_r = [cmd_prefix + "/Kchooser", "../storage/app/public/%s/ksnp_fasta_file"%job]
-    subprocess.call(kCHOOSE_r)
-    # Parse Kchooser.report for optimal k-value
-    print("here")
-    file_hand = open('../storage/app/public/%s/Kchooser.report'% job, 'r')
-    k_val = 0
-    for i in file_hand:
-        if i.startswith('When'):
-            k_val = int(i.split()[3])
-    file_hand.close()
+    # kCHOOSE_r = [cmd_prefix + "/Kchooser", "../storage/app/public/%s/ksnp_fasta_file"%job]
+    # subprocess.call(kCHOOSE_r)
+    # # Parse Kchooser.report for optimal k-value
+    # print("here")
+    # file_hand = open('../storage/app/public/%s/Kchooser.report'% job, 'r')
+    # k_val = 0
+    # for i in file_hand:
+    #     if i.startswith('When'):
+    #         k_val = int(i.split()[3])
+    # file_hand.close()
     # Run kSNP3 given input file and optimal k-mer length
     k_script = [tmp + "/kSNP3", "-in", input_File,"-outdir",outDir, "-k", 39, "-ML" "|" "tee" "../storage/app/public/ksnp_log"]
     subprocess.call(k_script)
