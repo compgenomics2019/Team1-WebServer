@@ -406,7 +406,7 @@ def kSNP3(inFile, outDir, job):
     #         k_val = int(i.split()[3])
     # file_hand.close()
     # Run kSNP3 given input file and optimal k-mer length
-    k_script = [cmd_prefix + "/kSNP3", "-in", input_File,"-outdir",outDir, "-k", "19", "-ML" "|" "tee" "../storage/app/public/%s/ksnp_log"%job]
+    k_script = [cmd_prefix + "/kSNP3", "-in", input_File,"-outdir",outDir, "-k", "19", "-ML", "|", "tee", "../storage/app/public/%s/ksnp_log"%job]
     subprocess.call(k_script)
 
 def MASH(inFile, job):
