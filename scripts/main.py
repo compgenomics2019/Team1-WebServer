@@ -147,13 +147,13 @@ def vfdb(inputFile, outputFile):
 def CARD_rgi(inputFile):
     card = "../../team1tools/FunctionalAnnotation/rgi-4.2.2/card.json"
     model = "../../team1tools/FunctionalAnnotation/rgi-4.2.2/protein_fasta_protein_homolog_model.fasta"
-
-    subprocess.run(["../../t1g5/bin/python3", "../../team1tools/FunctionalAnnotation/rgi-4.2.2/rgi", "load",
+    subprocess.call(["export", "PATH=$PATH:/projects/VirtualHost/predicta/team1tools/FunctionalAnnotation/ncbi-blast-2.9.0+/bin"])
+    subprocess.call(["../../t1g5/bin/python3", "../../team1tools/FunctionalAnnotation/rgi-4.2.2/rgi", "load",
                     "-i", card, "--card_annotation", model
                        , "--local"])
 
-    subprocess.run(["../../t1g5/bin/python3", "../../team1tools/FunctionalAnnotation/rgi-4.2.2/rgi", "main", "-i",
-                    inputFile, "-o", tmp + "/card_temp.txt", "--input_type", "protein"
+    subprocess.call(["../../t1g5/bin/python3", "../../team1tools/FunctionalAnnotation/rgi-4.2.2/rgi", "main", "-i",
+                    inputFile, "-o", tmp + "/card_temp", "--input_type", "protein"
                        , "--local"])
 
 
