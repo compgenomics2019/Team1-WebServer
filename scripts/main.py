@@ -387,7 +387,7 @@ def kSNP3(inFile, outDir, job):
     input_File = "../storage/app/public/ksnp_in.fasta"
     cmd_prefix = "../../team1tools/ComparativeGenomics/kSNP3.1_Linux_package/kSNP3"
     # Creates input file, which is just a list of all of the genome file paths
-    MakeKSNPin = cmd_prefix + "/MakeKSNP3infile {} {}_ksnp_infile A".format(input_File, job)
+    MakeKSNPin = [cmd_prefix + "/MakeKSNP3infile", input_File, tmp + "/" + job + "_ksnp_infile A"]
     subprocess.call(MakeKSNPin)
     # Concatenates all genomic files for a fasta to optimize k-mer length
     makeFASTA = cmd_prefix + "/MakeFasta {}_infile {}_ksnp.fasta".format(input_File, job)
