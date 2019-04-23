@@ -335,7 +335,7 @@ function update(ColorBy,life) {
                 return d.data.name.replace(/_/g, " ");
             })
 			.attr('style', function (d) {
-				if(d.data.name == "Input")
+				if(d.data.name == "input")
 					return "fill:red;font-size:20px !important"
                 return "";
             })
