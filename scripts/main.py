@@ -525,7 +525,7 @@ def MASH(path, job):
 
         f.write(txt)
     meg_cmd = ["../storage/app/megacc", "-a", "../../team1tools/ComparativeGenomics/infer_NJ_distances.mao",
-               "-d", tmp + '/mummer.meg', "-o", '../storage/app/uploads/newtrick']
+               "-d", tmp + '/mummer.meg', "-o", '../storage/app/uploads/comparative/newtrick']
     subprocess.call(meg_cmd)
     print("newtrick done!")
 
