@@ -199,7 +199,27 @@ function clickrun() {
             var url = 'start_ajax';
             var f1 = $('#inputFile1').val();
             var f2 = $('#inputFile2').val();
-            console.log($("#doAssemble").is(':checked'));
+            if ($("#doAssemble").is(':checked')){
+                var ass = 1;
+            }else{
+                var ass = 0;
+            }
+            if ($("#doPrediction").is(':checked')){
+                var pred = 1;
+            }else{
+                var pred = 0;
+            }
+            if ($("#doAnnotation").is(':checked')){
+                var anno = 1;
+            }else{
+                var anno = 0;
+            }
+            if ($("#doComparative").is(':checked')){
+                var comp = 1;
+            }else{
+                var comp = 0;
+            }
+            console.log(ass, pred, anno, comp);
             $.ajax({
                 url: url,
                 type: 'GET',
@@ -209,10 +229,10 @@ function clickrun() {
                     jobName: $('#jobName').val(),
                     annotationRadio: $("#annotationRadio").val(),
                     email: $("#email").val(),
-                    doAssemble: $("#doAssemble").is(':checked'),
-                    doPrediction: $("#doPrediction").is(':checked'),
-                    doAnnotation: $("#doAnnotation").is(':checked'),
-                    doComparative: $("#doComparative").is(':checked')
+                    doAssemble: ass,
+                    doPrediction: pred,
+                    doAnnotation: anno,
+                    doComparative: comp
 
                 },
                 success: function (result) {
