@@ -197,7 +197,9 @@ function clickrun() {
             document.getElementById("Head").innerHTML = "Analysis Pipeline is running" + '<img src="img/ajax-loader.gif" alt="Wait" />';
             console.log("function is running");
             var url = 'start_ajax';
-            console.log($('#doAssemble').val());
+            var f1 = $('#inputFile1').val();
+            var f2 = $('#inputFile2').val();
+            console.log($("#doAssemble").is(':checked'));
             $.ajax({
                 url: url,
                 type: 'GET',
@@ -207,7 +209,7 @@ function clickrun() {
                     jobName: $('#jobName').val(),
                     annotationRadio: $("#annotationRadio").val(),
                     email: $("#email").val(),
-                    doAssemble: $("#doAssemble").val(),
+                    doAssemble: $("#doAssemble").is(':checked'),
                     doPrediction: $("#doPrediction").val(),
                     doAnnotation: $("#doAnnotation").val(),
                     doComparative: $("#doComparative").val()
