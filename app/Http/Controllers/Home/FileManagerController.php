@@ -97,7 +97,7 @@ class FileManagerController extends Controller
             return response()->json(['error' => "error: nojob"], 404);
         }else{
             // pass all pre check
-            $base_cmd = '../../t1g5/bin/python3 ../scripts/main.py -j '.$request->input('jobName');
+            $base_cmd = '../../t1g5/bin/python3 ../scripts/main.py';
             if ($request->input('doAssemble') == '1'){
                 $base_cmd = $base_cmd." -a";
                 $input_file = " --infastq ".$request->input('inputFile1')." ".$request->input('inputFile2');
