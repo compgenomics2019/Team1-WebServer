@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-});
+Route::get('/', 'Home\FileManagerController@get_file_list');
 
 Route::get('about', function () {
     return view('about');
