@@ -180,7 +180,8 @@ def rgi_to_gff(inputFile, outputFile):
 
 
 def CARD(inputFile, outputFile):
-    subprocess.call(["mkdir", "/projects/VirtualHost/predicta/web_src/storage/rgidb"])
+    if not os.path.exists("/projects/VirtualHost/predicta/web_src/storage/rgidb"):
+        subprocess.call(["mkdir", "/projects/VirtualHost/predicta/web_src/storage/rgidb"])
     cardtemp = tmp + "/card_temp.txt"
     # cardtemp2 = tmp + "/card_temp.json"
 
