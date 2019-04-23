@@ -537,7 +537,7 @@ if __name__ == "__main__":
     if args.d:
         in_compare = "../storage/app/uploads/annotation/%s.gff"%args.j
         out_dir = tmp
-        kSNP3(in_compare, out_dir, args.j)
+        # kSNP3(in_compare, out_dir, args.j)
         MASH("../storage/app/uploads/assemble/" + args.j + "_genome.fasta", args.j)
 
     # subprocess.call(['rm', "-rf", tmp])
