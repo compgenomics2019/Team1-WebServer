@@ -118,13 +118,13 @@ class FileManagerController extends Controller
                 $base_cmd = $base_cmd." -d";
             }
             $base_cmd = $base_cmd.$input_file;
-            echo("<script>console.log('".$base_cmd."');</script>");
+//            echo("<script>console.log('".$base_cmd."');</script>");
         }
         exec($base_cmd." 2>&1", $array, $return);
         if ($return != 0){
             return response()->json(['error' => "pipeline failed"], 404);
         }
-        echo("<script>console.log('".implode(" ", $array)."');</script>");
+//        echo("<script>console.log('".implode(" ", $array)."');</script>");
         $nwk = Storage::get('comparative/newtrick.nwk');
         return response()->json(['$tree' => $nwk], 200);
     }
