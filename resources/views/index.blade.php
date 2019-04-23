@@ -173,7 +173,7 @@
                 </div>
 				<div class="modal-body" style="text-align:center">
 				    <h7> Follow this link for results: </h7>
-                    <a style="text-align:center" href={{url('output')}}>http://predict2019t1.biosci.gatech.edu/output</a>
+                    <a style="text-align:center" id="successlink" href={{url('output')}}>http://predict2019t1.biosci.gatech.edu/output</a>
                 </div>
         </div>
      </div>
@@ -221,30 +221,31 @@ function clickrun() {
             }
             console.log(ass, pred, anno, comp);
             $.ajax({
-                url: url,
-                type: 'GET',
-                data: {
-                    inputFile1: f1,
-                    inputFile2: f2,
-                    jobName: $('#jobName').val(),
-                    annotationRadio: $("#annotationRadio").val(),
-                    email: $("#email").val(),
-                    doAssemble: ass,
-                    doPrediction: pred,
-                    doAnnotation: anno,
-                    doComparative: comp
+                        url: url,
+                        type: 'GET',
+                        data: {
+                            inputFile1: f1,
+                            inputFile2: f2,
+                            jobName: $('#jobName').val(),
+                            annotationRadio: $("#annotationRadio").val(),
+                            email: $("#email").val(),
+                            doAssemble: ass,
+                            doPrediction: pred,
+                            doAnnotation: anno,
+                            doComparative: comp
 
-                },
-                success: function (result) {
-					document.getElementById("Head").innerHTML = "Analysis Pipeline";
-                    console.log(result);
-                    $("#myModal").modal('hide');
-                    $("#Success").modal('show');  // todo: modify link with jobname
+                        },
+                        success: function (result) {
+                            document.getElementById("Head").innerHTML = "Analysis Pipeline";
+                            console.log(result);
+                            $('#successlink').attr('href','http://predict2019t1.biosci.gatech.edu/output/' + $('#jobName').val());
+                            $("#myModal").modal('hide');
+                            $("#Success").modal('show');  // todo: modify link with jobname
 
-                },
-                error: function (result) {
-                    console.log("ajax error");
-                    console.log("resultjson: ", result.responseJSON);
+                        },
+                        error: function (result) {
+                            console.log("ajax error");
+                            console.log("resultjson: ", result.responseJSON);
                     console.log("resulttext: ", result.responseText);
                     console.log("result", result);
                     document.getElementById("Head").innerHTML = "Analysis Pipeline";

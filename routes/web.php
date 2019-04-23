@@ -19,9 +19,7 @@ Route::get('about', function () {
     return view('about');
 });
 
-Route::get('output', function () {
-    return view('output');
-});
+Route::get('output/{jobname}', 'Home\FileManagerController@make_output');
 
 Route::get('output2', function () {
     return view('output2');

@@ -125,4 +125,11 @@ class FileManagerController extends Controller
         return response()->json(['cmd' => '$base_cmd', 'success' => 'succcess'], 200);
     }
 
+    public function download($job){
+
+    }
+
+    public function make_out($jobname){
+        return view("output") -> with("jobname", $jobname);
+    }
 }

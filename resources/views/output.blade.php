@@ -5,7 +5,7 @@
 @section("navbar")
     <nav class="navbar navbar-expand-lg navbar-custom">
         <!--<img class="img" style="width:2%; display: block; height:2%" src="img/Icon.png">-->
-        <a class="navbar-brand" href=""> Team1 Webserver - Results</a>
+        <a class="navbar-brand" href=""> Team1 Webserver - Results for {!! $jobname !!}</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -90,7 +90,40 @@
 
 <script>
 function download(){
-	
+	var url = 'download';
+	$.ajax({
+		url: url,
+		type: 'POST',
+		data: {
+			inputFile1: f1,
+			inputFile2: f2,
+			jobName: $('#jobName').val(),
+			annotationRadio: $("#annotationRadio").val(),
+			email: $("#email").val(),
+			doAssemble: ass,
+			doPrediction: pred,
+			doAnnotation: anno,
+			doComparative: comp
+
+		},
+		success: function (result) {
+			document.getElementById("Head").innerHTML = "Analysis Pipeline";
+			console.log(result);
+			$('#home_keleyi_com').attr('href','http://keleyi.com');
+
+			$("#myModal").modal('hide');
+			$("#Success").modal('show');  // todo: modify link with jobname
+
+		},
+		error: function (result) {
+			console.log("ajax error");
+			console.log("resultjson: ", result.responseJSON);
+			console.log("resulttext: ", result.responseText);
+			console.log("result", result);
+			document.getElementById("Head").innerHTML = "Analysis Pipeline";
+			$("#Error").modal('show');
+		}
+	});
 }
 </script>
 @endsection
