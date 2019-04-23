@@ -456,6 +456,10 @@ def MASH(path, job):
                     j += 1
 
         f.write(txt)
+    meg_cmd = ["megacc", "-a", "../../team1tools/ComparativeGenomics/infer_NJ_distances.mao",
+               "-d", tmp + '/mummer.meg', "-o", tmp + '/newtrick']
+    subprocess.call(meg_cmd)
+    print("newtrick done!")
 
 
 def calDifference1(inFile):
