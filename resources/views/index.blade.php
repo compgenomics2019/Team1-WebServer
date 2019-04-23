@@ -105,11 +105,11 @@
                             <input type="text" class="form-control" name="jobName" id="jobName" placeholder="job1"
                                    required>
                         </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="validationTooltip01">Email</label>
-                            <input type="text" class="form-control" name="email" id="email"
-                                   placeholder="example@gatech.edu">
-                        </div>
+                        {{--<div class="col-md-6 mb-3">--}}
+                        {{--<label for="validationTooltip01">Email</label>--}}
+                        {{--<input type="text" class="form-control" name="email" id="email"--}}
+                        {{--placeholder="example@gatech.edu">--}}
+                        {{--</div>--}}
                     </div>
                     <div class="form-row">
                         {{--assembly options--}}
@@ -120,7 +120,7 @@
                         </div>
                         {{--gene prediction options--}}
                         <div class="col-md-6 mb-3">
-                            <input class="" type="checkbox" name="doPrediction" id="doPrediction" value="1"
+                            <input class="" type="checkbox" disabled name="doPrediction" id="doPrediction" value="1"
                                    checked="checked">
                             <label class="form-check-label" for="inlineCheckbox1">Gene Prediction</label>
                         </div>
@@ -128,7 +128,7 @@
                     {{--functional annotation options--}}
                     <div class="form-row">
                         <div class="col-md-6 mb-3">
-                            <input class="" type="checkbox" name="doAnnotation" id="doAnnotation" value="1"
+                            <input class="" type="checkbox" disabled name="doAnnotation" id="doAnnotation" value="1"
                                    checked="checked">
                             <label class="form-check-label" for="inlineCheckbox1">Functional Annotation</label>
                         </div>
@@ -148,7 +148,7 @@
                     <div class="form-row">
                         {{--comparative genomics options--}}
                         <div class="col-md-6 mb-3">
-                            <input class="" type="checkbox" name="doComparative" id="doComparative" value="1"
+                            <input class="" type="checkbox" disabled name="doComparative" id="doComparative" value="1"
                                    checked="checked">
                             <label class="form-check-label" for="inlineCheckbox1">Comparative Analysis</label>
                         </div>
@@ -238,7 +238,7 @@
                 },
                 success: function (result) {
                     document.getElementById("Head").innerHTML = "Analysis Pipeline";
-                    console.log(result);
+                    // console.log(result);
                     console.log(result["$tree"]);
                     $("#myModal").modal('hide');
                     $("#Success").modal('show');
@@ -249,15 +249,15 @@
                 },
                 error: function (result) {
                     console.log("ajax error");
-                    console.log("resultjson: ", result.responseJSON);
-                    console.log("resulttext: ", result.responseText);
+                    // console.log("resultjson: ", result.responseJSON);
+                    // console.log("resulttext: ", result.responseText);
                     console.log("result", result);
                     document.getElementById("Head").innerHTML = "Analysis Pipeline";
                     $("#Error").modal('show');
-                    win = window.open('{{url('output')}}');
-                    setTimeout(function () {
-                        win.ready(result["$tree"]);
-                    }, 2000);
+                    {{--win = window.open('{{url('output')}}');--}}
+                    {{--setTimeout(function () {--}}
+                    {{--win.ready(result["$tree"]);--}}
+                    {{--}, 2000);--}}
                 }
             });
 
