@@ -383,6 +383,7 @@ def trim_files(input_files, tmp_dir, trimmomatic_jar):
 def kSNP3(inFile, outDir, job):
     ## Automatically create in file, makefasta, kchooser for user and run kSNP3
     # Copy .fasta contigs file (from Genome Assembly output) into directory w/ database contigs for MakeKSNPinfile command
+    subprocess.call(["mkdir", "../storage/app/public/{0}/ksnp_in".format(job)])
     subprocess.call(["cp", "../storage/app/uploads/assemble/{}_genome.fasta".format(job), "../storage/app/public/{0}/ksnp_in/{0}.fasta".format(job)])
     input_File = "../storage/app/public/%s/ksnp_in_file"%job
     input_Dir = "../storage/app/public/%s/ksnp_in/"%job
