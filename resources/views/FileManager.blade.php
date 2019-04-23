@@ -5,7 +5,7 @@
 @section("navbar")
     <nav class="navbar navbar-expand-lg navbar-custom">
         <!--<img class="img" style="width:2%; display: block; height:2%" src="img/Icon.png">-->
-        <p class="navbar-brand"> LOKI - File Manager</p>
+        <p class="navbar-brand">LOKI</p>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
