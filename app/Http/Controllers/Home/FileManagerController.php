@@ -89,7 +89,7 @@ class FileManagerController extends Controller
     {
         $input = $request->all();
 //        echo($input);
-        echo("<script>console.log($request->input('doAssemble'));</script>");
+//        echo("<script>console.log($request->input('doAssemble'));</script>");
         // check input
         // todo: check if job name exists
         if ($request->input('inputFile1') == $request->input('inputFile2')){
@@ -124,7 +124,7 @@ class FileManagerController extends Controller
             echo("<script>console.log('".$base_cmd."');</script>");
         }
 //        dd($base_cmd);
-        echo("<script>console.log('your script is running');</script>");
+//        echo("<script>console.log('your script is running');</script>");
         exec($base_cmd." 2>&1", $array, $return);
         echo("<script>console.log('".implode(" ", $array)."');</script>");
 //        dd($array);
