@@ -161,7 +161,7 @@ def rgi_to_gff(inputFile, outputFile):
     file = open(inputFile, 'r', encoding='latin-1')
     next(file)
 
-    output_name = outputFile + ".gff"
+    output_name = outputFile
     output = open(output_name, "w")
     output.write("##gff-version 3\n")
 
