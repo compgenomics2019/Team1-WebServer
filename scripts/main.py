@@ -409,59 +409,6 @@ def kSNP3(inFile, outDir, job):
     k_script = [cmd_prefix + "/kSNP3", "-in", input_File,"-outdir",outDir, "-k", "19", "-ML", "|", "tee", "../storage/app/public/%s/ksnp_log"%job]
     subprocess.call(k_script)
 
-def MASH(path, job):
-    ## Compute MASH distance while querying to find potentially related strains
-    file_list=  os.listdir(path)
-    fifty_csv = "../storage/app/isolates/50_distances.csv"
-    isolates_df = pd.read_csv(fifty_csv, header=None, index_col=None)
-    isolates_df.columns = [i.split("_")[0] for i in file_list]
-    isolates_df.index = [i.split("_")[0] for i in file_list]
-    isolates_df.loc["input"] = 0
-    isolates_df["input"] = 0
-    for idx, file in enumerate(file_list):
-        mash_cmd = subprocess.Popen(["../../team1tools/ComparativeGenomics/mash-Linux64-v2.0/mash",
-                         "dist",
-                         "../storage/app/uploads/assemble/" + job + "_genome.fasta",
-                         os.path.join(path, file)], stdout=subprocess.PIPE)
-        mash_out, _ = mash_cmd.communicate()
-        mash_out = float(mash_out.decode("utf-8").split()[2])
-        isolates_df.iloc[idx, len(file_list)] = mash_out
-        isolates_df.iloc[len(file_list), idx] = mash_out
-        print(idx, file, mash_out, sep="-" * 5)
-    isolates_df.to_csv(tmp + "/mash.csv", header=True, index=True)
-
-    with open(tmp + '/mummer.meg', 'w') as f:
-        txt = '#mega\n'
-        txt += '!Title: Genetic distance data of N meningitidis strains;\n'
-        txt += '!Format DataType=Distance DataFormat=LowerLeft NTaxa=50;\n'
-        txt += '!Description\n'
-        txt += 'Genetic distance data of N meningitidis strains based on predicted cgMLST;\n\n'
-        with open(tmp + "/mash.csv", "r") as fp:
-            count = 0
-            j = 0
-            for line in fp:
-                if count == 0:
-                    count += 1
-                    contigs = line.strip().split(',')[1:]
-                    contigs = [contig.split('.')[0] for contig in contigs]
-                    contigs = [contig.split('_')[0] for contig in contigs]
-                    for contig in contigs:
-                        txt += '#' + contig + '\n'
-                    txt += '\n'
-                else:
-                    string = ''
-                    for i in range(j):
-                        string += line.strip().split(',')[1:][i] + '\t'
-                    txt += string + '\n'
-                    j += 1
-
-        f.write(txt)
-    meg_cmd = ["megacc", "-a", "../../team1tools/ComparativeGenomics/infer_NJ_distances.mao",
-               "-d", tmp + '/mummer.meg', "-o", tmp + '/newtrick']
-    subprocess.call(meg_cmd)
-    print("newtrick done!")
-
-
 def calDifference1(inFile):
     """ before calculate difference for output of cgMLST, the last two columns need to be cut
     the output will be on the inFile """
@@ -527,6 +474,62 @@ def create_diff_matrix(inputFile, outputFile):
             wr.writerow(r)
 
 
+def MASH(path, job):
+    ## Compute MASH distance while querying to find potentially related strains
+    file_list=  os.listdir(path)
+    fifty_csv = "../storage/app/isolates/50_distances.csv"
+    isolates_df = pd.read_csv(fifty_csv, header=None, index_col=None)
+    isolates_df.columns = [i.split("_")[0] for i in file_list]
+    isolates_df.index = [i.split("_")[0] for i in file_list]
+    isolates_df.loc["input"] = 0
+    isolates_df["input"] = 0
+    for idx, file in enumerate(file_list):
+        mash_cmd = subprocess.Popen(["../../team1tools/ComparativeGenomics/mash-Linux64-v2.0/mash",
+                         "dist",
+                         "../storage/app/uploads/assemble/" + job + "_genome.fasta",
+                         os.path.join(path, file)], stdout=subprocess.PIPE)
+        mash_out, _ = mash_cmd.communicate()
+        mash_out = float(mash_out.decode("utf-8").split()[2])
+        isolates_df.iloc[idx, len(file_list)] = mash_out
+        isolates_df.iloc[len(file_list), idx] = mash_out
+        print(idx, file, mash_out, sep="-" * 5)
+    isolates_df.to_csv(tmp + "/mash.csv", header=True, index=True)
+
+    with open(tmp + '/mummer.meg', 'w') as f:
+        txt = '#mega\n'
+        txt += '!Title: Genetic distance data of N meningitidis strains;\n'
+        txt += '!Format DataType=Distance DataFormat=LowerLeft NTaxa=51;\n'
+        txt += '!Description\n'
+        txt += 'Genetic distance data of N meningitidis strains based on predicted cgMLST;\n\n'
+        with open(tmp + "/mash.csv", "r") as fp:
+            count = 0
+            j = 0
+            for line in fp:
+                if count == 0:
+                    count += 1
+                    contigs = line.strip().split(',')[1:]
+                    contigs = [contig.split('.')[0] for contig in contigs]
+                    contigs = [contig.split('_')[0] for contig in contigs]
+                    for contig in contigs:
+                        txt += '#' + contig + '\n'
+                    txt += '\n'
+                else:
+                    string = ''
+                    for i in range(j):
+                        value = float(line.strip().split(',')[1:][i])
+                        if value < 0.01:
+                            value = 0
+                        string += str(value) + '\t'
+                    txt += string + '\n'
+                    j += 1
+
+        f.write(txt)
+    meg_cmd = ["../storage/app/megacc", "-a", "../../team1tools/ComparativeGenomics/infer_NJ_distances.mao",
+               "-d", tmp + '/mummer.meg', "-o", tmp + '/newtrick']
+    subprocess.call(meg_cmd)
+    print("newtrick done!")
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     # I/O parameters
@@ -586,5 +589,5 @@ if __name__ == "__main__":
         MASH("../storage/app/isolates/scaffolds/", args.j)
 
     # subprocess.call(['rm', "-rf", tmp])
-    newtrick = "(((CGT1803:0.0,CGT1831:0.0):0.00014,(CGT1036:0.0,CGT1293:0.0):0.00015)0.000:0.00015,((((((CGT1292:0.00054,CGT1595:0.00014)0.767:0.00053,CGT1145:0.00015)0.000:0.00014,CGT1751:0.00015)0.595:0.00015,((((CGT1288:0.00014,((CGT1200:0.00015,CGT1913:0.00994)0.997:0.00863,CGT1671:0.00721)1.000:0.01494)1.000:0.98756,(((CGT1204:0.00161,CGT1357:0.00378)0.997:0.00647,((CGT1686:0.00689,CGT1203:0.00310)0.967:0.00351,CGT1240:0.00592)0.999:0.00701)0.993:0.00535,CGT1743:0.00014)1.000:0.41707)0.827:0.05405,((((CGT1552:0.00105,CGT1042:0.00106)0.603:0.00014,CGT1891:0.00176)0.979:0.00351,CGT1729:0.00104)0.987:0.00582,CGT1814:0.00014)1.000:0.22699)1.000:0.13625,((CGT1688:0.02774,CGT1365:0.00193)1.000:0.02389,CGT1953:0.00014)1.000:0.10406)1.000:0.11930)0.000:0.00011,(CGT1032:0.0,CGT1058:0.0,CGT1759:0.0):0.00052)0.706:0.00053,(CGT1785:0.00273,CGT1548:0.00052)0.732:0.00053)0.989:0.00375,(((CGT1020:0.00053,CGT1720:0.00014)0.933:0.00206,CGT1704:0.00014)0.795:0.00014,(((CGT1358:0.00014,(((CGT1077:0.0,CGT1166:0.0,CGT1217:0.0,CGT1309:0.0,CGT1419:0.0):0.00014,(CGT1294:0.0,CGT1350:0.0,CGT1572:0.0,CGT1632:0.0):0.00014)0.000:0.00014,CGT1239:0.00014)0.000:0.00014)0.922:0.00100,(CGT1476:0.00014,(CGT1752:0.00014,CGT1491:0.00014)0.000:0.00014)0.903:0.00015)0.804:0.00053,(CGT1033:0.0,CGT1602:0.0):0.00016)0.810:0.00055)0.000:0.00014);"
-    print(newtrick)
+    # newtrick = "(((CGT1803:0.0,CGT1831:0.0):0.00014,(CGT1036:0.0,CGT1293:0.0):0.00015)0.000:0.00015,((((((CGT1292:0.00054,CGT1595:0.00014)0.767:0.00053,CGT1145:0.00015)0.000:0.00014,CGT1751:0.00015)0.595:0.00015,((((CGT1288:0.00014,((CGT1200:0.00015,CGT1913:0.00994)0.997:0.00863,CGT1671:0.00721)1.000:0.01494)1.000:0.98756,(((CGT1204:0.00161,CGT1357:0.00378)0.997:0.00647,((CGT1686:0.00689,CGT1203:0.00310)0.967:0.00351,CGT1240:0.00592)0.999:0.00701)0.993:0.00535,CGT1743:0.00014)1.000:0.41707)0.827:0.05405,((((CGT1552:0.00105,CGT1042:0.00106)0.603:0.00014,CGT1891:0.00176)0.979:0.00351,CGT1729:0.00104)0.987:0.00582,CGT1814:0.00014)1.000:0.22699)1.000:0.13625,((CGT1688:0.02774,CGT1365:0.00193)1.000:0.02389,CGT1953:0.00014)1.000:0.10406)1.000:0.11930)0.000:0.00011,(CGT1032:0.0,CGT1058:0.0,CGT1759:0.0):0.00052)0.706:0.00053,(CGT1785:0.00273,CGT1548:0.00052)0.732:0.00053)0.989:0.00375,(((CGT1020:0.00053,CGT1720:0.00014)0.933:0.00206,CGT1704:0.00014)0.795:0.00014,(((CGT1358:0.00014,(((CGT1077:0.0,CGT1166:0.0,CGT1217:0.0,CGT1309:0.0,CGT1419:0.0):0.00014,(CGT1294:0.0,CGT1350:0.0,CGT1572:0.0,CGT1632:0.0):0.00014)0.000:0.00014,CGT1239:0.00014)0.000:0.00014)0.922:0.00100,(CGT1476:0.00014,(CGT1752:0.00014,CGT1491:0.00014)0.000:0.00014)0.903:0.00015)0.804:0.00053,(CGT1033:0.0,CGT1602:0.0):0.00016)0.810:0.00055)0.000:0.00014);"
+    # print(newtrick)
