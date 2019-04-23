@@ -76,3 +76,23 @@
   border-top: none;
   max-width:98%
 }
+
+
+#download {
+    height: 40px;
+    width: 40px;
+    margin: 6px;
+    background-image: url(/img/cloud-computing.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: default;
+    background-size: 30%;
+    background-size: 25px auto;
+    float: right;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    /* position: absolute; */
+    display: table;
+    overflow: auto;
+    background-color: white;
+}

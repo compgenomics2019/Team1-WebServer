@@ -4,7 +4,7 @@
 
 @section("navbar")
     <nav class="navbar navbar-expand-lg navbar-custom">
-        <a class="navbar-brand" href=""> LOKI </a>
+        <a class="navbar-brand" href=""> LOKI - ecoLi OutbreaK Investigator</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -28,10 +28,6 @@
             <img class="banner-img" style="width:100%; display: block; height:5%" src="img/banner.jpg">
         </div>
         <div class="container">
-            <p style="color: black; font-size:20px;">
-                Welcome to use ecoLi OutbreaK Investigator !
-            </p>
-
         </div>
     </div>
 @endsection
@@ -55,7 +51,7 @@
                         <img class="img" style="width:100%; display: block; height:100%" src="img/gears.png">
                     </div>
                     <h5 style="font-family:verdana;text-align: center;">
-                        <a href="#myModal" role="button" class="btn" data-toggle="modal">Run</a>
+                        <a href="#myModal" role="button" data-toggle="modal">Run</a>
                     </h5>
                 </div>
                 <div class="col">
@@ -127,7 +123,7 @@
                             {{--gene prediction options--}}
                             <div class="col-md-6 mb-3">
                                 <input class="" type="checkbox" name="doPrediction" id="doPrediction" value="1"
-                                       checked="checked">
+                                       checked="checked" disabled>
                                 <label class="form-check-label" for="inlineCheckbox1">Gene Prediction</label>
                             </div>
                         </div>
@@ -135,7 +131,7 @@
                         <div class="form-row">
                             <div class="col-md-6 mb-3">
                                 <input class="" type="checkbox" name="doAnnotation" id="doAnnotation" value="1"
-                                       checked="checked">
+                                       checked="checked" disabled>
                                 <label class="form-check-label" for="inlineCheckbox1">Functional Annotation</label>
                             </div>
                             <div class="col-md-4 mb-3">
@@ -153,7 +149,7 @@
                             {{--comparative genomics options--}}
                             <div class="col-md-6 mb-3">
                                 <input class="" type="checkbox" name="doComparative" id="doComparative" value="1"
-                                       checked="checked">
+                                       checked="checked" disabled>
                                 <label class="form-check-label" for="inlineCheckbox1">Comparative Analysis</label>
                             </div>
                         </div>
@@ -198,7 +194,7 @@
 
 <script>
 function clickrun() {
-            document.getElementById("Head").innerHTML = "Analysis Pipeline is running. " + '<img src="img/ajax-loader.gif" alt="Wait" />';
+            document.getElementById("Head").innerHTML = "Analysis Pipeline is running" + '<img src="img/ajax-loader.gif" alt="Wait" />';
             console.log("function is running");
             var url = 'start_ajax';
             var f1 = $('#inputFile1').val();
