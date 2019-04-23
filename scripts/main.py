@@ -409,16 +409,26 @@ def kSNP3(inFile, outDir, job):
     k_script = [cmd_prefix + "/kSNP3", "-in", input_File,"-outdir",outDir, "-k", "19", "-ML", "|", "tee", "../storage/app/public/%s/ksnp_log"%job]
     subprocess.call(k_script)
 
-def MASH(inFile, job):
+def MASH(path, job):
     ## Compute MASH distance while querying to find potentially related strains
-    f = open(tmp + "/distances.tab", "w")
-    mash_cmd = ["../../team1tools/ComparativeGenomics/mash-Linux64-v2.0/mash", "dist", "../../team1tools/ComparativeGenomics/refseq.genomes.k21s1000.msh", inFile]
-    subprocess.call(mash_cmd, stdout=f)
-    f.close()
-    f = open("{0}/strains_file.txt".format(tmp), "a")
-    mash_out = ["sort",  "-gk3" , tmp + "/distances.tab",  "|", "head", "-n1"]
-    subprocess.call(mash_out, stdout=f)
-    f.close()
+    file_list=  os.listdir(path)
+    fifty_csv = ""
+    isolates_df = pd.read_csv(fifty_csv, header=None, index_col=None)
+    isolates_df.columns = file_list
+    isolates_df.index = file_list
+    isolates_df.loc["input"] = 0
+    isolates_df["input"] = 0
+    for idx, file in enumerate(file_list):
+        mash_cmd = subprocess.Popen(["../../team1tools/ComparativeGenomics/mash-Linux64-v2.0/mash",
+                         "dist",
+                         "../storage/app/uploads/assemble/" + job + "_genome.fasta",
+                         os.path.join(path, file)], stdout=subprocess.PIPE)
+        mash_out, _ = mash_cmd.communicate()
+        mash_out = float(mash_out.decode("utf-8").split()[2])
+        isolates_df.iloc[idx, len(file_list)] = mash_out
+        isolates_df.iloc[len(file_list), idx] = mash_out
+        print(idx, file, mash_out, sep="-" * 5)
+    isolates_df.to_csv(tmp + "/mash.csv", header=True, index=True)
 
 
 def calDifference1(inFile):
