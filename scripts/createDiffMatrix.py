@@ -17,6 +17,7 @@ if __name__=="__main__":
         f2 = os.path.join(path, j)
         mash_cmd = subprocess.Popen(["../../team1tools/ComparativeGenomics/mash-Linux64-v2.0/mash", "dist", f1, f2], stdout=subprocess.PIPE)
         mash_out, _ = mash_cmd.communicate()
+        mash_out= mash_out.decode("utf-8")
         print(mash_out)
         mat[i][j] = float(mash_out.split()[2])
         mat[j][i] = float(mash_out.split()[2])
