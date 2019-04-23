@@ -37,27 +37,30 @@ function parseNewick(a) {
     return r
 }
 
-var outerRadius = 960 / 3,
-    innerRadius = outerRadius - 170;
+lifee=[]
+function ready(life){
+	    outerRadius = 960 / 3,
+		innerRadius = outerRadius - 170;
 
-Isolates = [];
-Types = [];
-Time = [];
-SourceState = [];
-SourceSite = [];
-d3.csv('BIOL7210-Team1-Metadata.csv', function (csv) {
-    for (i = 0; i < csv.length; i++) {
-        Isolates[i] = csv[i]['Isolate']
-        Types[i] = csv[i]['Source Type']
-        Time[i] = csv[i]['Isolate Date']
-        SourceState[i] = csv[i]['Source State']
-        SourceSite[i] = csv[i]['Source Site']
-    }
+	Isolates = [];
+	Types = [];
+	Time = [];
+	SourceState = [];
+	SourceSite = [];
+	lifee = life
+	d3.csv('BIOL7210-Team1-Metadata.csv', function (csv) {
+		for (i = 0; i < csv.length; i++) {
+			Isolates[i] = csv[i]['Isolate']
+			Types[i] = csv[i]['Source Type']
+			Time[i] = csv[i]['Isolate Date']
+			SourceState[i] = csv[i]['Source State']
+			SourceSite[i] = csv[i]['Source Site']
+		}
 
-    update(SourceSite)
-    update_barchart(SourceSite, "source_site.csv")
-})
-
+		update(SourceSite,life)
+		update_barchart(SourceSite, "source_site.csv")
+	})
+}
 
 function update_barchart(ColorBy, filename) {
     // create the svg
@@ -217,18 +220,18 @@ $("input[name=gender]").click(function () {
     d3.select('#drop').html("")
     d3.select('#main').html("")
     if (this.value == 0) {
-        update(SourceSite)
+        update(SourceSite,lifee)
         update_barchart(SourceSite, "source_site.csv")
     } else if (this.value == 1) {
-        update(Types)
+        update(Types,lifee)
         update_barchart(Types, "source_type.csv")
     } else if (this.value == 2) {
-        update(SourceState)
+        update(SourceState,lifee)
         update_barchart(SourceState, "state.csv")
     }
 });
 
-function update(ColorBy) {
+function update(ColorBy,life) {
     var color = d3.scaleOrdinal()
         .domain(d3.map(ColorBy, function (d) {
             return d;
@@ -273,10 +276,7 @@ function update(ColorBy) {
         .attr("transform", "translate(" + outerRadius + "," + outerRadius + ")");
 
 
-    d3.text("life.txt", function (error, life) {
-        if (error) throw error;
-
-        var root = d3.hierarchy(parseNewick(life), function (d) {
+    var root = d3.hierarchy(parseNewick(life), function (d) {
             return d.branchset;
         })
             .sum(function (d) {
@@ -334,6 +334,11 @@ function update(ColorBy) {
             .text(function (d) {
                 return d.data.name.replace(/_/g, " ");
             })
+			.attr('style', function (d) {
+				if(d.data.name == "Input")
+					return "fill:red;font-size:20px !important"
+                return "";
+            })
             .on("mouseover", mouseovered(true))
             .on("mouseout", mouseovered(false));
 
@@ -355,7 +360,6 @@ function update(ColorBy) {
         function moveToFront() {
             this.parentNode.appendChild(this);
         }
-    });
 
     // Compute the maximum cumulative length of any node in the tree.
     function maxLength(d) {

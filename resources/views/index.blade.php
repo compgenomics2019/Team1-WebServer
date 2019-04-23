@@ -192,6 +192,7 @@
      </div>
 </div>
 
+<script type="text/javascript" src="{{ URL::asset('js/StackedPlot.js') }}"></script>
 <script>
 function clickrun() {
             document.getElementById("Head").innerHTML = "Analysis Pipeline is running" + '<img src="img/ajax-loader.gif" alt="Wait" />';
@@ -199,6 +200,27 @@ function clickrun() {
             var url = 'start_ajax';
             var f1 = $('#inputFile1').val();
             var f2 = $('#inputFile2').val();
+            if ($("#doAssemble").is(':checked')) {
+                var ass = 1;
+            } else {
+                var ass = 0;
+            }
+            if ($("#doPrediction").is(':checked')) {
+                var pred = 1;
+            } else {
+                var pred = 0;
+            }
+            if ($("#doAnnotation").is(':checked')) {
+                var anno = 1;
+            } else {
+                var anno = 0;
+            }
+            if ($("#doComparative").is(':checked')) {
+                var comp = 1;
+            } else {
+                var comp = 0;
+            }
+            console.log(ass, pred, anno, comp);
             $.ajax({
                 url: url,
                 type: 'GET',
@@ -208,18 +230,17 @@ function clickrun() {
                     jobName: $('#jobName').val(),
                     annotationRadio: $("#annotationRadio").val(),
                     email: $("#email").val(),
-                    doAssemble: $("#doAssemble").val(),
-                    doPrediction: $("#doPrediction").val(),
-                    doAnnotation: $("#doAnnotation").val(),
-                    doComparative: $("#doComparative").val()
-
+                    doAssemble: ass,
+                    doPrediction: pred,
+                    doAnnotation: anno,
+                    doComparative: comp
                 },
                 success: function (result) {
-					document.getElementById("Head").innerHTML = "Analysis Pipeline";
+                    document.getElementById("Head").innerHTML = "Analysis Pipeline";
                     console.log(result);
+                    $('#successlink').attr('href', 'http://predict2019t1.biosci.gatech.edu/output/' + $('#jobName').val());
                     $("#myModal").modal('hide');
                     $("#Success").modal('show');  // todo: modify link with jobname
-
                 },
                 error: function (result) {
                     console.log("ajax error");
@@ -230,9 +251,7 @@ function clickrun() {
                     $("#Error").modal('show');
                 }
             });
-
         }
-
 </script>
 @endsection
 @section("footer")
