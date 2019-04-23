@@ -412,11 +412,10 @@ def kSNP3(inFile, outDir, job):
 def MASH(path, job):
     ## Compute MASH distance while querying to find potentially related strains
     file_list=  os.listdir(path)
-    file_list = [i.split("_")[0] for i in file_list]
     fifty_csv = "../storage/app/isolates/50_distances.csv"
     isolates_df = pd.read_csv(fifty_csv, header=None, index_col=None)
-    isolates_df.columns = file_list
-    isolates_df.index = file_list
+    isolates_df.columns = [i.split("_")[0] for i in file_list]
+    isolates_df.index = [i.split("_")[0] for i in file_list]
     isolates_df.loc["input"] = 0
     isolates_df["input"] = 0
     for idx, file in enumerate(file_list):
