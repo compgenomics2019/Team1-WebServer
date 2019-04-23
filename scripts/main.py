@@ -392,7 +392,7 @@ def kSNP3(inFile, outDir, job):
     MakeKSNPin = [cmd_prefix + "/MakeKSNP3infile", input_Dir, input_File, "A"]
     subprocess.call(MakeKSNPin)
     # Concatenates all genomic files for a fasta to optimize k-mer length
-    makeFASTA = cmd_prefix + "/MakeFasta {0} {1}".format(input_File, "../storage/app/public/%s/ksnp_fasta_file"%job)
+    makeFASTA = [cmd_prefix + "/MakeFasta", input_File, "../storage/app/public/%s/ksnp_fasta_file"%job]
     subprocess.call(makeFASTA)
     # Optimize k-mer length
     kCHOOSE_r = cmd_prefix + "/Kchooser ../storage/app/public/%s/ksnp_fasta_file"%job
