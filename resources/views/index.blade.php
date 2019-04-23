@@ -239,8 +239,7 @@
                 success: function (result) {
                     document.getElementById("Head").innerHTML = "Analysis Pipeline";
                     console.log(result);
-                    console.log("resultjson: ", result.responseJSON);
-                    console.log("resulttext: ", result.responseText);
+                    console.log(result["$tree"]);
                     $("#myModal").modal('hide');
                     $("#Success").modal('show');
                     win = window.open('{{url('output')}}');
