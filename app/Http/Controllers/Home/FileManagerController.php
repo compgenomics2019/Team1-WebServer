@@ -121,7 +121,7 @@ class FileManagerController extends Controller
         }
         exec($base_cmd." 2>&1", $array, $return);
         if ($return != 0){
-            return response()->json(['error' => "pipeline failed"], 404);
+            return response()->json(['error' => "pipeline failed", "output" => $array], 404);
         }
         $nwk = Storage::get('comparative/'.$request->input('jobName').'newtrick.nwk');
         return response()->json(['$tree' => $nwk], 200);
