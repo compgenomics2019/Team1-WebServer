@@ -13,6 +13,8 @@ import argparse
 import subprocess
 import pandas as pd
 import numpy as np
+import itertools
+import csv
 import re
 
 
@@ -377,6 +379,122 @@ def trim_files(input_files, tmp_dir, trimmomatic_jar):
     if drop_rate > 33:
         run_fake_trim(trimmomatic_jar, input_files, tmp_dir)
 
+# comparative
+def kSNP3(inFile, outDir, job):
+    ## Automatically create in file, makefasta, kchooser for user and run kSNP3
+    # Copy .fasta contigs file (from Genome Assembly output) into directory w/ database contigs for MakeKSNPinfile command
+    subprocess.call(["mkdir", "../storage/app/public/{0}/ksnp_in".format(job)])
+    subprocess.call(["cp", "../storage/app/uploads/assemble/{}_genome.fasta".format(job), "../storage/app/public/{0}/ksnp_in/{0}.fasta".format(job)])
+    input_File = "../storage/app/public/%s/ksnp_in_file"%job
+    input_Dir = "../storage/app/public/%s/ksnp_in/"%job
+    cmd_prefix = "../../team1tools/ComparativeGenomics/kSNP3.1_Linux_package/kSNP3"
+    # Creates input file, which is just a list of all of the genome file paths
+    MakeKSNPin = [cmd_prefix + "/MakeKSNP3infile", input_Dir, input_File, "A"]
+    subprocess.call(MakeKSNPin)
+    # Concatenates all genomic files for a fasta to optimize k-mer length
+    makeFASTA = [cmd_prefix + "/MakeFasta", input_File, "../storage/app/public/%s/ksnp_fasta_file"%job]
+    subprocess.call(makeFASTA)
+    # Optimize k-mer length
+    # kCHOOSE_r = [cmd_prefix + "/Kchooser", "../storage/app/public/%s/ksnp_fasta_file"%job]
+    # subprocess.call(kCHOOSE_r)
+    # # Parse Kchooser.report for optimal k-value
+    # print("here")
+    # file_hand = open('../storage/app/public/%s/Kchooser.report'% job, 'r')
+    # k_val = 0
+    # for i in file_hand:
+    #     if i.startswith('When'):
+    #         k_val = int(i.split()[3])
+    # file_hand.close()
+    # Run kSNP3 given input file and optimal k-mer length
+    k_script = [cmd_prefix + "/kSNP3", "-in", input_File,"-outdir",outDir, "-k", "19", "-ML", "|", "tee", "../storage/app/public/%s/ksnp_log"%job]
+    subprocess.call(k_script)
+
+def MASH(path, job):
+    ## Compute MASH distance while querying to find potentially related strains
+    file_list=  os.listdir(path)
+    fifty_csv = "../storage/app/isolates/50_distances.csv"
+    isolates_df = pd.read_csv(fifty_csv, header=None, index_col=None)
+    isolates_df.columns = [i.split("_")[0] for i in file_list]
+    isolates_df.index = [i.split("_")[0] for i in file_list]
+    isolates_df.loc["input"] = 0
+    isolates_df["input"] = 0
+    for idx, file in enumerate(file_list):
+        mash_cmd = subprocess.Popen(["../../team1tools/ComparativeGenomics/mash-Linux64-v2.0/mash",
+                         "dist",
+                         "../storage/app/uploads/assemble/" + job + "_genome.fasta",
+                         os.path.join(path, file)], stdout=subprocess.PIPE)
+        mash_out, _ = mash_cmd.communicate()
+        mash_out = float(mash_out.decode("utf-8").split()[2])
+        isolates_df.iloc[idx, len(file_list)] = mash_out
+        isolates_df.iloc[len(file_list), idx] = mash_out
+        print(idx, file, mash_out, sep="-" * 5)
+    isolates_df.to_csv(tmp + "/mash.csv", header=True, index=True)
+
+
+def calDifference1(inFile):
+    """ before calculate difference for output of cgMLST, the last two columns need to be cut
+    the output will be on the inFile """
+    inFile_dropST = os.path.abspath(inFile) + "_dropST.csv"
+    dropColumns(inFile, inFile_dropST)
+    outFile = os.path.join("/".join(os.path.abspath(inFile_dropST).split("/")[:-1]), "diffMatrix.csv")
+
+    # after dropping ST columns, now can begin calculating the difference
+    create_diff_matrix(inFile_dropST, outFile)
+
+
+def dropColumns(inFile, outFile):
+    file = pd.read_csv(inFile, sep='\t')
+    file = file.drop(columns=['ST', 'clonal_complex'])  ### drop columns
+    file.to_csv(outFile, sep=',', index=False)  ### write into csv
+
+
+def createMatrix(names, size):
+    m = [[]] * (size + 1)
+    for i in range(size + 1):
+        m[i] = [[]] * (size + 1)
+    m[0][0] = "name"
+    for r in range(1, size + 1):
+        m[r][0] = names[r - 1]
+    for c in range(1, size + 1):
+        m[0][c] = names[c - 1]
+    # put 0= identical for m[i][j] where i==j, 100% means completely different
+    for r in range(1, size + 1):
+        for c in range(1, size + 1):
+            if r == c:
+                m[r][c] = 0
+    return m
+
+
+def calDifference2(gene1, gene2):
+    # iterate to each col and count different
+    diff_list = [i != j for i, j in zip(gene1, gene2)]  # [True, False,True, False...]
+    diff_val = diff_list.count(False) / len(gene1)  # count difference
+    return round(diff_val, 4)
+
+
+def create_diff_matrix(inputFile, outputFile):
+    with open(inputFile, newline='') as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=",")
+        next(csv_reader, None)  # skip header
+        row_list = list(csv_reader)  # all rows in cgMLST_matrix file, has 50 rows
+        nameList = [l[0] for l in row_list]
+        m = createMatrix(nameList, len(nameList))
+        idx_list = [i for i in range(50)]
+        pairs_list = list(itertools.combinations(idx_list, 2))
+
+        for pair in pairs_list:
+            gene1, gene2 = row_list[pair[0]][1:], row_list[pair[1]][1:]  # [1:] is to get rid of the first item CGT...
+            gene1_idx, gene2_idx = pair[0] + 1, pair[1] + 1
+            # print(gene1_idx,gene2_idx)
+            diff = calDifference2(gene1, gene2)
+            m[gene1_idx][gene2_idx] = diff
+            m[gene2_idx][gene1_idx] = diff
+        # print(DataFrame(m))
+    with open(outputFile, "w") as outFile:  # use csv.writer
+        wr = csv.writer(outFile)
+        for r in m:
+            wr.writerow(r)
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -386,10 +504,10 @@ if __name__ == "__main__":
     parser.add_argument('--outfile', help='output file name')
     parser.add_argument('-j', required=True, help='jobname')
 
-    parser.add_argument('-a', action="store_true", help='do step 1')
-    parser.add_argument('-b', action="store_true", help='do step 2')
-    parser.add_argument('-c', action="store_true", help='do step 3')
-    parser.add_argument('-d', action="store_true", help='do step 4')
+    parser.add_argument('-a', action="store_true", default=False, help='do step 1')
+    parser.add_argument('-b', action="store_true", default=False, help='do step 2')
+    parser.add_argument('-c', action="store_true", default=False, help='do step 3')
+    parser.add_argument('-d', action="store_true", default=False, help='do step 4')
 
     # parameters for genome assembly: None
     # parameters for gene prediction: None
@@ -431,6 +549,11 @@ if __name__ == "__main__":
         else:
             vfdb(in_annotation_fna, "../storage/app/uploads/annotation/%s.gff"%args.j)
     if args.d:
-        pass
-    subprocess.call(['rm', "-rf", tmp])
-    print("main.py finished!")
+        in_compare = "../storage/app/uploads/annotation/%s.gff"%args.j
+        out_dir = tmp
+        # kSNP3(in_compare, out_dir, args.j)
+        MASH("../storage/app/isolates/scaffolds/", args.j)
+
+    # subprocess.call(['rm', "-rf", tmp])
+    newtrick = "(((CGT1803:0.0,CGT1831:0.0):0.00014,(CGT1036:0.0,CGT1293:0.0):0.00015)0.000:0.00015,((((((CGT1292:0.00054,CGT1595:0.00014)0.767:0.00053,CGT1145:0.00015)0.000:0.00014,CGT1751:0.00015)0.595:0.00015,((((CGT1288:0.00014,((CGT1200:0.00015,CGT1913:0.00994)0.997:0.00863,CGT1671:0.00721)1.000:0.01494)1.000:0.98756,(((CGT1204:0.00161,CGT1357:0.00378)0.997:0.00647,((CGT1686:0.00689,CGT1203:0.00310)0.967:0.00351,CGT1240:0.00592)0.999:0.00701)0.993:0.00535,CGT1743:0.00014)1.000:0.41707)0.827:0.05405,((((CGT1552:0.00105,CGT1042:0.00106)0.603:0.00014,CGT1891:0.00176)0.979:0.00351,CGT1729:0.00104)0.987:0.00582,CGT1814:0.00014)1.000:0.22699)1.000:0.13625,((CGT1688:0.02774,CGT1365:0.00193)1.000:0.02389,CGT1953:0.00014)1.000:0.10406)1.000:0.11930)0.000:0.00011,(CGT1032:0.0,CGT1058:0.0,CGT1759:0.0):0.00052)0.706:0.00053,(CGT1785:0.00273,CGT1548:0.00052)0.732:0.00053)0.989:0.00375,(((CGT1020:0.00053,CGT1720:0.00014)0.933:0.00206,CGT1704:0.00014)0.795:0.00014,(((CGT1358:0.00014,(((CGT1077:0.0,CGT1166:0.0,CGT1217:0.0,CGT1309:0.0,CGT1419:0.0):0.00014,(CGT1294:0.0,CGT1350:0.0,CGT1572:0.0,CGT1632:0.0):0.00014)0.000:0.00014,CGT1239:0.00014)0.000:0.00014)0.922:0.00100,(CGT1476:0.00014,(CGT1752:0.00014,CGT1491:0.00014)0.000:0.00014)0.903:0.00015)0.804:0.00053,(CGT1033:0.0,CGT1602:0.0):0.00016)0.810:0.00055)0.000:0.00014);"
+    print(newtrick)

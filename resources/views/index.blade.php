@@ -81,117 +81,120 @@
 
                 {{--<form class="needs-validation" method="get" action="analysis/start" novalidate>--}}
                 {{--<form class="needs-validation" novalidate>--}}
-                    {{--IO options--}}
-                    <div class="modal-body">
-                        <div class="form-row">
-                            <div class="col-md-6 mb-3">
-                                <label for="validationTooltip02">InputFile#1</label>
-                                <select id="inputFile1" name="inputFile1" class="form-control">
-                                    @foreach ($files as $f)
-                                        <option>{{ $f }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="validationTooltip02">InputFile#2</label>
-                                <select id="inputFile2" name="inputFile2" class="form-control">
-                                    @foreach ($files as $f)
-                                        <option>{{ $f }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                {{--IO options--}}
+                <div class="modal-body">
+                    <div class="form-row">
+                        <div class="col-md-6 mb-3">
+                            <label for="validationTooltip02">InputFile#1</label>
+                            <select id="inputFile1" name="inputFile1" class="form-control">
+                                @foreach ($files as $f)
+                                    <option>{{ $f }}</option>
+                                @endforeach
+                            </select>
                         </div>
-                        <div class="form-row">
-                            <div class="col-md-6 mb-3">
-                                <label for="validationTooltip01">JobName</label>
-                                <input type="text" class="form-control" name="jobName" id="jobName" placeholder="job1"
-                                       required>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="validationTooltip01">Email</label>
-                                <input type="text" class="form-control" name="email" id="email"
-                                       placeholder="example@gatech.edu">
-                            </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="validationTooltip02">InputFile#2</label>
+                            <select id="inputFile2" name="inputFile2" class="form-control">
+                                @foreach ($files as $f)
+                                    <option>{{ $f }}</option>
+                                @endforeach
+                            </select>
                         </div>
-                        <div class="form-row">
-                            {{--assembly options--}}
-                            <div class="col-md-6 mb-3">
-                                <input class="" type="checkbox" name="doAssemble" id="doAssemble" value="1"
-                                       checked="checked">
-                                <label class="form-check-label" for="inlineCheckbox1">Assemble</label>
-                            </div>
-                            {{--gene prediction options--}}
-                            <div class="col-md-6 mb-3">
-                                <input class="" type="checkbox" name="doPrediction" id="doPrediction" value="1"
-                                       checked="checked" disabled>
-                                <label class="form-check-label" for="inlineCheckbox1">Gene Prediction</label>
-                            </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-6 mb-3">
+                            <label for="validationTooltip01">JobName</label>
+                            <input type="text" class="form-control" name="jobName" id="jobName" placeholder="job1"
+                                   required>
                         </div>
-                        {{--functional annotation options--}}
-                        <div class="form-row">
-                            <div class="col-md-6 mb-3">
-                                <input class="" type="checkbox" name="doAnnotation" id="doAnnotation" value="1"
-                                       checked="checked" disabled>
-                                <label class="form-check-label" for="inlineCheckbox1">Functional Annotation</label>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="annotationRadio" id="annotationRadio" value="vfdb" checked="checked">
-                                    <label class="form-check-label" for="inlineCheckbox1">vfDB</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="annotationRadio" id="annotationRadio" value="card">
-                                    <label class="form-check-label" for="inlineCheckbox2">CARD</label>
-                                </div>
-                            </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="validationTooltip01">Email</label>
+                            <input type="text" class="form-control" name="email" id="email"
+                                   placeholder="example@gatech.edu">
                         </div>
-                        <div class="form-row">
-                            {{--comparative genomics options--}}
-                            <div class="col-md-6 mb-3">
-                                <input class="" type="checkbox" name="doComparative" id="doComparative" value="1"
-                                       checked="checked" disabled>
-                                <label class="form-check-label" for="inlineCheckbox1">Comparative Analysis</label>
+                    </div>
+                    <div class="form-row">
+                        {{--assembly options--}}
+                        <div class="col-md-6 mb-3">
+                            <input class="" type="checkbox" name="doAssemble" id="doAssemble" value="1"
+                                   checked="checked">
+                            <label class="form-check-label" for="inlineCheckbox1">Assemble</label>
+                        </div>
+                        {{--gene prediction options--}}
+                        <div class="col-md-6 mb-3">
+                            <input class="" type="checkbox" name="doPrediction" id="doPrediction" value="1"
+                                   checked="checked">
+                            <label class="form-check-label" for="inlineCheckbox1">Gene Prediction</label>
+                        </div>
+                    </div>
+                    {{--functional annotation options--}}
+                    <div class="form-row">
+                        <div class="col-md-6 mb-3">
+                            <input class="" type="checkbox" name="doAnnotation" id="doAnnotation" value="1"
+                                   checked="checked">
+                            <label class="form-check-label" for="inlineCheckbox1">Functional Annotation</label>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="annotationRadio" id="annotationRadio"
+                                       value="vfdb" checked="checked">
+                                <label class="form-check-label" for="inlineCheckbox1">vfDB</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="annotationRadio" id="annotationRadio"
+                                       value="card">
+                                <label class="form-check-label" for="inlineCheckbox2">CARD</label>
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        {{--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>--}}
-                        {{--<button class="btn btn-success" id="play" type="submit">Run</button>--}}
-                        <button class="btn btn-success" id="run2_button"
-                                onClick="clickrun()">Run
-                        </button>
+                    <div class="form-row">
+                        {{--comparative genomics options--}}
+                        <div class="col-md-6 mb-3">
+                            <input class="" type="checkbox" name="doComparative" id="doComparative" value="1"
+                                   checked="checked">
+                            <label class="form-check-label" for="inlineCheckbox1">Comparative Analysis</label>
+                        </div>
                     </div>
+                </div>
+                <div class="modal-footer">
+                    {{--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>--}}
+                    {{--<button class="btn btn-success" id="play" type="submit">Run</button>--}}
+                    <button class="btn btn-success" id="run2_button"
+                            onClick="clickrun()">Run
+                    </button>
+                </div>
                 {{--</form>--}}
             </div>
         </div>
     </div>
-<div id="Success" class="modal fade">
-     <div class="modal-dialog">
-        <div class="modal-content">
+    <div id="Success" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="Head">Success!</h5>
                 </div>
-				<div class="modal-body" style="text-align:center">
-				    <h7> Follow this link for results: </h7>
-                    <a style="text-align:center" href={{url('output')}}>http://predict2019t1.biosci.gatech.edu/output</a>
+                <div class="modal-body" style="text-align:center">
+                    <h7> Follow this link for results:</h7>
+                    <a style="text-align:center" id="successlink" href={{url('output')}}>http://predict2019t1.biosci.gatech.edu/output</a>
                 </div>
+            </div>
         </div>
-     </div>
-</div>
+    </div>
 
-<div id="Error" class="modal fade">
-     <div class="modal-dialog">
-        <div class="modal-content">
-				<div class="modal-body">
-				    <h7>Error! Check Inputs</h7>
+    <div id="Error" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h7>Error! Check Inputs</h7>
                 </div>
-		<div class="modal-footer">
-              <button class="btn btn-danger" data-dismiss="modal">OK</button>
-       </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger" data-dismiss="modal">OK</button>
+                </div>
+            </div>
         </div>
-     </div>
-</div>
+    </div>
 
+<<<<<<< HEAD
 <script type="text/javascript" src="{{ URL::asset('js/StackedPlot.js') }}"></script>
 <script>
 function clickrun() {

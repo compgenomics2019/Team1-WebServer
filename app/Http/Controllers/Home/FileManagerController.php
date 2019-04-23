@@ -42,8 +42,6 @@ class FileManagerController extends Controller
         }
         $disk = Storage::disk('uploads');
         $disk -> putFileAs($category, $file, $newFileName);
-        //$disk -> putFileAs($category, fopen($file, 'r+'), $newFileName);
-//        $file->storePubliclyAs($category, $newFileName, ['disk' => 'uploads']); // todo: save large files
         $output = exec('../../t1g5/bin/python3 ../scripts/filecheck.py ../storage/app/uploads/'.$category.'/'.$newFileName);
         if ($output == "fail") {
             Storage::delete($category . "/" . $newFileName);
@@ -90,10 +88,7 @@ class FileManagerController extends Controller
     public function ajax_analysis(Request $request)
     {
         $input = $request->all();
-//        dd($input);
-//        echo("<script>console.log($request->input('inputFile1'));</script>");
-        // check input
-        // todo: check if job name exists
+        // to do: check if job name exists
         if ($request->input('inputFile1') == $request->input('inputFile2')){
             return response()->json(['error' => "error: dupin"], 404);
         }elseif (empty($request->input('inputFile1'))) {
@@ -103,32 +98,30 @@ class FileManagerController extends Controller
         }else{
             // pass all pre check
             $base_cmd = '../../t1g5/bin/python3 ../scripts/main.py -j '.$request->input('jobName');
-            echo("<script>console.log('".$base_cmd."');</script>");
-            if (!empty($request->input('doAssemble'))){
+            if ($request->input('doAssemble') == '1'){
                 $base_cmd = $base_cmd." -a";
                 $input_file = " --infastq ".$request->input('inputFile1')." ".$request->input('inputFile2');
             }
-            if (!empty($request->input('doPrediction'))){
+            if ($request->input('doPrediction') == 1){
                 $base_cmd = $base_cmd." -b";
                 if (!isset($input_file)){
                     $input_file = " --infasta ".$request->input('inputFile1');
                 }
             }
-            if (!empty($request->input('doAnnotation'))){
+            if ($request->input('doAnnotation') == true){
                 $base_cmd = $base_cmd." -c -f ".$request->input('annotationRadio');
             }
-            if (!empty($request->input('doComparative'))){
+            if ($request->input('doComparative') == true){
+                if (!isset($input_file)){
+                    $input_file = " --infasta ".$request->input('inputFile1');
+                }
                 $base_cmd = $base_cmd." -d";
             }
             $base_cmd = $base_cmd.$input_file;
+            echo("<script>console.log('".$base_cmd."');</script>");
         }
-//        dd($base_cmd);
-        echo("<script>console.log('your script is running');</script>");
         exec($base_cmd." 2>&1", $array, $return);
         echo("<script>console.log('".implode(" ", $array)."');</script>");
-//        dd($array);
         return response()->json(['cmd' => '$base_cmd', 'success' => 'succcess'], 200);
-//        return view('about');
     }
-
 }
