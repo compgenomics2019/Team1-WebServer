@@ -10,7 +10,7 @@ if __name__=="__main__":
     _, path, outfile = sys.argv
     files = os.listdir(path)
     mat = np.zeros((50, 50))
-    for i, j in itertools.combinations(files):
+    for i, j in itertools.combinations(files, 2):
         idi = files.index(i)
         idj = files.index(j)
         f1 = os.path.join(path, i)
