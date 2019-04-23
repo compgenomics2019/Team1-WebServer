@@ -153,7 +153,7 @@ def CARD_rgi(inputFile):
                        , "--local"])
 
     subprocess.run(["../../t1g5/bin/python3", "../../team1tools/FunctionalAnnotation/rgi-4.2.2/rgi", "main", "-i",
-                    inputFile, "-o", tmp + "/card_temp", "--input_type", "protein"
+                    inputFile, "-o", tmp + "/card_temp.txt", "--input_type", "protein"
                        , "--local"])
 
 
@@ -181,7 +181,7 @@ def rgi_to_gff(inputFile, outputFile):
 
 def CARD(inputFile, outputFile):
     cardtemp = tmp + "/card_temp.txt"
-    cardtemp2 = tmp + "/card_temp.json"
+    # cardtemp2 = tmp + "/card_temp.json"
 
     CARD_rgi(inputFile)
 
