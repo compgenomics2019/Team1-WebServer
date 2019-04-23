@@ -101,11 +101,11 @@ class FileManagerController extends Controller
         }else{
             // pass all pre check
             $base_cmd = '../../t1g5/bin/python3 ../scripts/main.py -j '.$request->input('jobName');
-            if ($request->input('doAssemble') == true){
+            if ($request->input('doAssemble') == '1'){
                 $base_cmd = $base_cmd." -a";
                 $input_file = " --infastq ".$request->input('inputFile1')." ".$request->input('inputFile2');
             }
-            if ($request->input('doPrediction') == true){
+            if ($request->input('doPrediction') == 1){
                 $base_cmd = $base_cmd." -b";
                 if (!isset($input_file)){
                     $input_file = " --infasta ".$request->input('inputFile1');
