@@ -5,7 +5,7 @@
 @section("navbar")
     <nav class="navbar navbar-expand-lg navbar-custom">
         <!--<img class="img" style="width:2%; display: block; height:2%" src="img/Icon.png">-->
-        <a class="navbar-brand" href="">LOKI</a>
+        <a class="navbar-brand" href=""> Team1 Webserver - Results for</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
