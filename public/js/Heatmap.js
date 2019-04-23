@@ -1,7 +1,7 @@
-plot_map("AMR_list.csv", "#my_dataviz", "Antimicrobial Resistance Profile")
-plot_map("VFs.csv", "#Virulence", "Virulence Factors")
+plot_map("AMR_list.csv", "#my_dataviz", "Antimicrobial Resistance Profile","Antimicrobial resistance genes identified from the CARD database for each isolate")
+plot_map("VFs.csv", "#Virulence", "Virulence Factors","Virulence factors identified from the Virulence Factor Database for each isolate.")
 
-function plot_map(filename, div, title) {
+function plot_map(filename, div, title, detail) {
     var margin = {top: 80, right: 25, bottom: 30, left: 40},
         width = 450 - margin.left - margin.right,
         height = 470 - margin.top - margin.bottom;
@@ -135,7 +135,7 @@ function plot_map(filename, div, title) {
         .style("font-size", "14px")
         .style("fill", "grey")
         .style("max-width", 400)
-        .text("A short description of the take-away message of this chart.");
+        .text(detail);
 		
 		var cellSize = 17;
 	    var myColor = ["white", "#e68a00"];	

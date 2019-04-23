@@ -51,7 +51,7 @@
                         <img class="img" style="width:100%; display: block; height:100%" src="img/gears.png">
                     </div>
                     <h5 style="font-family:verdana;text-align: center;">
-                        <a href="#myModal" role="button" class="btn" data-toggle="modal">Run</a>
+                        <a href="#myModal" role="button" data-toggle="modal">Run</a>
                     </h5>
                 </div>
                 <div class="col">
@@ -194,7 +194,7 @@
 
 <script>
 function clickrun() {
-            document.getElementById("Head").innerHTML = "Analysis Pipeline is running. " + '<img src="img/ajax-loader.gif" alt="Wait" />';
+            document.getElementById("Head").innerHTML = "Analysis Pipeline is running" + '<img src="img/ajax-loader.gif" alt="Wait" />';
             console.log("function is running");
             var url = 'start_ajax';
             var f1 = $('#inputFile1').val();

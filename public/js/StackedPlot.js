@@ -135,7 +135,7 @@ function update_barchart(ColorBy, filename) {
             })
             .on("mousemove", function (d) {
                 console.log(d);
-                var xPosition = d3.mouse(this)[0] - 5;
+                var xPosition = d3.mouse(this)[0] - 55;
                 var yPosition = d3.mouse(this)[1] - 5;
                 tooltip.attr("transform", "translate(" + xPosition + "," + yPosition + ")");
                 tooltip.select("text").text("Isolate Count = "+(d[1] - d[0]).toString());
@@ -193,8 +193,10 @@ function update_barchart(ColorBy, filename) {
     // Prep the tooltip bits, initial display is hidden
     var tooltip = svg.append("g")
         .attr("class", "tooltip")
+		.attr("data-container","body")
         .style("display", "none")
-		.style("opacity", 1);
+		.style("opacity", 1)
+		.style("z-index",5000);
 
     tooltip.append("rect")
         .attr("width", 120)

@@ -55,7 +55,7 @@
 <div id="Paris" class="tabcontent">
 	<div class="container" style="max-width:90%;/* padding-top: 30px; */">
 		<div class="row">
-		  <div class="column" style="width:50%; text-align:center"">
+		  <div class="column" style="width:50%; text-align:center">
 				<div id="my_dataviz"></div> 
 		  </div>
 		  <div class="column" style="width:50%; text-align:center">
