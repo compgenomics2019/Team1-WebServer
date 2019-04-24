@@ -67,7 +67,7 @@ class FileManagerController extends Controller
         switch ($request->btn) {
             case "download":
 //                if ()
-                return Storage::download($category . "/" . $fileName);
+                return Storage::download($fileName . ".zip");
 
             case "delete":
                 if ($category == "job"){

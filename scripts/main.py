@@ -494,5 +494,19 @@ if __name__ == "__main__":
         out_dir = tmp
         # kSNP3(in_compare, out_dir, args.j)
         MASH("../storage/app/isolates/scaffolds/", args.j)
-
+    
+	
+	# create results folder for job
+    subprocess.call(['echo','here'])
+    subprocess.call(['mkdir','../storage/app/uploads/{}'.format(args.j)])
+    subprocess.call(['cp', "../storage/app/uploads/assemble/%s_genome.FASTA"%args.j,'../storage/app/uploads/{}'.format(args.j)])
+    subprocess.call(['cp', "../storage/app/uploads/prediction/%s.faa"%args.j,'../storage/app/uploads/{}'.format(args.j)])
+    subprocess.call(['cp', "../storage/app/uploads/prediction/%s.fna"%args.j,'../storage/app/uploads/{}'.format(args.j)])
+    subprocess.call(['cp', "../storage/app/uploads/prediction/%s.gff"%args.j,'../storage/app/uploads/{}'.format(args.j)])
+    subprocess.call(['cp', "../storage/app/uploads/annotation/%s_vfdb.gff"%args.j,'../storage/app/uploads/{}'.format(args.j)])
+    subprocess.call(['cp', "../storage/app/uploads/annotation/%s_card.gff"%args.j,'../storage/app/uploads/{}'.format(args.j)])
+    subprocess.call(['zip','-r', '../storage/app/uploads/{}'.format(args.j), '../storage/app/uploads/{}'.format(args.j)])
+	
+	
     subprocess.call(['rm', "-rf", "../storage/app/uploads/comparative/*"])
+    subprocess.call(['rm', "-rf", '../storage/app/uploads/{}'.format(args.j)])
