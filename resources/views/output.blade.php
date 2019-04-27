@@ -29,7 +29,7 @@
             <button class="tablinks" onclick="openCity(event, 'Paris')">Heatmaps</button>
             <button class="tablinks" onclick="openCity(event, 'Tokyo')">Time/Location</button>
             {{--<button class="tablinks" id="download"></button>--}}
-            <button class="tablinks" id="download" onclick="location.href='{{url('FileManager/ready')}}'"></button>
+            {{--<button class="tablinks" id="download" onclick="location.href='{{url('FileManager/ready')}}'"></button>--}}
         </div>
 
 
@@ -62,9 +62,9 @@
                     <div class="column" style="width:50%; text-align:center">
                         <div id="Virulence"></div>
                     </div>
+					<script type="text/javascript" src="{{ URL::asset('js/Heatmap.js') }}"></script>
                 </div>
             </div>
-            <script type="text/javascript" src="{{ URL::asset('js/Heatmap.js') }}"></script>
         </div>
 
         <div id="Tokyo" class="tabcontent">

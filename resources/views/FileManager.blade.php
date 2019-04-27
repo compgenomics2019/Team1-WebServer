@@ -69,26 +69,12 @@
             {{ csrf_field() }}
             <div class="form-row">
                 <div class="col-md-3 mb-3">
-                    <label for="file">Type in file name</label>
+                    <label for="file">Type in job name</label>
                     <input type="text" class="form-control" id="fileName" name="fileName" required>
                 </div>
                 <div class="col-md-2 mb-3">
-                    <label for="validationTooltip05">Category</label>
-                    <select id="fileCategory" name="fileCategory[]" class="form-control">
-                        <option value="job">job</option>
-                        <option value="assemble">assemble</option>
-                        <option value="prediction">prediction</option>
-                        <option value="annotation">annotation</option>
-                        <option value="comparative">comparative</option>
-                    </select>
-                </div>
-                <div class="col-md-2 mb-3">
-                    <label>Download file</label>
+                    <label>Download Results</label>
                     <button type="submit" class="btn btn-primary" name="btn" value="download">Download</button>
-                </div>
-                <div class="col-md-1 mb-3">
-                    <label>Delete file</label>
-                    <button type="submit" class="btn btn-primary" name="btn" value="delete">Delete</button>
                 </div>
             </div>
         </form>

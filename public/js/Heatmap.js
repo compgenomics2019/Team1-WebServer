@@ -1,7 +1,11 @@
-plot_map("AMR_list.csv", "#my_dataviz", "Antimicrobial Resistance Profile","Antimicrobial resistance genes identified from the CARD database for each isolate")
-plot_map("VFs.csv", "#Virulence", "Virulence Factors","Virulence factors identified from the Virulence Factor Database for each isolate.")
-
-function plot_map(filename, div, title, detail) {
+function main(vf,amr){
+  plot_map("AMR_list.csv", "#my_dataviz", "Antimicrobial Resistance Profile","Antimicrobial resistance genes identified from the CARD database for each isolate",amr)
+  plot_map("VFs.csv", "#Virulence", "Virulence Factors","Virulence factors identified from the Virulence Factor Database for each isolate.",vf)
+}
+dataa=""
+function plot_map(filename, div, title, detail, data) {
+	dataa=data
+	console.log("PLOT_MAP")
     var margin = {top: 80, right: 25, bottom: 30, left: 40},
         width = 450 - margin.left - margin.right,
         height = 470 - margin.top - margin.bottom;
@@ -14,17 +18,20 @@ function plot_map(filename, div, title, detail) {
         .append("g")
         .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")");
-
     //Read the data
-    d3.csv(filename, function (data) {
+    function Heatmap1(data) {
+		console.log(data)
         // Labels of row and columns -> unique identifier of the column called 'group' and 'variable'
-        var myGroups = d3.map(data, function (d) {
+        myGroups = d3.map(data, function (d) {
             return d.group;
         }).keys()
-        var myVars = d3.map(data, function (d) {
+        myVars = d3.map(data, function (d) {
+			if(d.variable == "sample")
+				return "Input"
             return d.variable;
         }).keys()
-
+         console.log(myGroups)
+		 console.log(myVars)
         // Build X scales and axis:
         var x = d3.scaleBand()
             .range([0, width])
@@ -41,9 +48,10 @@ function plot_map(filename, div, title, detail) {
             .range([height, 0])
             .domain(myVars)
             .padding(0.05);
+
         svg.append("g")
-            .style("font-size", 15)
             .call(d3.axisLeft(y).tickSize(0))
+			.data(myVars)
             .select(".domain").remove()
 
         // Build color scale
@@ -90,7 +98,6 @@ function plot_map(filename, div, title, detail) {
                 .style("stroke", "none")
                 .style("opacity", 0.8)
         }
-
         // add the squares
         svg.selectAll()
             .data(data, function (d) {
@@ -109,6 +116,8 @@ function plot_map(filename, div, title, detail) {
             .attr("width", x.bandwidth())
             .attr("height", y.bandwidth())
             .style("fill", function (d) {
+				if(d.variable == "sample" && d.value==1)
+					return "red"
                 return myColor(d.value)
             })
             .style("stroke-width", 4)
@@ -117,7 +126,9 @@ function plot_map(filename, div, title, detail) {
             .on("mouseover", mouseover)
             .on("mousemove", mousemove)
             .on("mouseleave", mouseleave)
-    })
+    }
+	
+	Heatmap1(data)
 
     // Add title to graph
     svg.append("text")

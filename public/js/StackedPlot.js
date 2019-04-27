@@ -13,6 +13,7 @@ function openCity(evt, cityName) {
 }
 
 function parseNewick(a) {
+	console.log(a)
     for (var e = [], r = {}, s = a.split(/\s*(;|\(|\)|,|:)\s*/), t = 0; t < s.length; t++) {
         var n = s[t];
         switch (n) {
@@ -332,6 +333,8 @@ function update(ColorBy,life) {
                 return d.x < 180 ? "start" : "end";
             })
             .text(function (d) {
+				if(d.data.name == "input")
+					return "Input"
                 return d.data.name.replace(/_/g, " ");
             })
 			.attr('style', function (d) {

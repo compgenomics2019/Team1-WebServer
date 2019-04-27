@@ -4,7 +4,7 @@
 
 @section("navbar")
     <nav class="navbar navbar-expand-lg navbar-custom">
-        <a class="navbar-brand" href="">LOKI: ecoLi OutbreaK Investigator</a>
+        <a class="navbar-brand" href="">LOKI - ecoLi OutbreaK Investigator</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -56,15 +56,22 @@
                     <div class="overlay" style="background-color: #edebeb">
                         <img class="img" style="width:100%; display: block; height:100%" src="img/manual.png">
                     </div>
-                    <h5 style="font-family:verdana;text-align: center;"><a
+                    <h6 style="font-family:verdana;text-align: center;"><a
                                 href="https://compgenomics2019.biosci.gatech.edu/Team_I_Webserver_Group">Tutorial</a>
-                    </h5>
+                    </h6>
+                </div>
+                <div class="col">
+                    <div class="overlay" style="background-color: #edebeb">
+                        <img class="img" style="width:100%; display: block; height:100%" src="img/results.png">
+                    </div>
+                    <h6 style="font-family:verdana;text-align:center;"><a href="javascript:ClassResults()";>Class Results</a>
+                    </h6>
                 </div>
                 <div class="col">
                     <div class="overlay" style="background-color: #edebeb">
                         <img class="img" style="width:100%; display: block; height:100%" src="img/team.png">
                     </div>
-                    <h5 style="font-family:verdana;text-align: center;"><a href={{url('about')}}>About Us</a></h5>
+                    <h6 style="font-family:verdana;text-align: center;"><a href={{url('about')}}>About Us</a></h6>
                 </div>
             </div>
         </div>
@@ -225,19 +232,18 @@
                 },
                 success: function (result) {
                     document.getElementById("Head").innerHTML = "Analysis Pipeline";
-                    // console.log(result);
                     console.log(result["$tree"]);
                     $("#myModal").modal('hide');
                     $("#Success").modal('show');
                     win = window.open('{{url('output')}}');
                     setTimeout(function () {
+						console.log(result)
                         win.ready(result["$tree"]);
+                        win.main(d3v3.csv.parse(result["$AMR"]),d3v3.csv.parse(result["$VF"]));
                     }, 2000);
                 },
                 error: function (result) {
                     console.log("ajax error");
-                    // console.log("resultjson: ", result.responseJSON);
-                    // console.log("resulttext: ", result.responseText);
                     console.log("result", result);
                     document.getElementById("Head").innerHTML = "Analysis Pipeline";
                     $("#Error").modal('show');
@@ -245,6 +251,20 @@
             });
 
         }
+		
+		function ClassResults(){
+			    d3.text("life.txt", function (data) {tree=data;
+					d3.csv("AMR_list.csv", function (data1) {amr=data1
+						d3.csv("VFs.csv", function (data2) {vf=data2
+						    win = window.open('{{url('output')}}');
+							setTimeout(function () {
+								win.ready(tree);
+								win.main(amr,vf);
+							}, 500);
+						})
+				  })
+				})
+		}
 
     </script>
 @endsection

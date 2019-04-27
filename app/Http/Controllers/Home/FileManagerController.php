@@ -10,10 +10,10 @@ class FileManagerController extends Controller
 {
     public function index($status)
     {
-        $files = Storage::allFiles("/");
+        $files = Storage::Files("/");
         switch ($status) {
             case "ready":
-                $prompt = "please choose an action";
+                $prompt = "Please choose an action";
                 break;
 
             case "fail":
@@ -124,6 +124,8 @@ class FileManagerController extends Controller
             return response()->json(['error' => "pipeline failed", "output" => $array], 404);
         }
         $nwk = Storage::get('comparative/'.$request->input('jobName').'newtrick.nwk');
-        return response()->json(['$tree' => $nwk], 200);
+        $vf = Storage::get('annotation/VF_list.csv');
+        $amr = Storage::get('annotation/AMR_list.csv');
+        return response()->json(['$tree' => $nwk,'$VF' =>$vf,'$AMR' =>$amr], 200);
     }
 }

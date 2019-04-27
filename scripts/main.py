@@ -193,6 +193,142 @@ def CARD(inputFile, outputFile):
     # subprocess.call(["rm", "-f", cardtemp2])
 
 
+def Heatmap(file1,file2,file3,file4):
+    VF_isolates_table=[]
+
+    with open(file1,'r') as VF_isolates:
+        for line in VF_isolates:
+            line=line.rstrip()
+            line=line.split(',')
+            VF_isolates_table.append(line)
+
+    VF_sample_gff_list=[]
+    with open(file2,'r') as VF_sample_gff:
+        for line in VF_sample_gff:
+            line=line.rstrip()
+            line=line.split('\t')
+            VF_sample_gff_list.append(line[-1])
+    VF_for_sample=['sample']
+    for i in VF_isolates_table[0][1:]:
+        found_once=0
+        for line in VF_sample_gff_list:
+            virulence_factor=re.search(pattern=i,string=line)
+            if virulence_factor:
+                if found_once!=1:
+                    VF_for_sample.append(1)
+                    found_once=1
+
+        if found_once==0:
+            VF_for_sample.append(0)
+
+
+
+
+    VF_isolates_table.append(VF_for_sample)
+
+    df = pd.DataFrame(data=VF_isolates_table)
+	
+    colnames = list(df.iloc[0])
+
+    rownames = list(df.iloc[:,0])
+
+    cluster1 = ["1032","1759","1036","1751","1476","1033","1294","1058","1803","1239","1752","1704","1145","1309","1785","1293","1595","1350","1166","1831","1292","1720","1491","1548","1358","1419","1217","1572","1632","1077","1020","1602"]
+    cluster2=["1953","1365","1688"]
+    cluster3=["1814","1729","1891","1042","1552"]
+    cluster4=["1288","1671","1200","1913"]
+    cluster5=["1203","1686","1240","1204","1357","1743","sample"]
+    clusters=[cluster1, cluster2, cluster3, cluster4, cluster5]
+
+    out = "variable,group,value\n"
+    for cluster in clusters:
+        n=0		
+        for row in VF_isolates_table:
+            for number in range(1,len(row)):
+                if str(rownames[n]) in cluster:
+                    #if str(rownames[n]) == "sample":
+                    out = out+str(rownames[n])+","+colnames[number]+","+str(row[number])+"\n"
+			
+
+
+
+
+            n=n+1
+
+
+
+    text_file = open("../storage/app/uploads/annotation/VF_list.csv", "w")
+    text_file.write(out)
+    text_file.close()
+
+
+	
+	
+    VF_isolates_table=[]
+
+    with open(file3,'r') as VF_isolates:
+        for line in VF_isolates:
+            line=line.rstrip()
+            line=line.split(',')
+            VF_isolates_table.append(line)
+
+    VF_sample_gff_list=[]
+    with open(file4,'r') as VF_sample_gff:
+        for line in VF_sample_gff:
+            line=line.rstrip()
+            line=line.split('\t')
+            VF_sample_gff_list.append(line[-1])
+    VF_for_sample=['sample']
+    for i in VF_isolates_table[0][1:]:
+        found_once=0
+        for line in VF_sample_gff_list:
+            virulence_factor=re.search(pattern=i,string=line)
+            if virulence_factor:
+                if found_once!=1:
+                    VF_for_sample.append(1)
+                    found_once=1
+
+
+        if found_once==0:
+            VF_for_sample.append(0)
+
+
+    VF_isolates_table.append(VF_for_sample)
+    df = pd.DataFrame(data=VF_isolates_table)
+	
+    colnames = list(df.iloc[0])
+
+    rownames = list(df.iloc[:,0])
+    cluster1 = ["1032","1759","1036","1751","1476","1033","1294","1058","1803","1239","1752","1704","1145","1309","1785","1293","1595","1350","1166","1831","1292","1720","1491","1548","1358","1419","1217","1572","1632","1077","1020","1602"]
+    cluster2=["1953","1365","1688"]
+    cluster3=["1814","1729","1891","1042","1552"]
+    cluster4=["1288","1671","1200","1913"]
+    cluster5=["1203","1686","1240","1204","1357","1743","sample"]
+    clusters=[cluster1, cluster2, cluster3, cluster4, cluster5]
+
+    cluster_name=["gadW","CARB-21","CARB-18","CARB-22","OCH-7","CARB-20","rpoB","acrD","tetR","tet(B)","tet(D)","vgaC","sul2","parC","gyrA","floR","dfrA5","APH(3'')-Ib","ICR-Mc","ANT(4')-IIb","adeF","ugd","soxS","soxR","nfsA","msbA","mdtP","mdtO","mdtN","mdtM","mdtH","mdtG","mdtF","mdtE","mdtC","mdtB",	"mdtA",	"mdfA",	"marR","marA","kdpE","gadX","evgS",	"evgA",	"eptA",	"emrY",	"emrR",	"emrK",	"emrE"	,"emrB",	"emrA",	"cpxA", "baeS"	,"baeR",	"bacA",	"acrR", "acrB",	"acrA",	"YojI"	,"TolC","PmrF",	"H-NS","GlpT",	"CRP","BUT-1",	"AcrS","AcrE","AcrF"]
+    out = "variable,group,value\n"
+
+    for cluster in clusters:
+        n=0		
+        for row in VF_isolates_table:
+            for number in range(1,len(row)):
+                if str(rownames[n]) in cluster:
+                    #if str(rownames[n]) == "sample":
+                    out = out+str(rownames[n])+","+colnames[number]+","+str(row[number])+"\n"
+			
+
+
+
+
+            n=n+1
+
+
+
+    text_file = open("../storage/app/uploads/annotation/AMR_list.csv", "w")
+    text_file.write(out)
+    text_file.close()
+
+
 ## gene assembly
 def assemble_genomes(_tmp_dir, jobname):
     """
@@ -489,24 +625,25 @@ if __name__ == "__main__":
         in_annotation_fna = "../storage/app/uploads/prediction/%s.fna"%args.j
         vfdb(in_annotation_fna, "../storage/app/uploads/annotation/%s_vfdb.gff"%args.j)
         CARD(in_annotation_faa, "../storage/app/uploads/annotation/%s_card.gff"%args.j)
+        Heatmap("../storage/VFs.csv","../storage/app/uploads/annotation/%s_vfdb.gff"%args.j,"../storage/AMR.csv","../storage/app/uploads/annotation/%s_card.gff"%args.j)    
+	
+	
+	
     if args.d:
         in_compare = "../storage/app/uploads/annotation/%s.gff"%args.j
         out_dir = tmp
         # kSNP3(in_compare, out_dir, args.j)
         MASH("../storage/app/isolates/scaffolds/", args.j)
-    
 	
-	# create results folder for job
-    subprocess.call(['echo','here'])
-    subprocess.call(['mkdir','../storage/app/uploads/{}'.format(args.j)])
-    subprocess.call(['cp', "../storage/app/uploads/assemble/%s_genome.FASTA"%args.j,'../storage/app/uploads/{}'.format(args.j)])
-    subprocess.call(['cp', "../storage/app/uploads/prediction/%s.faa"%args.j,'../storage/app/uploads/{}'.format(args.j)])
-    subprocess.call(['cp', "../storage/app/uploads/prediction/%s.fna"%args.j,'../storage/app/uploads/{}'.format(args.j)])
-    subprocess.call(['cp', "../storage/app/uploads/prediction/%s.gff"%args.j,'../storage/app/uploads/{}'.format(args.j)])
-    subprocess.call(['cp', "../storage/app/uploads/annotation/%s_vfdb.gff"%args.j,'../storage/app/uploads/{}'.format(args.j)])
-    subprocess.call(['cp', "../storage/app/uploads/annotation/%s_card.gff"%args.j,'../storage/app/uploads/{}'.format(args.j)])
-    subprocess.call(['zip','-r', '../storage/app/uploads/{}'.format(args.j), '../storage/app/uploads/{}'.format(args.j)])
-	
-	
-    subprocess.call(['rm', "-rf", "../storage/app/uploads/comparative/*"])
+    # create results folder for job
     subprocess.call(['rm', "-rf", '../storage/app/uploads/{}'.format(args.j)])
+    subprocess.call(['mkdir','../storage/app/uploads/{}'.format(args.j)])
+    subprocess.call(['cp', '../storage/app/uploads/assemble/%s_genome.fasta'%args.j,'../storage/app/uploads/{}'.format(args.j)])
+    subprocess.call(['cp', '../storage/app/uploads/prediction/%s.faa'%args.j,'../storage/app/uploads/{}'.format(args.j)])
+    subprocess.call(['cp', '../storage/app/uploads/prediction/%s.fna'%args.j,'../storage/app/uploads/{}'.format(args.j)])
+    subprocess.call(['cp', '../storage/app/uploads/prediction/%s.gff'%args.j,'../storage/app/uploads/{}'.format(args.j)])
+    subprocess.call(['cp', '../storage/app/uploads/annotation/%s_vfdb.gff'%args.j,'../storage/app/uploads/{}'.format(args.j)])
+    subprocess.call(['cp', '../storage/app/uploads/annotation/%s_card.gff'%args.j,'../storage/app/uploads/{}'.format(args.j)])
+    subprocess.call(['zip','-r','-j', '../storage/app/uploads/{}.zip'.format(args.j), '../storage/app/uploads/{}'.format(args.j)])
+    subprocess.call(['rm', "-rf",'../storage/app/uploads/{}'.format(args.j)])
+	
